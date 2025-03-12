@@ -1,20 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
-import { useState, useEffect, useRef } from 'react';
-import { getRandomGame } from './calls/getGames';
+import logo from "./logo.svg";
+import "./App.css";
+import { useState, useEffect, useRef } from "react";
+import { getRandomGame } from "./calls/getGames";
+import Box from "./components/Box";
 
 function App() {
-  const [sudoku, setSudoku] = useState([]);
-  const [board, setBoard] = useState([]);
-  const [solution, setSolution] = useState([]);
-  const [difficulty, setDifficulty] = useState("easy");
-  const [isValid, setIsValid] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [sudokuGame, setSudokuGame] = useState({});
+  const [difficulty, setDifficulty] = useState("");
+  const [prefilled, setPrefilled] = useState();
+  const [goingWell, setGoingWell] = useState(true);
 
   const isFirstRender = useRef(true);
 
-
   useEffect(() => {
-    if(isFirstRender.current) {
+    setLoading(true);
+    if (isFirstRender.current) {
       isFirstRender.current = false;
       fetchSudoku();
     }
@@ -23,60 +24,67 @@ function App() {
   const fetchSudoku = async () => {
     const data = await getRandomGame();
     if (data) {
-      console.log(data);
-      //comes in the json
-      setSudoku(data.puzzle);
-      setSolution(data.solution);
+      setSudokuGame({
+        puzzle: data.puzzle,
+        solution: data.solution,
+      });
       setDifficulty(data.difficulty);
-      //setup
-      setBoard(data.puzzle.map(row => [...row]));
-    };
+      setPrefilled(data.prefilled);
+      setLoading(false);
+    }
   };
 
-
-  const handleChange = (row, col, value) => {
-    if(sudoku[row][col] !== 0) return;
-    if (value < 1 || value > 9) return;
-    const newBoard = board.map(rowArr => [...rowArr]);
-    newBoard[row][col] = value;
-    setBoard(newBoard);
+  const handleInputChange = (boxKey, index, value) => {
+    const updatedPuzzle = sudokuGame.puzzle;
+    updatedPuzzle[boxKey][index] = value === "" ? 0 : Number(value);
+    setSudokuGame((prevState) => ({
+      ...prevState,
+      puzzle: updatedPuzzle,
+    }));
   };
 
-  //need to check against solution
   const checkSolution = () => {
-    const isCorrect = JSON.stringify(board) === JSON.stringify(solution);
-    setIsValid(isCorrect);
-  };
+    Object.keys(sudokuGame.puzzle).forEach((boxKey) => {
+      sudokuGame.puzzle[boxKey].forEach((number, index) => {
+        if (number !== 0) {
+          if (number !== sudokuGame.solution[boxKey][index]) {
+            setGoingWell(false);
+          } else {
+            setGoingWell(true);
+          }
+        }
+      });
+    });
+  }
+  
 
-
+  if (loading) {
+    return <p>Loading...</p>;
+  }
   return (
     <div className="App">
       <h1>Sudoku Game</h1>
-            <table>
-                <tbody>
-                    {board.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
-                            {row.map((num, colIndex) => (
-                                <td key={colIndex}>
-                                    <input
-                                        type="text"
-                                        value={num || ""}
-                                        onChange={(e) =>
-                                            handleChange(rowIndex, colIndex, parseInt(e.target.value) || 0)
-                                        }
-                                        disabled={sudoku[rowIndex][colIndex] !== 0}
-                                    />
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <button onClick={checkSolution}>Check Solution</button>
-            <button onClick={fetchSudoku}>New Game</button>
-            {isValid !== null && (
-                <p>{isValid ? "✅ Correct Solution!" : "❌ Incorrect Solution"}</p>
-            )}
+      <h2>Difficulty: {difficulty}</h2>
+      <div className="flex justify-center">
+        <div className="sudokuGrid grid grid-cols-3 grid-rows-3">
+          {Object.keys(sudokuGame.puzzle).map((boxKey) => {
+            return (
+              <Box
+                key={boxKey}
+                boxKey={boxKey}
+                onInputChange={handleInputChange}
+                boxNumbers={sudokuGame.puzzle[boxKey]}
+                prefilled={prefilled}
+              />
+            );
+          })}
+        </div>
+      </div>
+      <div className="buttons">
+        <button className="rounded-full bg-cyan-300 p-4 m-4" onClick={checkSolution}>Check Progress</button>
+        <button className="rounded-full bg-pink-500 p-4 m-4 text-white" onClick={fetchSudoku}>New Game</button>
+        {goingWell ? <p>Going well so far!</p> : <p>Looks like you have some wrong numbers</p>}
+      </div>
     </div>
   );
 }
