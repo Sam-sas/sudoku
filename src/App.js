@@ -10,7 +10,13 @@ function App() {
   const [difficulty, setDifficulty] = useState("");
   const [prefilled, setPrefilled] = useState();
   const [goingWell, setGoingWell] = useState(true);
-
+  const [highlights, setHighlights] = useState({
+    boxKey: null,
+    row: null,
+    column: null,
+    boxRowStart: null,
+    boxColStart: null,
+  });
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -56,7 +62,32 @@ function App() {
       });
     });
   }
-  
+
+/* 
+  What this does right now is its a function that gets data passed from the child component
+  and sent into the parent component to do the logic.
+  boxKey, row, and column are all from the child component. Not the parent.
+*/  
+  const addHighlights = (boxKey, row, column) => {
+    //boxKey === box1
+    //boxIndex === 1
+    const boxIndex = parseInt(boxKey.substr(3)); 
+    
+    // Calculate the row and column ranges for the box
+    const boxRowStart = Math.floor(boxIndex / 3) * 3;
+    const boxColStart = (boxIndex % 3) * 3;
+    // Update the highlights state with the current box, row, and column
+    setHighlights({
+      boxKey,
+      row,
+      column,
+      boxRowStart,
+      boxColStart,
+    });
+  };
+
+  const highlightClasses = "highlight w-16 h-16 text-center text-4xl border-2";
+  const defaultClasses = "default w-16 h-16 text-center text-4xl border-2";
 
   if (loading) {
     return <p>Loading...</p>;
@@ -67,14 +98,18 @@ function App() {
       <h2>Difficulty: {difficulty}</h2>
       <div className="flex justify-center">
         <div className="sudokuGrid grid grid-cols-3 grid-rows-3">
-          {Object.keys(sudokuGame.puzzle).map((boxKey) => {
+          {Object.keys(sudokuGame.puzzle).map((boxKey, index) => {
             return (
               <Box
-                key={boxKey}
-                boxKey={boxKey}
-                onInputChange={handleInputChange}
-                boxNumbers={sudokuGame.puzzle[boxKey]}
-                prefilled={prefilled}
+              key={boxKey}
+              boxKey={boxKey}
+              boxNumbers={sudokuGame.puzzle[boxKey]}
+              prefilled={prefilled}
+              // highlights={highlights}
+              // highlightClasses={highlightClasses}
+              // defaultClasses={defaultClasses}
+              // onInputChange={handleInputChange}
+              // onFocus={addHighlights}
               />
             );
           })}
