@@ -14,6 +14,10 @@ input:focus-visible {
   background-color: yellow;
 }
 
+.selected {
+  background-color: pink;
+}
+
 .default {
   background-color: white;
 }

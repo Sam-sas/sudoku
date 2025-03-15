@@ -12,12 +12,12 @@ function App() {
   const [goingWell, setGoingWell] = useState(true);
   const [highlights, setHighlights] = useState({
     boxKey: null,
-    row: null,
-    column: null,
-    boxRowStart: null,
-    boxColStart: null,
+    highlightedRowIndex: null,
+    highlightedColumnIndex: null,
   });
   const isFirstRender = useRef(true);
+  const highlightClasses = "highlight w-16 h-16 text-center text-4xl border-2";
+  const defaultClasses = "default w-16 h-16 text-center text-4xl border-2";
 
   useEffect(() => {
     setLoading(true);
@@ -31,24 +31,41 @@ function App() {
     const data = await getRandomGame();
     if (data) {
       setSudokuGame({
-        puzzle: data.puzzle,
-        solution: data.solution,
+        puzzle: turn2DArray(data.puzzle),
+        solution: turn2DArray(data.solution),
       });
       setDifficulty(data.difficulty);
-      setPrefilled(data.prefilled);
+      setPrefilled(turn2DArray(data.prefilled));
       setLoading(false);
     }
   };
 
-  const handleInputChange = (boxKey, index, value) => {
-    const updatedPuzzle = sudokuGame.puzzle;
-    updatedPuzzle[boxKey][index] = value === "" ? 0 : Number(value);
+  const turn2DArray = (boxes) => {
+    const size = 3;
+    const values = Object.values(boxes); // Get the values from the object
+
+    // Ensure each box has exactly 9 numbers, then create the 2D array
+    const threeByThreeBox = Array.from({ length: size }, (_, row) =>
+      values.slice(row * size, row * size + size)
+    );
+    // console.log(threeByThreeBox);
+
+    return threeByThreeBox;
+  };
+
+  const handleInputChange = (outerBoxIndex, inputIndex, value) => {
+    const updatedPuzzle = [...sudokuGame.puzzle];
+
+    updatedPuzzle[outerBoxIndex.boxRowIndex][outerBoxIndex.boxColumnIndex][
+      inputIndex
+    ] = value === "" ? 0 : Number(value);
     setSudokuGame((prevState) => ({
       ...prevState,
       puzzle: updatedPuzzle,
     }));
   };
 
+  //fix me on button
   const checkSolution = () => {
     Object.keys(sudokuGame.puzzle).forEach((boxKey) => {
       sudokuGame.puzzle[boxKey].forEach((number, index) => {
@@ -61,33 +78,16 @@ function App() {
         }
       });
     });
-  }
+  };
 
-/* 
+  /* 
   What this does right now is its a function that gets data passed from the child component
   and sent into the parent component to do the logic.
   boxKey, row, and column are all from the child component. Not the parent.
-*/  
-  const addHighlights = (boxKey, row, column) => {
-    //boxKey === box1
-    //boxIndex === 1
-    const boxIndex = parseInt(boxKey.substr(3)); 
-    
-    // Calculate the row and column ranges for the box
-    const boxRowStart = Math.floor(boxIndex / 3) * 3;
-    const boxColStart = (boxIndex % 3) * 3;
-    // Update the highlights state with the current box, row, and column
-    setHighlights({
-      boxKey,
-      row,
-      column,
-      boxRowStart,
-      boxColStart,
-    });
+*/
+  const addHighlights = (boxIndex, innerBoxIndex, inputIndex) => {
+    console.log("focus me");
   };
-
-  const highlightClasses = "highlight w-16 h-16 text-center text-4xl border-2";
-  const defaultClasses = "default w-16 h-16 text-center text-4xl border-2";
 
   if (loading) {
     return <p>Loading...</p>;
@@ -97,28 +97,47 @@ function App() {
       <h1>Sudoku Game</h1>
       <h2>Difficulty: {difficulty}</h2>
       <div className="flex justify-center">
-        <div className="sudokuGrid grid grid-cols-3 grid-rows-3">
-          {Object.keys(sudokuGame.puzzle).map((boxKey, index) => {
+        <div className="sudokuGrid grid grid-cols-3">
+          {sudokuGame.puzzle.map((row, boxRowIndex) => {
             return (
-              <Box
-              key={boxKey}
-              boxKey={boxKey}
-              boxNumbers={sudokuGame.puzzle[boxKey]}
-              prefilled={prefilled}
-              // highlights={highlights}
-              // highlightClasses={highlightClasses}
-              // defaultClasses={defaultClasses}
-              // onInputChange={handleInputChange}
-              // onFocus={addHighlights}
-              />
+              <div key={boxRowIndex}>
+                {row.map((num, boxColumnIndex) => {
+                  let boxIndex = { boxRowIndex, boxColumnIndex };
+                  return (
+                    <Box
+                      boxNumbers={num}
+                      boxIndex={boxIndex}
+                      prefilled={prefilled}
+                      highlightClasses={highlightClasses}
+                      defaultClasses={defaultClasses}
+                      onInputChange={handleInputChange}
+                      onFocus={addHighlights}
+                    />
+                  );
+                })}
+              </div>
             );
           })}
         </div>
       </div>
       <div className="buttons">
-        <button className="rounded-full bg-cyan-300 p-4 m-4" onClick={checkSolution}>Check Progress</button>
-        <button className="rounded-full bg-pink-500 p-4 m-4 text-white" onClick={fetchSudoku}>New Game</button>
-        {goingWell ? <p>Going well so far!</p> : <p>Looks like you have some wrong numbers</p>}
+        <button
+          className="rounded-full bg-cyan-300 p-4 m-4"
+          onClick={checkSolution}
+        >
+          Check Progress
+        </button>
+        <button
+          className="rounded-full bg-pink-500 p-4 m-4 text-white"
+          onClick={fetchSudoku}
+        >
+          New Game
+        </button>
+        {goingWell ? (
+          <p>Going well so far!</p>
+        ) : (
+          <p>Looks like you have some wrong numbers</p>
+        )}
       </div>
     </div>
   );

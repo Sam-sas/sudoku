@@ -50,6 +50,22 @@ const SandBox = () => {
         );
       })}
     </div>
+
+    {Object.keys(sudokuGame.puzzle).map((boxKey, index) => {
+            return (
+              <Box
+              key={boxKey}
+              boxKey={boxKey}
+              boxNumbers={sudokuGame.puzzle[boxKey]}
+              prefilled={prefilled}
+              highlights={highlights}
+              highlightClasses={highlightClasses}
+              defaultClasses={defaultClasses}
+              onInputChange={handleInputChange}
+              onFocus={addHighlights}
+              />
+            );
+          })}
   </div>;
 };
 
