@@ -5,3 +5,20 @@
 .sudokuGrid {
   max-width: 600px;
 }
+
+input:focus-visible {
+  outline: 0;
+}
+
+.highlight {
+  background-color: yellow;
+}
+
+.selected {
+  background-color: pink;
+}
+
+.default {
+  background-color: white;
+}
+

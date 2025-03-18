@@ -10,7 +10,10 @@ function App() {
   const [difficulty, setDifficulty] = useState("");
   const [prefilled, setPrefilled] = useState();
   const [goingWell, setGoingWell] = useState(true);
-
+  const [highlights, setHighlights] = useState({
+    outerBoxLocation: null,
+    innerBoxLocation: null,
+  });
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -25,18 +28,35 @@ function App() {
     const data = await getRandomGame();
     if (data) {
       setSudokuGame({
-        puzzle: data.puzzle,
-        solution: data.solution,
+        puzzle: turn2DArray(data.puzzle),
+        solution: turn2DArray(data.solution),
       });
       setDifficulty(data.difficulty);
-      setPrefilled(data.prefilled);
+      setPrefilled(turn2DArray(data.prefilled));
       setLoading(false);
     }
   };
 
-  const handleInputChange = (boxKey, index, value) => {
-    const updatedPuzzle = sudokuGame.puzzle;
-    updatedPuzzle[boxKey][index] = value === "" ? 0 : Number(value);
+  const turn2DArray = (boxes) => {
+    console.log(boxes);
+    const size = 3;
+    const values = Object.values(boxes); // Get the values from the object
+
+    // Ensure each box has exactly 9 numbers, then create the 2D array
+    const threeByThreeBox = Array.from({ length: size }, (_, row) =>
+      values.slice(row * size, row * size + size)
+    );
+    // console.log(threeByThreeBox);
+
+    return threeByThreeBox;
+  };
+
+  const handleInputChange = (outerBoxIndex, inputIndex, value) => {
+    const updatedPuzzle = [...sudokuGame.puzzle];
+
+    updatedPuzzle[outerBoxIndex.boxRowIndex][outerBoxIndex.boxColumnIndex][
+      inputIndex
+    ] = value === "" ? 0 : Number(value);
     setSudokuGame((prevState) => ({
       ...prevState,
       puzzle: updatedPuzzle,
@@ -44,19 +64,27 @@ function App() {
   };
 
   const checkSolution = () => {
-    Object.keys(sudokuGame.puzzle).forEach((boxKey) => {
-      sudokuGame.puzzle[boxKey].forEach((number, index) => {
-        if (number !== 0) {
-          if (number !== sudokuGame.solution[boxKey][index]) {
-            setGoingWell(false);
-          } else {
-            setGoingWell(true);
+    console.log(sudokuGame.puzzle);
+    let isGoingWell = true;
+
+    sudokuGame.puzzle.forEach((box, boxIndex) => {
+      box.forEach((row, rowIndex) => {
+        row.forEach((num, columnIndex) => {
+          if (num !== 0 && num !== sudokuGame.solution[boxIndex][rowIndex][columnIndex]) {
+            isGoingWell = false;
           }
-        }
+        });
       });
+      setGoingWell(isGoingWell);
     });
-  }
-  
+  };
+
+  const addHighlights = (boxIndex, innerBoxIndex) => {
+    setHighlights({
+      outerBoxLocation: {row: boxIndex.boxRowIndex, column: boxIndex.boxColumnIndex},
+      innerBoxLocation: {row: innerBoxIndex.boxRowIndex, column: innerBoxIndex.boxColumnIndex},
+    });
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -66,24 +94,46 @@ function App() {
       <h1>Sudoku Game</h1>
       <h2>Difficulty: {difficulty}</h2>
       <div className="flex justify-center">
-        <div className="sudokuGrid grid grid-cols-3 grid-rows-3">
-          {Object.keys(sudokuGame.puzzle).map((boxKey) => {
+        <div className="sudokuGrid">
+          {sudokuGame.puzzle.map((row, boxRowIndex) => {
             return (
-              <Box
-                key={boxKey}
-                boxKey={boxKey}
-                onInputChange={handleInputChange}
-                boxNumbers={sudokuGame.puzzle[boxKey]}
-                prefilled={prefilled}
-              />
+              <div key={boxRowIndex} className="flex">
+                {row.map((num, boxColumnIndex) => {
+                  let boxIndex = { boxRowIndex, boxColumnIndex };
+                  return (
+                    <Box
+                      boxNumbers={num}
+                      boxIndex={boxIndex}
+                      prefilled={prefilled}
+                      highlights={highlights}
+                      onInputChange={handleInputChange}
+                      onFocus={addHighlights}
+                    />
+                  );
+                })}
+              </div>
             );
           })}
         </div>
       </div>
       <div className="buttons">
-        <button className="rounded-full bg-cyan-300 p-4 m-4" onClick={checkSolution}>Check Progress</button>
-        <button className="rounded-full bg-pink-500 p-4 m-4 text-white" onClick={fetchSudoku}>New Game</button>
-        {goingWell ? <p>Going well so far!</p> : <p>Looks like you have some wrong numbers</p>}
+        <button
+          className="rounded-full bg-cyan-300 p-4 m-4"
+          onClick={checkSolution}
+        >
+          Check Progress
+        </button>
+        <button
+          className="rounded-full bg-pink-500 p-4 m-4 text-white"
+          onClick={fetchSudoku}
+        >
+          New Game
+        </button>
+        {goingWell ? (
+          <p>Going well so far!</p>
+        ) : (
+          <p>Looks like you have some wrong numbers</p>
+        )}
       </div>
     </div>
   );
