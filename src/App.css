@@ -10,9 +10,9 @@ input:focus-visible {
   outline: 0;
 }
 
-.highlight {
+/* .highlight {
   background-color: yellow;
-}
+} */
 
 .selected {
   background-color: pink;

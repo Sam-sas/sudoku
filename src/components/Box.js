@@ -8,7 +8,8 @@ const Box = ({
   onInputChange,
   onFocus,
 }) => {
-  const highlightClasses = "highlight w-16 h-16 text-center text-4xl border-2";
+  const rowColumnBoxHighlight = "w-16 h-16 text-center text-4xl border-2 bg-yellow-300/60";
+  const valueHighlight = "w-16 h-16 text-center text-4xl border-2 bg-yellow-300/60";
   const defaultClasses = "default w-16 h-16 text-center text-4xl border-2";
   const size = 3;
   const threeByThreeBox = Array.from({ length: size }, (_, row) =>
@@ -29,19 +30,19 @@ const Box = ({
                   boxIndex.boxColumnIndex &&
                 highlights.outerBoxLocation.row === boxIndex.boxRowIndex
               ) {
-                classes = highlightClasses;
+                classes = rowColumnBoxHighlight;
               } else if (
                 highlights.outerBoxLocation.column ===
                   boxIndex.boxColumnIndex &&
                 highlights.innerBoxLocation.column ===
                   innerBoxIndex.boxColumnIndex
               ) {
-                classes = highlightClasses;
+                classes = rowColumnBoxHighlight;
               } else if (
                 highlights.outerBoxLocation.row === boxIndex.boxRowIndex &&
                 highlights.innerBoxLocation.row === innerBoxIndex.boxRowIndex
               ) {
-                classes = highlightClasses;
+                classes = rowColumnBoxHighlight;
               }
             }
 
