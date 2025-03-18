@@ -5,31 +5,46 @@ const Box = ({
   boxIndex,
   prefilled,
   highlights,
-  highlightClasses,
-  defaultClasses,
   onInputChange,
   onFocus,
 }) => {
-  //turn into 2d array
+  const highlightClasses = "highlight w-16 h-16 text-center text-4xl border-2";
+  const defaultClasses = "default w-16 h-16 text-center text-4xl border-2";
   const size = 3;
-
   const threeByThreeBox = Array.from({ length: size }, (_, row) =>
     boxNumbers.slice(row * size, row * size + size)
   );
-  
   return (
     <div className="Box grid border-4 border-solid">
       {threeByThreeBox.map((row, boxRowIndex) => (
-        <div key={boxRowIndex}>
+        <div key={boxRowIndex} className="flex">
           {row.map((num, boxColumnIndex) => {
-            let innerBoxIndex = {boxRowIndex, boxColumnIndex}
-            const inputIndex = boxRowIndex * size + boxColumnIndex;
-            // // Check if the current box is in the highlighted row or column
-            // const isHighlightedRow = highlights.highlightsIndex === rowIndex;
-            // const isHighlightedColumn = highlights.highlightedColumnIndex === colIndex;
+            let innerBoxIndex = { boxRowIndex, boxColumnIndex };
+            const inputIndex = boxRowIndex * 3 + boxColumnIndex; // Now based on 3x3 box
+            let classes = defaultClasses;
 
-            // const highlightClass = isHighlightedRow || isHighlightedColumn ? highlightClasses : defaultClasses;
-            // console.log("prefilled" + JSON.stringify(prefilled))
+            if (highlights.innerBoxLocation && highlights.outerBoxLocation) {
+              if (
+                highlights.outerBoxLocation.column ===
+                  boxIndex.boxColumnIndex &&
+                highlights.outerBoxLocation.row === boxIndex.boxRowIndex
+              ) {
+                classes = highlightClasses;
+              } else if (
+                highlights.outerBoxLocation.column ===
+                  boxIndex.boxColumnIndex &&
+                highlights.innerBoxLocation.column ===
+                  innerBoxIndex.boxColumnIndex
+              ) {
+                classes = highlightClasses;
+              } else if (
+                highlights.outerBoxLocation.row === boxIndex.boxRowIndex &&
+                highlights.innerBoxLocation.row === innerBoxIndex.boxRowIndex
+              ) {
+                classes = highlightClasses;
+              }
+            }
+
             return (
               <input
                 key={`${boxRowIndex}-${boxColumnIndex}`}
@@ -37,18 +52,15 @@ const Box = ({
                 value={num === 0 ? "" : num}
                 maxLength={1}
                 onChange={(e) =>
-                  onInputChange(
-                    boxIndex,
-                    inputIndex,
-                    e.target.value
-                  )
+                  onInputChange(boxIndex, inputIndex, e.target.value)
                 }
-                onFocus={() =>
-                  onFocus(boxIndex, innerBoxIndex, inputIndex)
+                onFocus={() => onFocus(boxIndex, innerBoxIndex, inputIndex)}
+                className={classes}
+                readOnly={
+                  prefilled[boxIndex.boxRowIndex][boxIndex.boxColumnIndex][
+                    inputIndex
+                  ] !== 0
                 }
-                //REMEMBER ME
-                className={defaultClasses}
-                disabled={prefilled[boxIndex.boxRowIndex][boxIndex.boxColumnIndex][inputIndex] !== 0}
               />
             );
           })}

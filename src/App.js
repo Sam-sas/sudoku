@@ -11,13 +11,10 @@ function App() {
   const [prefilled, setPrefilled] = useState();
   const [goingWell, setGoingWell] = useState(true);
   const [highlights, setHighlights] = useState({
-    boxKey: null,
-    highlightedRowIndex: null,
-    highlightedColumnIndex: null,
+    outerBoxLocation: null,
+    innerBoxLocation: null,
   });
   const isFirstRender = useRef(true);
-  const highlightClasses = "highlight w-16 h-16 text-center text-4xl border-2";
-  const defaultClasses = "default w-16 h-16 text-center text-4xl border-2";
 
   useEffect(() => {
     setLoading(true);
@@ -41,6 +38,7 @@ function App() {
   };
 
   const turn2DArray = (boxes) => {
+    console.log(boxes);
     const size = 3;
     const values = Object.values(boxes); // Get the values from the object
 
@@ -65,28 +63,27 @@ function App() {
     }));
   };
 
-  //fix me on button
   const checkSolution = () => {
-    Object.keys(sudokuGame.puzzle).forEach((boxKey) => {
-      sudokuGame.puzzle[boxKey].forEach((number, index) => {
-        if (number !== 0) {
-          if (number !== sudokuGame.solution[boxKey][index]) {
-            setGoingWell(false);
-          } else {
-            setGoingWell(true);
+    console.log(sudokuGame.puzzle);
+    let isGoingWell = true;
+
+    sudokuGame.puzzle.forEach((box, boxIndex) => {
+      box.forEach((row, rowIndex) => {
+        row.forEach((num, columnIndex) => {
+          if (num !== 0 && num !== sudokuGame.solution[boxIndex][rowIndex][columnIndex]) {
+            isGoingWell = false;
           }
-        }
+        });
       });
+      setGoingWell(isGoingWell);
     });
   };
 
-  /* 
-  What this does right now is its a function that gets data passed from the child component
-  and sent into the parent component to do the logic.
-  boxKey, row, and column are all from the child component. Not the parent.
-*/
-  const addHighlights = (boxIndex, innerBoxIndex, inputIndex) => {
-    console.log("focus me");
+  const addHighlights = (boxIndex, innerBoxIndex) => {
+    setHighlights({
+      outerBoxLocation: {row: boxIndex.boxRowIndex, column: boxIndex.boxColumnIndex},
+      innerBoxLocation: {row: innerBoxIndex.boxRowIndex, column: innerBoxIndex.boxColumnIndex},
+    });
   };
 
   if (loading) {
@@ -97,10 +94,10 @@ function App() {
       <h1>Sudoku Game</h1>
       <h2>Difficulty: {difficulty}</h2>
       <div className="flex justify-center">
-        <div className="sudokuGrid grid grid-cols-3">
+        <div className="sudokuGrid">
           {sudokuGame.puzzle.map((row, boxRowIndex) => {
             return (
-              <div key={boxRowIndex}>
+              <div key={boxRowIndex} className="flex">
                 {row.map((num, boxColumnIndex) => {
                   let boxIndex = { boxRowIndex, boxColumnIndex };
                   return (
@@ -108,8 +105,7 @@ function App() {
                       boxNumbers={num}
                       boxIndex={boxIndex}
                       prefilled={prefilled}
-                      highlightClasses={highlightClasses}
-                      defaultClasses={defaultClasses}
+                      highlights={highlights}
                       onInputChange={handleInputChange}
                       onFocus={addHighlights}
                     />
