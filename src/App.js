@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useState, useEffect, useRef } from "react";
-import { getRandomGame } from "./calls/getGames";
+import { getGameDifficulty, getRandomGame } from "./calls/getGames";
 import Box from "./components/Box";
 
 function App() {
@@ -15,6 +15,7 @@ function App() {
     innerBoxLocation: null,
   });
   const isFirstRender = useRef(true);
+  const difficulties = ["easy", "medium", "hard", "expert"];
 
   useEffect(() => {
     setLoading(true);
@@ -37,8 +38,20 @@ function App() {
     }
   };
 
+  const selectDifficulty = async (level) => {
+    const data = await getGameDifficulty(level);
+    if (data) {
+      setSudokuGame({
+        puzzle: turn2DArray(data.puzzle),
+        solution: turn2DArray(data.solution),
+      });
+      setDifficulty(data.difficulty);
+      setPrefilled(turn2DArray(data.prefilled));
+      setLoading(false);
+    }
+  };
+
   const turn2DArray = (boxes) => {
-    console.log(boxes);
     const size = 3;
     const values = Object.values(boxes); // Get the values from the object
 
@@ -46,7 +59,6 @@ function App() {
     const threeByThreeBox = Array.from({ length: size }, (_, row) =>
       values.slice(row * size, row * size + size)
     );
-    // console.log(threeByThreeBox);
 
     return threeByThreeBox;
   };
@@ -64,7 +76,6 @@ function App() {
   };
 
   const checkSolution = () => {
-    console.log(sudokuGame.puzzle);
     let isGoingWell = true;
 
     sudokuGame.puzzle.forEach((box, boxIndex) => {
@@ -135,6 +146,12 @@ function App() {
           <p>Looks like you have some wrong numbers</p>
         )}
       </div>
+      {difficulties.map((level) => (
+        <button className="rounded-full bg-green-500 p-4 m-4 text-white" key={level} onClick={() => selectDifficulty(level)}>
+          {level}
+        </button>
+      ))}
+
     </div>
   );
 }

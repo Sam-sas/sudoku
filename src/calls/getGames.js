@@ -35,7 +35,26 @@ export const getRandomGame = async () => {
   try {
     const response = await axios.get(`${API_URL}`);
     let data = response.data;
-    console.log("What is initially pulled: " + JSON.stringify(data));
+    let puzzle = data.puzzle = stringToGrid(data.puzzle);
+    let solution = data.solution = stringToGrid(data.solution);
+    let finalizedPuzzle = {
+      difficulty: data.difficulty,
+      puzzle: puzzle,
+      solution: solution,
+      prefilled: puzzle,
+    };
+    return finalizedPuzzle;
+  } catch (error) {
+    console.error("uh oh", error);
+    return null;
+  }
+}
+
+export const getGameDifficulty = async (chosenDifficulty) => {
+  try {
+    const response = await axios.get(`${API_URL}/difficulty/${chosenDifficulty}`);
+
+    let data = response.data;
     let puzzle = data.puzzle = stringToGrid(data.puzzle);
     let solution = data.solution = stringToGrid(data.solution);
     let finalizedPuzzle = {
