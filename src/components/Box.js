@@ -1,4 +1,5 @@
 import React from "react";
+import PencilMarkings from "./PencilMarkings";
 
 const Box = ({
   boxNumbers,
@@ -7,9 +8,12 @@ const Box = ({
   highlights,
   onInputChange,
   onFocus,
+  onStatus,
 }) => {
-  const rowColumnBoxHighlight = "w-16 h-16 text-center text-4xl border-2 bg-yellow-300/60";
-  const valueHighlight = "w-16 h-16 text-center text-4xl border-2 bg-yellow-300/60";
+  const rowColumnBoxHighlight =
+    "w-16 h-16 text-center text-4xl border-2 bg-yellow-300/60";
+  const valueHighlight =
+    "w-16 h-16 text-center text-4xl border-2 bg-yellow-300/60";
   const defaultClasses = "default w-16 h-16 text-center text-4xl border-2";
   const size = 3;
   const threeByThreeBox = Array.from({ length: size }, (_, row) =>
@@ -45,7 +49,18 @@ const Box = ({
                 classes = rowColumnBoxHighlight;
               }
             }
-
+            if (onStatus) {
+              return (
+                <PencilMarkings
+                  classes={defaultClasses}
+                  prefilled={
+                    prefilled[boxIndex.boxRowIndex][boxIndex.boxColumnIndex][
+                      inputIndex
+                    ]
+                  }
+                />
+              );
+            }
             return (
               <input
                 key={`${boxRowIndex}-${boxColumnIndex}`}

@@ -3,6 +3,7 @@ import "./App.css";
 import { useState, useEffect, useRef } from "react";
 import { getGameDifficulty, getRandomGame } from "./calls/getGames";
 import Box from "./components/Box";
+import NumPad from "./components/NumPad";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -14,6 +15,7 @@ function App() {
     outerBoxLocation: null,
     innerBoxLocation: null,
   });
+  const [togglingNotesOn, setTogglingNotesOn] = useState(false);
   const isFirstRender = useRef(true);
   const difficulties = ["easy", "medium", "hard", "expert"];
 
@@ -97,9 +99,14 @@ function App() {
     });
   };
 
+  const notesToggle = () => {
+    setTogglingNotesOn(!togglingNotesOn);
+  }
+
   if (loading) {
     return <p>Loading...</p>;
   }
+  //needs separation soon
   return (
     <div className="App">
       <h1>Sudoku Game</h1>
@@ -112,6 +119,7 @@ function App() {
                 {row.map((num, boxColumnIndex) => {
                   let boxIndex = { boxRowIndex, boxColumnIndex };
                   return (
+                    //Need to create a global state since im passing through different components
                     <Box
                       boxNumbers={num}
                       boxIndex={boxIndex}
@@ -119,6 +127,7 @@ function App() {
                       highlights={highlights}
                       onInputChange={handleInputChange}
                       onFocus={addHighlights}
+                      onStatus={togglingNotesOn}
                     />
                   );
                 })}
@@ -127,6 +136,7 @@ function App() {
           })}
         </div>
       </div>
+      <NumPad />
       <div className="buttons">
         <button
           className="rounded-full bg-cyan-300 p-4 m-4"
@@ -140,6 +150,7 @@ function App() {
         >
           New Game
         </button>
+        <button className="rounded-full bg-orange-500 p-4 m-4 text-white" onClick={notesToggle}>Pencil</button>
         {goingWell ? (
           <p>Going well so far!</p>
         ) : (
