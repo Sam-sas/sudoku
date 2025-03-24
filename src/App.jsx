@@ -15,6 +15,10 @@ function App() {
     outerBoxLocation: null,
     innerBoxLocation: null,
   });
+  const [selectedCell, setSelectedCell] = useState({
+    outerBoxLocation: null,
+    innerBoxLocation: null,
+  });
   const [togglingNotesOn, setTogglingNotesOn] = useState(false);
   const isFirstRender = useRef(true);
   const difficulties = ["easy", "medium", "hard", "expert"];
@@ -83,7 +87,10 @@ function App() {
     sudokuGame.puzzle.forEach((box, boxIndex) => {
       box.forEach((row, rowIndex) => {
         row.forEach((num, columnIndex) => {
-          if (num !== 0 && num !== sudokuGame.solution[boxIndex][rowIndex][columnIndex]) {
+          if (
+            num !== 0 &&
+            num !== sudokuGame.solution[boxIndex][rowIndex][columnIndex]
+          ) {
             isGoingWell = false;
           }
         });
@@ -92,26 +99,77 @@ function App() {
     });
   };
 
-  const addHighlights = (boxIndex, innerBoxIndex) => {
+  //ALL TO BECOME ROW AND COLUMN IN NAME ONLY
+  const addHighlights = (boxIndex, innerBoxIndex, inputIndex) => {
     setHighlights({
-      outerBoxLocation: {row: boxIndex.boxRowIndex, column: boxIndex.boxColumnIndex},
-      innerBoxLocation: {row: innerBoxIndex.boxRowIndex, column: innerBoxIndex.boxColumnIndex},
+      outerBoxLocation: {
+        row: boxIndex.boxRowIndex,
+        column: boxIndex.boxColumnIndex,
+      },
+      innerBoxLocation: {
+        row: innerBoxIndex.boxRowIndex,
+        column: innerBoxIndex.boxColumnIndex,
+      },
+    });
+    setSelectedCell({
+      outerBoxLocation: {
+        row: boxIndex.boxRowIndex,
+        column: boxIndex.boxColumnIndex,
+      },
+      innerBoxLocation: {
+        row: innerBoxIndex.boxRowIndex,
+        column: innerBoxIndex.boxColumnIndex,
+      },
+      inputIndex: inputIndex,
     });
   };
 
   const notesToggle = () => {
     setTogglingNotesOn(!togglingNotesOn);
-  }
+  };
+
+  const updateSelectedCell = (chosenNumber) => {
+    console.log(chosenNumber);
+    if (selectedCell) {
+      console.log(selectedCell);
+      const updatedPuzzle = [...sudokuGame.puzzle];
+
+      updatedPuzzle[selectedCell.outerBoxLocation.row][
+        selectedCell.outerBoxLocation.column
+      ][selectedCell.inputIndex] =
+        chosenNumber === "" ? 0 : Number(chosenNumber);
+      setSudokuGame((prevState) => ({
+        ...prevState,
+        puzzle: updatedPuzzle,
+      }));
+    }
+  };
+
+  const reset = () => {
+    if (selectedCell) {
+      console.log(selectedCell);
+      const updatedPuzzle = [...sudokuGame.puzzle];
+
+      updatedPuzzle[selectedCell.outerBoxLocation.row][
+        selectedCell.outerBoxLocation.column
+      ][selectedCell.inputIndex] = 0;
+      setSudokuGame((prevState) => ({
+        ...prevState,
+        puzzle: updatedPuzzle,
+      }));
+    }
+  };
 
   if (loading) {
     return <p>Loading...</p>;
   }
   //needs separation soon
   return (
-    <div className="App">
+    <div className="App flex flex-col justify-center items-center">
       <h1>Sudoku Game</h1>
       <h2>Difficulty: {difficulty}</h2>
-      <div className="flex justify-center">
+      <div className="gameArea flex">
+        <div></div>
         <div className="sudokuGrid">
           {sudokuGame.puzzle.map((row, boxRowIndex) => {
             return (
@@ -135,9 +193,12 @@ function App() {
             );
           })}
         </div>
+        <NumPad onNumberClick={updateSelectedCell} />
       </div>
-      <NumPad />
-      <div className="buttons">
+      <div className="buttons flex flex-row">
+        <button className="rounded-full bg-cyan-300 p-4 m-4" onClick={reset}>
+          Erase
+        </button>
         <button
           className="rounded-full bg-cyan-300 p-4 m-4"
           onClick={checkSolution}
@@ -148,21 +209,31 @@ function App() {
           className="rounded-full bg-pink-500 p-4 m-4 text-white"
           onClick={fetchSudoku}
         >
-          New Game
+          Random Game
         </button>
-        <button className="rounded-full bg-orange-500 p-4 m-4 text-white" onClick={notesToggle}>Pencil</button>
+        <button
+          className="rounded-full bg-orange-500 p-4 m-4 text-white"
+          onClick={notesToggle}
+        >
+          Pencil
+        </button>
         {goingWell ? (
           <p>Going well so far!</p>
         ) : (
           <p>Looks like you have some wrong numbers</p>
         )}
       </div>
-      {difficulties.map((level) => (
-        <button className="rounded-full bg-green-500 p-4 m-4 text-white" key={level} onClick={() => selectDifficulty(level)}>
-          {level}
-        </button>
-      ))}
-
+      <div className="buttons flex flex-row">
+        {difficulties.map((level) => (
+          <button
+            className="rounded-full bg-green-500 p-4 m-4 text-white"
+            key={level}
+            onClick={() => selectDifficulty(level)}
+          >
+            {level}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
