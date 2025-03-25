@@ -34,16 +34,18 @@ const PencilMarkings = ({ classes, prefilled, markedNumbers, onUpdate }) => {
       tabIndex={0} // Allows focusing
       onKeyDown={handleKeyDown}
     >
-      {possibleNumbers.map((etching, index) => (
-        <span
-          key={index}
-          className={`pencilMarking ${
-            numberMarked.includes(etching) ? "visible" : "invisible"
-          }`}
-        >
-          {etching}
-        </span>
-      ))}
+      {possibleNumbers.map((etching, index) => {
+        return (
+          <span
+            key={index}
+            className={`pencilMarking ${
+              numberMarked.includes(etching) ? "visible" : "invisible"
+            }`}
+          >
+            {etching}
+          </span>
+        );
+      })}
     </div>
   );
 };

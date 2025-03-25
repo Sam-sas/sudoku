@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { getGameDifficulty, getRandomGame } from "./calls/getGames";
 import Box from "./components/Box";
 import NumPad from "./components/NumPad";
+import Button from "./atoms/Button";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -146,8 +147,7 @@ function App() {
   };
 
   const reset = () => {
-    if (selectedCell) {
-      console.log(selectedCell);
+    if (selectedCell && selectedCell.outerBoxLocation) {
       const updatedPuzzle = [...sudokuGame.puzzle];
 
       updatedPuzzle[selectedCell.outerBoxLocation.row][
@@ -169,7 +169,19 @@ function App() {
       <h1>Sudoku Game</h1>
       <h2>Difficulty: {difficulty}</h2>
       <div className="gameArea flex">
-        <div></div>
+        <div>
+        <div className="buttons flex flex-row">
+        <Button btnName={"Erase"} onClickFunction={reset} btnColor={"bg-parchment-500"} />
+        <Button btnName={"Check Progress"} onClickFunction={checkSolution} />
+        <Button btnName={"Random Game"} onClickFunction={fetchSudoku} />
+        <Button btnName={"Pencil"} onClickFunction={notesToggle} />
+      </div>
+      <div className="buttons flex flex-row">
+        {difficulties.map((level, index) => (
+          <Button key={index} btnName={level} onClickFunction={() => selectDifficulty(level)} />
+        ))}
+      </div>
+        </div>
         <div className="sudokuGrid">
           {sudokuGame.puzzle.map((row, boxRowIndex) => {
             return (
@@ -195,45 +207,12 @@ function App() {
         </div>
         <NumPad onNumberClick={updateSelectedCell} />
       </div>
-      <div className="buttons flex flex-row">
-        <button className="rounded-full bg-cyan-300 p-4 m-4" onClick={reset}>
-          Erase
-        </button>
-        <button
-          className="rounded-full bg-cyan-300 p-4 m-4"
-          onClick={checkSolution}
-        >
-          Check Progress
-        </button>
-        <button
-          className="rounded-full bg-pink-500 p-4 m-4 text-white"
-          onClick={fetchSudoku}
-        >
-          Random Game
-        </button>
-        <button
-          className="rounded-full bg-orange-500 p-4 m-4 text-white"
-          onClick={notesToggle}
-        >
-          Pencil
-        </button>
-        {goingWell ? (
+     
+      {goingWell ? (
           <p>Going well so far!</p>
         ) : (
           <p>Looks like you have some wrong numbers</p>
         )}
-      </div>
-      <div className="buttons flex flex-row">
-        {difficulties.map((level) => (
-          <button
-            className="rounded-full bg-green-500 p-4 m-4 text-white"
-            key={level}
-            onClick={() => selectDifficulty(level)}
-          >
-            {level}
-          </button>
-        ))}
-      </div>
     </div>
   );
 }
