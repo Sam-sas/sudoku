@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import PencilMarkings from "./PencilMarkings";
 
 const Box = ({
   boxNumbers,
@@ -7,16 +8,25 @@ const Box = ({
   highlights,
   onInputChange,
   onFocus,
+  onStatus,
 }) => {
-  const rowColumnBoxHighlight = "w-16 h-16 text-center text-4xl border-2 bg-yellow-300/60";
-  const valueHighlight = "w-16 h-16 text-center text-4xl border-2 bg-yellow-300/60";
-  const defaultClasses = "default w-16 h-16 text-center text-4xl border-2";
+  const rowColumnBoxHighlight =
+    "w-16 h-16 text-center text-4xl border-2 bg-coriander-300 font-newspaper border-coriander-500";
+  const defaultClasses =
+    "default bg-parchment-100 w-16 h-16 text-center text-4xl border-2 font-newspaper border-parchment-500";
   const size = 3;
   const threeByThreeBox = Array.from({ length: size }, (_, row) =>
     boxNumbers.slice(row * size, row * size + size)
   );
+
+  const [markings, setMarkings] = useState({});
+
+  const handleUpdate = (inputIndex, numbers) => {
+    setMarkings((prev) => ({ ...prev, [inputIndex]: numbers }));
+  };
+
   return (
-    <div className="Box grid border-4 border-solid">
+    <div className="Box grid border-4 border-solid border-parchment-700 rounded-md">
       {threeByThreeBox.map((row, boxRowIndex) => (
         <div key={boxRowIndex} className="flex">
           {row.map((num, boxColumnIndex) => {
@@ -45,7 +55,19 @@ const Box = ({
                 classes = rowColumnBoxHighlight;
               }
             }
-
+            if (onStatus) {
+              return (
+                <PencilMarkings
+                  classes={defaultClasses}
+                  prefilled={
+                    prefilled[boxIndex.boxRowIndex][boxIndex.boxColumnIndex][
+                      inputIndex
+                    ]
+                  }
+                  onUpdate={(numbers) => handleUpdate(inputIndex, numbers)}
+                />
+              );
+            }
             return (
               <input
                 key={`${boxRowIndex}-${boxColumnIndex}`}
