@@ -5,6 +5,7 @@ import { getGameDifficulty, getRandomGame } from "./calls/getGames";
 import Box from "./components/Box";
 import NumPad from "./components/NumPad";
 import Button from "./atoms/Button";
+import Heading from "./atoms/Headings";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -165,22 +166,33 @@ function App() {
   }
   //needs separation soon
   return (
-    <div className="App flex flex-col justify-center items-center">
-      <h1>Sudoku Game</h1>
-      <h2>Difficulty: {difficulty}</h2>
+    <div className="App flex flex-col items-center bg-parchment-100 h-screen">
+      <Heading title="Sudoku Game" />
       <div className="gameArea flex">
         <div>
-        <div className="buttons flex flex-row">
-        <Button btnName={"Erase"} onClickFunction={reset} btnColor={"bg-parchment-500"} />
-        <Button btnName={"Check Progress"} onClickFunction={checkSolution} />
-        <Button btnName={"Random Game"} onClickFunction={fetchSudoku} />
-        <Button btnName={"Pencil"} onClickFunction={notesToggle} />
-      </div>
-      <div className="buttons flex flex-row">
-        {difficulties.map((level, index) => (
-          <Button key={index} btnName={level} onClickFunction={() => selectDifficulty(level)} />
-        ))}
-      </div>
+          <Heading size="h2" title="Options" />
+          <Heading size="h3" title={"Current Difficulty - " + difficulty} fontSize="text-4xl" />
+          <div className="buttons flex flex-row">
+            <Button
+              btnName={"Erase"}
+              onClickFunction={reset}
+            />
+            <Button
+              btnName={"Check Progress"}
+              onClickFunction={checkSolution}
+            />
+            <Button btnName={"Random Game"} onClickFunction={fetchSudoku} />
+            <Button btnName={"Pencil"} onClickFunction={notesToggle} />
+          </div>
+          <div className="buttons flex flex-row">
+            {difficulties.map((level, index) => (
+              <Button
+                key={index}
+                btnName={level}
+                onClickFunction={() => selectDifficulty(level)}
+              />
+            ))}
+          </div>
         </div>
         <div className="sudokuGrid">
           {sudokuGame.puzzle.map((row, boxRowIndex) => {
@@ -204,15 +216,14 @@ function App() {
               </div>
             );
           })}
+                {goingWell ? (
+        <p className="text-coriander-950 text-2xl m-4 text-center">Going well so far!</p>
+      ) : (
+        <p className="text-coriander-950 text-2xl m-4 text-center">Looks like you have some wrong numbers</p>
+      )}
         </div>
         <NumPad onNumberClick={updateSelectedCell} />
       </div>
-     
-      {goingWell ? (
-          <p>Going well so far!</p>
-        ) : (
-          <p>Looks like you have some wrong numbers</p>
-        )}
     </div>
   );
 }
