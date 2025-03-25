@@ -1,19 +1,22 @@
 import React from "react";
+import { motion } from "motion/react";
 
 const Button = ({
   btnName,
   onClickFunction,
-  bgColor = "bg-coriander-200",
-  textColor = "text-coriander-950",
-  borderColor = "border-coriander-300",
+  bgColor,
+  textColor,
+  borderColor,
 }) => {
   //default options
   //animations
 
   return (
-    <button
+    <motion.button
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
       className={
-        "font-newspaper text-2xl rounded-full p-4 m-2 border-4 pr-6 pl-6 " +
+        "button font-newspaper text-2xl rounded-full p-4 m-2 border-4 pr-6 pl-6 " +
         bgColor +
         " " +
         textColor +
@@ -23,7 +26,7 @@ const Button = ({
       onClick={onClickFunction}
     >
       {btnName}
-    </button>
+    </motion.button>
   );
 };
 

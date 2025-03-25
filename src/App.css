@@ -9,8 +9,6 @@
 .numpad {
   width: 300px;
   height: 300px;
-  position: relative;
-  left: 4rem;
 }
 
 input:focus-visible {

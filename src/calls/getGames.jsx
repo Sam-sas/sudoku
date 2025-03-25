@@ -32,12 +32,18 @@ return boxes;
 
 
 export const getRandomGame = async () => {
+  let finalizedPuzzle = {
+    difficulty: null,
+    puzzle: null,
+    solution: null,
+    prefilled: null,
+  };
   try {
     const response = await axios.get(`${API_URL}`);
     let data = response.data;
     let puzzle = data.puzzle = stringToGrid(data.puzzle);
     let solution = data.solution = stringToGrid(data.solution);
-    let finalizedPuzzle = {
+    finalizedPuzzle = {
       difficulty: data.difficulty,
       puzzle: puzzle,
       solution: solution,
@@ -46,7 +52,7 @@ export const getRandomGame = async () => {
     return finalizedPuzzle;
   } catch (error) {
     console.error("uh oh", error);
-    return null;
+    return finalizedPuzzle;
   }
 }
 

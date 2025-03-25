@@ -11,9 +11,9 @@ const Box = ({
   onStatus,
 }) => {
   const rowColumnBoxHighlight =
-    "w-16 h-16 text-center text-4xl border-2 bg-coriander-300 font-newspaper border-coriander-500";
+    "w-16 h-16 text-center text-4xl border-2 font-newspaper";
   const defaultClasses =
-    "default bg-parchment-100 w-16 h-16 text-center text-4xl border-2 font-newspaper border-parchment-500";
+    "default w-16 h-16 text-center text-4xl border-2 font-newspaper";
   const size = 3;
   const threeByThreeBox = Array.from({ length: size }, (_, row) =>
     boxNumbers.slice(row * size, row * size + size)
@@ -26,7 +26,7 @@ const Box = ({
   };
 
   return (
-    <div className="Box grid border-4 border-solid border-parchment-700 rounded-md">
+    <div className="Box grid border-4 border-solid rounded-md">
       {threeByThreeBox.map((row, boxRowIndex) => (
         <div key={boxRowIndex} className="flex">
           {row.map((num, boxColumnIndex) => {
