@@ -4,7 +4,7 @@ import axios from "axios";
 const API_URL = "http://localhost:9000";
 
 const stringToGrid = (string) => {
-  //turns the return - into a 0 for human readability and turns solution string into array
+  //Switch string into something readable for me
  let newString = string.replace(/-/g, "0");
 
  let board = Array.from({ length: 9 }, (_, i) =>
@@ -17,16 +17,13 @@ const stringToGrid = (string) => {
 // Step 2: Extract 3x3 boxes
 let boxes = Array.from({ length: 9 }, () => []);
 
-for (let boxRow = 0; boxRow < 3; boxRow++) {
-  for (let boxCol = 0; boxCol < 3; boxCol++) {
-    let boxIndex = boxRow * 3 + boxCol;
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        boxes[boxIndex].push(board[boxRow * 3 + i][boxCol * 3 + j]);
-      }
-    }
-  }
-}
+board.forEach((row, rowIndex) => {
+  row.forEach((cell, colIndex) => {
+    const boxIndex = Math.floor(rowIndex / 3) * 3 + Math.floor(colIndex / 3);
+    boxes[boxIndex].push(cell);
+  });
+});
+
 return boxes;
 }
 

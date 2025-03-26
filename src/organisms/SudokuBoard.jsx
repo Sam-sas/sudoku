@@ -40,7 +40,7 @@ const SudokuBoard = () => {
     }
   };
 
-  const addHighlights = (boxIndex, innerBoxIndex, inputIndex) => {
+  const focusedCellCapture = (boxIndex, innerBoxIndex, inputIndex) => {
     setSelectedCell({
       outerBoxLocation: {
         row: boxIndex.boxRowIndex,
@@ -54,11 +54,24 @@ const SudokuBoard = () => {
     });
   };
 
+  const handleInputChange = (outerBoxIndex, inputIndex, value) => {
+    const updatedPuzzle = [...sudokuGame.puzzle];
+
+    updatedPuzzle[outerBoxIndex.boxRowIndex][outerBoxIndex.boxColumnIndex][
+      inputIndex
+    ] = value === "" ? 0 : Number(value);
+    setSudokuGame((prevState) => ({
+      ...prevState,
+      puzzle: updatedPuzzle,
+    }));
+  };
+
+
   if (loading) {
     return <RippleLoader />;
   }
   return (
-    <div className="sudoku-game text-center">
+    <div className="sudoku-game text-center m-6">
       <Heading size="h2" title={sudokuGame.difficulty.toUpperCase() + " Mode" } fontSize="text-4xl" />
       <div className="sudokuGrid">
         {sudokuGame.puzzle.map((row, boxRowIndex) => {
@@ -72,7 +85,8 @@ const SudokuBoard = () => {
                     boxIndex={boxIndex}
                     prefilled={prefilled}
                     highlights={selectedCell}
-                    onFocus={addHighlights}
+                    onInputChange={handleInputChange}
+                    onFocus={focusedCellCapture}
                   />
                 );
               })}

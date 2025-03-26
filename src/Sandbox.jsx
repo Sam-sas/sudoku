@@ -8,23 +8,28 @@ import Button from "./atoms/Button";
 import Heading from "./atoms/Headings";
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [sudokuGame, setSudokuGame] = useState({});
-  const [difficulty, setDifficulty] = useState("");
-  const [prefilled, setPrefilled] = useState();
+
   const [goingWell, setGoingWell] = useState(true);
+  const [togglingNotesOn, setTogglingNotesOn] = useState(false);
+
+  //removed
   const [highlights, setHighlights] = useState({
     outerBoxLocation: null,
     innerBoxLocation: null,
   });
+  const [difficulty, setDifficulty] = useState("");
+  //added
+  const isFirstRender = useRef(true);
+  const difficulties = ["easy", "medium", "hard", "expert"];
   const [selectedCell, setSelectedCell] = useState({
     outerBoxLocation: null,
     innerBoxLocation: null,
   });
-  const [togglingNotesOn, setTogglingNotesOn] = useState(false);
-  const isFirstRender = useRef(true);
-  const difficulties = ["easy", "medium", "hard", "expert"];
+  const [loading, setLoading] = useState(true);
+  const [sudokuGame, setSudokuGame] = useState({});
+  const [prefilled, setPrefilled] = useState();
 
+  //added
   useEffect(() => {
     setLoading(true);
     if (isFirstRender.current) {
@@ -33,6 +38,7 @@ function App() {
     }
   }, []);
 
+  //added
   const fetchSudoku = async () => {
     const data = await getRandomGame();
     if (data) {
@@ -45,6 +51,7 @@ function App() {
       setLoading(false);
     }
   };
+
 
   const selectDifficulty = async (level) => {
     const data = await getGameDifficulty(level);
@@ -59,6 +66,7 @@ function App() {
     }
   };
 
+  //added
   const turn2DArray = (boxes) => {
     const size = 3;
     const values = Object.values(boxes); // Get the values from the object
@@ -71,6 +79,7 @@ function App() {
     return threeByThreeBox;
   };
 
+  //added
   const handleInputChange = (outerBoxIndex, inputIndex, value) => {
     const updatedPuzzle = [...sudokuGame.puzzle];
 
@@ -102,6 +111,7 @@ function App() {
   };
 
   //ALL TO BECOME ROW AND COLUMN IN NAME ONLY
+  //added
   const addHighlights = (boxIndex, innerBoxIndex, inputIndex) => {
     setHighlights({
       outerBoxLocation: {

@@ -7,7 +7,7 @@ const DesktopNumPad = () => {
   //animations
 
   return (
-    <div className="numpad-portion flex flex-col items-center mr-6">
+    <div className="numpad-portion flex flex-col items-center m-6">
       <Heading title="Numpad" />
       <NumPad />
       <div className="buttons flex flex-row">

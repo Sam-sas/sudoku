@@ -2,18 +2,22 @@ import Heading from "../atoms/Headings";
 import DesktopNumPad from "../organisms/DesktopNumPad";
 import Options from "../organisms/Options";
 import SudokuBoard from "../organisms/SudokuBoard";
+import useWindowDimensions from "../utils/Hooks";
 
 const Game = () => {
-    //default options
-    //animations
-  
-    return (
-     <div className="sudoku-game-area flex flex-row h-screen w-screen justify-between">
-        <Options />
+   const { height, width } = useWindowDimensions();
+
+   
+
+  return (
+    <div className="sudoku-game-area flex flex-row h-screen">
+      <Options />
+      <div className="sudoku-game-itself flex flex-row justify-center">
         <SudokuBoard />
         <DesktopNumPad />
-     </div>
-    );
-  };
-  
-  export default Game;
+      </div>
+    </div>
+  );
+};
+
+export default Game;
