@@ -4,89 +4,79 @@ import { getRandomGame } from "../calls/getGames";
 import { turn2DArray } from "../utils/Common";
 import RippleLoader from "../atoms/RippleLoader";
 import Box from "../components/Box";
+import { useSudoku } from "../state-management/GlobalState";
+import Sandbox from "../components/Sandbox";
 
 const SudokuBoard = () => {
-  const [sudokuGame, setSudokuGame] = useState({
-    puzzle: null,
-    solution: null,
-    difficulty: null,
-  });
-  const [prefilled, setPrefilled] = useState();
-  const [loading, setLoading] = useState(true);
-  const [selectedCell, setSelectedCell] = useState({
-    outerBoxLocation: null,
-    innerBoxLocation: null,
-  });
-  const isFirstRender = useRef(true);
+  const { state, dispatch } = useSudoku();
 
-  useEffect(() => {
-    setLoading(true);
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      fetchSudoku();
-    }
-  }, []);
-
-  const fetchSudoku = async () => {
-    const pulledGame = await getRandomGame();
-    if (pulledGame && pulledGame.difficulty) {
-      setSudokuGame({
-        puzzle: turn2DArray(pulledGame.puzzle),
-        solution: turn2DArray(pulledGame.solution),
-        difficulty: pulledGame.difficulty,
-      });
-      setPrefilled(turn2DArray(pulledGame.prefilled));
-      setLoading(false);
+  const selectCell = (boxIndex, innerBoxIndex, inputIndex) => {
+    if (boxIndex && innerBoxIndex && inputIndex) {
+      let selectedCell = {
+        outerBoxLocation: {
+          row: boxIndex.row,
+          column: boxIndex.column,
+        },
+        innerBoxLocation: {
+          row: innerBoxIndex.row,
+          column: innerBoxIndex.column,
+        },
+        inputIndex: inputIndex,
+      };
+      dispatch({ type: "SELECT_CELL", payload: selectedCell });
+    } else {
+      dispatch({ type: "SELECT_CELL", payload: state.selectedCell });
     }
   };
 
-  const focusedCellCapture = (boxIndex, innerBoxIndex, inputIndex) => {
-    setSelectedCell({
-      outerBoxLocation: {
-        row: boxIndex.boxRowIndex,
-        column: boxIndex.boxColumnIndex,
-      },
-      innerBoxLocation: {
-        row: innerBoxIndex.boxRowIndex,
-        column: innerBoxIndex.boxColumnIndex,
-      },
-      inputIndex: inputIndex,
-    });
+  const updateNumber = (value) => {
+      if (
+        state.selectedCell.outerBoxLocation !== null &&
+        state.selectedCell.outerBoxLocation.row !== null &&
+        state.selectedCell.outerBoxLocation.column !== null &&
+        state.selectedCell.inputIndex !== null
+      ) { 
+        const row = state.selectedCell.outerBoxLocation.row;
+        const column = state.selectedCell.outerBoxLocation.column;
+        const inputIndex = state.selectedCell.inputIndex;
+        dispatch({
+          type: "UPDATE_CELL",
+          payload: {
+            row,
+            column,
+            inputIndex,
+            value: value,
+          },
+        });
+      }
   };
 
-  const handleInputChange = (outerBoxIndex, inputIndex, value) => {
-    const updatedPuzzle = [...sudokuGame.puzzle];
-
-    updatedPuzzle[outerBoxIndex.boxRowIndex][outerBoxIndex.boxColumnIndex][
-      inputIndex
-    ] = value === "" ? 0 : Number(value);
-    setSudokuGame((prevState) => ({
-      ...prevState,
-      puzzle: updatedPuzzle,
-    }));
-  };
-
-
-  if (loading) {
-    return <RippleLoader />;
-  }
   return (
     <div className="sudoku-game text-center m-6">
-      <Heading size="h2" title={sudokuGame.difficulty.toUpperCase() + " Mode" } fontSize="text-4xl" />
+      <Heading
+        size="h2"
+        title={state.difficulty + " Mode"}
+        fontSize="text-4xl"
+      />
       <div className="sudokuGrid">
-        {sudokuGame.puzzle.map((row, boxRowIndex) => {
+        {state.board.map((row, outerBoxRow) => {
           return (
-            <div key={boxRowIndex} className="flex">
-              {row.map((num, boxColumnIndex) => {
-                let boxIndex = { boxRowIndex, boxColumnIndex };
+            <div key={outerBoxRow} className="flex">
+              {row.map((innerBoxArray, innerBoxColumn) => {
+                let boxIndex = { row: outerBoxRow, column: innerBoxColumn };
                 return (
-                  <Box
-                    boxNumbers={num}
+                  // <Box
+                  //   boxNumbers={innerBoxArray}
+                  //   boxIndex={boxIndex}
+                  //   prefilled={state.prefilled}
+                  //   onFocus={selectCell}
+                  //   onInputChange={updateNumber}
+                  // />
+                  <Sandbox
                     boxIndex={boxIndex}
-                    prefilled={prefilled}
-                    highlights={selectedCell}
-                    onInputChange={handleInputChange}
-                    onFocus={focusedCellCapture}
+                    innerBoxArray={innerBoxArray}
+                    onFocus={selectCell}
+                    onValueChange={updateNumber}
                   />
                 );
               })}

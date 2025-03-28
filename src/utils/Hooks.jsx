@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSudoku } from '../state-management/GlobalState';
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;

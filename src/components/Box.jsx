@@ -19,10 +19,19 @@ const Box = ({
     boxNumbers.slice(row * size, row * size + size)
   );
 
+  const [inputValue, setInputValue] = useState(0);
   const [markings, setMarkings] = useState({});
 
   const handleUpdate = (inputIndex, numbers) => {
     setMarkings((prev) => ({ ...prev, [inputIndex]: numbers }));
+  };
+
+  const runme = (value) => {
+    if (value.length <= 1) {
+      onInputChange(value); 
+    } else {
+      onInputChange(value.charAt(value.length - 1));
+    }
   };
 
   return (
@@ -30,59 +39,54 @@ const Box = ({
       {threeByThreeBox.map((row, boxRowIndex) => (
         <div key={boxRowIndex} className="flex">
           {row.map((num, boxColumnIndex) => {
-            let innerBoxIndex = { boxRowIndex, boxColumnIndex };
+            let innerBoxIndex = { row: boxRowIndex, column: boxColumnIndex };
             const inputIndex = boxRowIndex * 3 + boxColumnIndex; // Now based on 3x3 box
             let classes = defaultClasses;
 
-            if (highlights.innerBoxLocation && highlights.outerBoxLocation) {
-              if (
-                highlights.outerBoxLocation.column ===
-                  boxIndex.boxColumnIndex &&
-                highlights.outerBoxLocation.row === boxIndex.boxRowIndex
-              ) {
-                classes = rowColumnBoxHighlight;
-              } else if (
-                highlights.outerBoxLocation.column ===
-                  boxIndex.boxColumnIndex &&
-                highlights.innerBoxLocation.column ===
-                  innerBoxIndex.boxColumnIndex
-              ) {
-                classes = rowColumnBoxHighlight;
-              } else if (
-                highlights.outerBoxLocation.row === boxIndex.boxRowIndex &&
-                highlights.innerBoxLocation.row === innerBoxIndex.boxRowIndex
-              ) {
-                classes = rowColumnBoxHighlight;
-              }
-            }
-            if (onStatus) {
-              return (
-                <PencilMarkings
-                  classes={defaultClasses}
-                  prefilled={
-                    prefilled[boxIndex.boxRowIndex][boxIndex.boxColumnIndex][
-                      inputIndex
-                    ]
-                  }
-                  onUpdate={(numbers) => handleUpdate(inputIndex, numbers)}
-                />
-              );
-            }
+            // if (highlights.innerBoxLocation && highlights.outerBoxLocation) {
+            //   if (
+            //     highlights.outerBoxLocation.column ===
+            //       boxIndex.boxColumnIndex &&
+            //     highlights.outerBoxLocation.row === boxIndex.boxRowIndex
+            //   ) {
+            //     classes = rowColumnBoxHighlight;
+            //   } else if (
+            //     highlights.outerBoxLocation.column ===
+            //       boxIndex.boxColumnIndex &&
+            //     highlights.innerBoxLocation.column ===
+            //       innerBoxIndex.boxColumnIndex
+            //   ) {
+            //     classes = rowColumnBoxHighlight;
+            //   } else if (
+            //     highlights.outerBoxLocation.row === boxIndex.boxRowIndex &&
+            //     highlights.innerBoxLocation.row === innerBoxIndex.boxRowIndex
+            //   ) {
+            //     classes = rowColumnBoxHighlight;
+            //   }
+            // }
+            // if (onStatus) {
+            //   return (
+            //     <PencilMarkings
+            //       classes={defaultClasses}
+            //       prefilled={
+            //         prefilled[boxIndex.boxRowIndex][boxIndex.boxColumnIndex][
+            //           inputIndex
+            //         ]
+            //       }
+            //       onUpdate={(numbers) => handleUpdate(inputIndex, numbers)}
+            //     />
+            //   );
+            // }
             return (
               <input
                 key={`${boxRowIndex}-${boxColumnIndex}`}
-                type="text"
+                type="number"
                 value={num === 0 ? "" : num}
-                maxLength={1}
-                onChange={(e) =>
-                  onInputChange(boxIndex, inputIndex, e.target.value)
-                }
+                onChange={(e) => runme(e.target.value)}
                 onFocus={() => onFocus(boxIndex, innerBoxIndex, inputIndex)}
                 className={classes}
                 readOnly={
-                  prefilled[boxIndex.boxRowIndex][boxIndex.boxColumnIndex][
-                    inputIndex
-                  ] !== 0
+                  prefilled[boxIndex.row][boxIndex.column][inputIndex] !== 0
                 }
               />
             );
