@@ -23,14 +23,14 @@ const PencilMarkings = ({ classes, prefilled, markedNumbers, onUpdate }) => {
     }
   };
 
-  if (prefilled !== 0) {
-    return <div className={classes}>{prefilled}</div>;
+  if (prefilled) {
+    return (<div className={classes}>{prefilled}</div>);
   }
 
   return (
     <div
-      className="grid grid-cols-3 grid-rows-3 w-16 h-16 text-center text-sm border-2"
-      tabIndex={0} // Allows focusing
+      className="grid grid-cols-3 grid-rows-3 w-16 h-16 text-center text-4xl border-2 font-newspaper text-sm"
+      tabIndex={0}
       onKeyDown={handleKeyDown}
     >
       {possibleNumbers.map((etching, index) => {

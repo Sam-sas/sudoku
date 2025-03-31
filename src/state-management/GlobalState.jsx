@@ -13,7 +13,7 @@ const defaultDifficulty = "";
 const defaultLoad = false;
 const defaultUsePencil = false;
 
-const defaultState = {
+const defaultSudokuState = {
   board: defaultBoard,
   solution: defaultBoard,
   selectedCell: {
@@ -21,11 +21,16 @@ const defaultState = {
     innerBoxLocation: null,
     inputIndex: null,
     value: 0,
+    updateOrderNumber: 0,
   },
   difficulty: defaultDifficulty,
   isLoading: defaultLoad,
   prefilled: defaultBoard,
+};
+
+const defaultPencilState = {
   usePencil: defaultUsePencil,
+  undoAllMarkings: false,
 };
 
 const ACTIONS = {
@@ -38,36 +43,40 @@ const ACTIONS = {
   UPDATE_CELL: "UPDATE_CELL",
   RESET_BOARD: "RESET_BOARD",
   SET_USE_PENCIL: "SET_USE_PENCIL",
+  SET_UNDO_MARKINGS: "SET_UNDO_MARKINGS",
 };
 
 const sudokuReducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.SET_LOADING:
-      return { ...state, isLoading: action.payload ?? defaultState.isLoading };
+      return {
+        ...state,
+        isLoading: action.payload ?? defaultSudokuState.isLoading,
+      };
     case ACTIONS.SET_PUZZLE:
       return {
         ...state,
-        board: action.payload ?? defaultState.board,
+        board: action.payload ?? defaultSudokuState.board,
       };
     case ACTIONS.SET_SOLUTION:
       return {
         ...state,
-        solution: action.payload ?? defaultState.board,
+        solution: action.payload ?? defaultSudokuState.board,
       };
     case ACTIONS.SET_PREFILLED:
       return {
         ...state,
-        prefilled: action.payload ?? defaultState.board,
+        prefilled: action.payload ?? defaultSudokuState.board,
       };
     case ACTIONS.SET_DIFFICULTY:
       return {
         ...state,
-        difficulty: action.payload ?? defaultState.difficulty,
+        difficulty: action.payload ?? defaultSudokuState.difficulty,
       };
     case ACTIONS.SELECT_CELL:
       return {
         ...state,
-        selectedCell: action.payload ?? defaultState.selectedCell,
+        selectedCell: action.payload ?? defaultSudokuState.selectedCell,
       };
     case ACTIONS.UPDATE_CELL:
       const { row, column, inputIndex, value } = action.payload;
@@ -79,46 +88,99 @@ const sudokuReducer = (state, action) => {
         ...state,
         board: updatedBoard,
       };
+    default:
+      return state;
+  }
+};
+
+const pencilReducer = (state, action) => {
+  switch (action.type) {
     case ACTIONS.SET_USE_PENCIL:
-      console.log("hi")
-      return { ...state, usePencil: action.payload ?? defaultState.usePencil };
+      return {
+        ...state,
+        usePencil: action.payload ?? defaultPencilState.usePencil,
+      };
+    case ACTIONS.SET_UNDO_MARKINGS:
+      return {
+        ...state,
+        undoAllMarkings: action.payload ?? defaultPencilState.undoAllMarkings,
+      };
     default:
       return state;
   }
 };
 
 const SudokuContext = createContext();
+const PencilContext = createContext();
 
 export const SudokuProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(sudokuReducer, defaultState);
+  const [sudokuState, sudokuDispatch] = useReducer(
+    sudokuReducer,
+    defaultSudokuState
+  );
+  const [pencilState, pencilDispatch] = useReducer(
+    pencilReducer,
+    defaultPencilState
+  );
 
   const startNewGame = async (difficulty) => {
     if (!difficulty) {
       const data = await getRandomGame();
       if (data) {
-        dispatch({ type: "SET_PUZZLE", payload: turn2DArray(data.puzzle) });
-        dispatch({ type: "SET_SOLUTION", payload: turn2DArray(data.solution) });
-        dispatch({ type: "SET_PREFILLED", payload: turn2DArray(data.puzzle) });
-        dispatch({ type: "SET_DIFFICULTY", payload: data.difficulty });
-        dispatch({ type: "SET_LOADING", payload: false });
-        dispatch({ type: "SET_USE_PENCIL", payload: false });
+        sudokuDispatch({
+          type: "SET_PUZZLE",
+          payload: turn2DArray(data.puzzle),
+        });
+        sudokuDispatch({
+          type: "SET_SOLUTION",
+          payload: turn2DArray(data.solution),
+        });
+        sudokuDispatch({
+          type: "SET_PREFILLED",
+          payload: turn2DArray(data.puzzle),
+        });
+        sudokuDispatch({ type: "SET_DIFFICULTY", payload: data.difficulty });
+        sudokuDispatch({ type: "SET_LOADING", payload: false });
+        pencilDispatch({ type: "SET_USE_PENCIL", payload: false });
       }
     } else {
       const data = await getGameDifficulty(difficulty);
       if (data) {
-        dispatch({ type: "SET_PUZZLE", payload: turn2DArray(data.puzzle) });
-        dispatch({ type: "SET_SOLUTION", payload: turn2DArray(data.solution) });
-        dispatch({ type: "SET_PREFILLED", payload: turn2DArray(data.puzzle) });
-        dispatch({ type: "SET_DIFFICULTY", payload: data.difficulty });
-        dispatch({ type: "SET_LOADING", payload: false });
-        dispatch({ type: "SET_USE_PENCIL", payload: false });
+        sudokuDispatch({
+          type: "SET_PUZZLE",
+          payload: turn2DArray(data.puzzle),
+        });
+        sudokuDispatch({
+          type: "SET_SOLUTION",
+          payload: turn2DArray(data.solution),
+        });
+        sudokuDispatch({
+          type: "SET_PREFILLED",
+          payload: turn2DArray(data.puzzle),
+        });
+        sudokuDispatch({ type: "SET_DIFFICULTY", payload: data.difficulty });
+        sudokuDispatch({ type: "SET_LOADING", payload: false });
+        pencilDispatch({ type: "SET_USE_PENCIL", payload: false });
       }
     }
   };
 
   return (
-    <SudokuContext.Provider value={{ state, dispatch, startNewGame }}>
-      {children}
+    <SudokuContext.Provider
+      value={{
+        sudokuState,
+        sudokuDispatch,
+        startNewGame,
+      }}
+    >
+      <PencilContext.Provider
+        value={{
+          pencilState,
+          pencilDispatch,
+        }}
+      >
+        {children}
+      </PencilContext.Provider>
     </SudokuContext.Provider>
   );
 };
@@ -126,4 +188,8 @@ export const SudokuProvider = ({ children }) => {
 // Custom hook for easy access
 export const useSudoku = () => {
   return useContext(SudokuContext);
+};
+
+export const usePencil = () => {
+  return useContext(PencilContext);
 };

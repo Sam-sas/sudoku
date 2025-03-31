@@ -141,7 +141,6 @@ function App() {
   };
 
   const updateSelectedCell = (chosenNumber) => {
-    console.log(chosenNumber);
     if (selectedCell) {
       console.log(selectedCell);
       const updatedPuzzle = [...sudokuGame.puzzle];

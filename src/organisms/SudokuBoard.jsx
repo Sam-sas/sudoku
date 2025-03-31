@@ -5,11 +5,11 @@ import { useSudoku } from "../state-management/GlobalState";
 import Sandbox from "../components/Sandbox";
 
 const SudokuBoard = () => {
-  const { state, dispatch, startNewGame } = useSudoku();
+  const { sudokuState, sudokuDispatch, startNewGame } = useSudoku();
   const isFirstRender = useRef(true);
 
   useEffect(() => {
-    dispatch({ type: 'SET_LOADING', payload: true });
+    sudokuDispatch({ type: 'SET_LOADING', payload: true });
     if (isFirstRender.current) {
       isFirstRender.current = false;
       startNewGame();
@@ -29,23 +29,23 @@ const SudokuBoard = () => {
         },
         inputIndex: inputIndex,
       };
-      dispatch({ type: "SELECT_CELL", payload: selectedCell });
+      sudokuDispatch({ type: "SELECT_CELL", payload: selectedCell });
     } else {
-      dispatch({ type: "SELECT_CELL", payload: state.selectedCell });
+      sudokuDispatch({ type: "SELECT_CELL", payload: sudokuState.selectedCell });
     }
   };
 
   const updateNumber = (value) => {
       if (
-        state.selectedCell.outerBoxLocation !== null &&
-        state.selectedCell.outerBoxLocation.row !== null &&
-        state.selectedCell.outerBoxLocation.column !== null &&
-        state.selectedCell.inputIndex !== null
+        sudokuState.selectedCell.outerBoxLocation !== null &&
+        sudokuState.selectedCell.outerBoxLocation.row !== null &&
+        sudokuState.selectedCell.outerBoxLocation.column !== null &&
+        sudokuState.selectedCell.inputIndex !== null
       ) { 
-        const row = state.selectedCell.outerBoxLocation.row;
-        const column = state.selectedCell.outerBoxLocation.column;
-        const inputIndex = state.selectedCell.inputIndex;
-        dispatch({
+        const row = sudokuState.selectedCell.outerBoxLocation.row;
+        const column = sudokuState.selectedCell.outerBoxLocation.column;
+        const inputIndex = sudokuState.selectedCell.inputIndex;
+        sudokuDispatch({
           type: "UPDATE_CELL",
           payload: {
             row,
@@ -57,7 +57,7 @@ const SudokuBoard = () => {
       }
   };
 
-  if (state.isLoading) {
+  if (sudokuState.isLoading) {
     return (
       <RippleLoader />
     )
@@ -67,12 +67,12 @@ const SudokuBoard = () => {
     <div className="sudoku-game text-center m-6">
       <Heading
         size="h2"
-        title={(state.difficulty ? state.difficulty : "here") + " Mode"}
+        title={(sudokuState.difficulty ? sudokuState.difficulty : "here") + " Mode"}
         fontSize="text-4xl"
       />
       <div className="sudokuGrid">
         loaded
-        {state && state.board && state.board.map((row, outerBoxRow) => {
+        {sudokuState && sudokuState.board && sudokuState.board.map((row, outerBoxRow) => {
           return (
             <div key={outerBoxRow} className="flex">
               {row.map((innerBoxArray, innerBoxColumn) => {

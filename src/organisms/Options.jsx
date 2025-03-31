@@ -4,7 +4,7 @@ import Heading from "../atoms/Headings";
 import { useSudoku } from "../state-management/GlobalState";
 
 const Options = () => {
-    const { dispatch, startNewGame } = useSudoku();
+    const { startNewGame } = useSudoku();
   const [toggleDifficultyVisibility, setToggleDifficultyVisibility] = useState(false);
   const difficulties = ["easy", "medium", "hard", "expert"];
 

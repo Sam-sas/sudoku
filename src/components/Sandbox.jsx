@@ -1,22 +1,27 @@
 import { useEffect, useState } from "react";
-import { useSudoku } from "../state-management/GlobalState";
+import { usePencil, useSudoku } from "../state-management/GlobalState";
 import PencilMarkings from "./PencilMarkings";
 
 const Sandbox = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
-  const { state } = useSudoku();
+  const { sudokuState } = useSudoku();
+  const { pencilState, pencilDispatch } = usePencil();
   const [pencilMarkings, setPencilMarkings] = useState({});
 
-  const highlightClasses =
-    "bg-coriander-400";
-  const defaultClasses =
-    "";
+  useEffect (() => {
+    if(pencilState.undoAllMarkings) {
+      setPencilMarkings({});
+      pencilDispatch({ type: 'SET_UNDO_MARKINGS', payload: !pencilState.undoAllMarkings });
+    }
+  },[pencilState.undoAllMarkings]);
+
+  const highlightClasses = "bg-coriander-400";
+  const defaultClasses = "";
   const size = 3;
   const threeByThreeBox = Array.from({ length: size }, (_, row) =>
     innerBoxArray.slice(row * size, row * size + size)
   );
 
   const singleInput = (value) => {
-    console.log("singleinput");
     if (isNaN(Number(value))) {
       return;
     } else if (value.length <= 1) {
@@ -30,10 +35,10 @@ const Sandbox = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
     let classes = defaultClasses;
 
     if (
-      state.selectedCell.innerBoxLocation &&
-      state.selectedCell.outerBoxLocation
+      sudokuState.selectedCell.innerBoxLocation &&
+      sudokuState.selectedCell.outerBoxLocation
     ) {
-      const { outerBoxLocation, innerBoxLocation } = state.selectedCell;
+      const { outerBoxLocation, innerBoxLocation } = sudokuState.selectedCell;
       const sameOuterBox =
         outerBoxLocation.column === boxIndex.column &&
         outerBoxLocation.row === boxIndex.row;
@@ -50,7 +55,7 @@ const Sandbox = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
     }
 
     return classes;
-  }
+  };
 
   const pencilMarkUpdate = (inputIndex, numbers) => {
     setPencilMarkings((prev) => ({
@@ -58,7 +63,6 @@ const Sandbox = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
       [inputIndex]: numbers,
     }));
   };
-
 
   return (
     <div className="Box grid border-4 border-solid rounded-md">
@@ -69,18 +73,17 @@ const Sandbox = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
             const inputIndex = rowArrayIndex * 3 + columnIndex;
             let classes = addHighlights(innerBoxIndex);
 
-
-            if (state.usePencil) {
-              console.log("hi")
+            if (pencilState.usePencil) {
               return (
                 <PencilMarkings
-                  classes={"w-16 h-16 text-center text-4xl border-2 font-newspaper"}
-                  prefilled={
-                    state.prefilled[boxIndex.row][boxIndex.column][
-                      inputIndex
-                    ]
+                  key={columnIndex}
+                  classes={
+                    " flex justify-center items-center w-16 h-16 text-center text-4xl border-2 font-newspaper "
                   }
-                  markedNumbers={pencilMarkings[inputIndex] || []} 
+                  prefilled={
+                    sudokuState.board[boxIndex.row][boxIndex.column][inputIndex]
+                  }
+                  markedNumbers={pencilMarkings[inputIndex] || []}
                   onUpdate={(numbers) => pencilMarkUpdate(inputIndex, numbers)}
                 />
               );
@@ -95,7 +98,9 @@ const Sandbox = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
                 onFocus={() => onFocus(boxIndex, innerBoxIndex, inputIndex)}
                 className={`w-16 h-16 text-center text-4xl border-2 font-newspaper ${classes}`}
                 readOnly={
-                  state.prefilled[boxIndex.row][boxIndex.column][inputIndex] !== 0
+                  sudokuState.prefilled[boxIndex.row][boxIndex.column][
+                    inputIndex
+                  ] !== 0
                 }
               />
             );
