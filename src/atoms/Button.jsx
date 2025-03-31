@@ -8,8 +8,6 @@ const Button = ({
   textColor,
   borderColor,
 }) => {
-  //default options
-  //animations
 
   return (
     <motion.button

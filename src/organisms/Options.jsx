@@ -2,24 +2,37 @@ import { useState } from "react";
 import Button from "../atoms/Button";
 import Heading from "../atoms/Headings";
 import { useSudoku } from "../state-management/GlobalState";
+import SettingsModal from "../components/SettingsModal";
 
 const Options = () => {
-    const { startNewGame } = useSudoku();
+    const { sudokuState, sudokuDispatch, startNewGame } = useSudoku();
   const [toggleDifficultyVisibility, setToggleDifficultyVisibility] = useState(false);
+  const [openSettings, setOpenSettings] = useState(false);
+  const [isGoingWell, setIsGoingWell] = useState(true);
   const difficulties = ["easy", "medium", "hard", "expert"];
 
   const toggleButton = () => {
     setToggleDifficultyVisibility(!toggleDifficultyVisibility);
   }
+
   const checkProgress = () => {
-    console.log("checking progess")
+    let progressBoolean = true;
+    sudokuState.board.forEach((box, boxIndex) => {
+      box.forEach((row, rowIndex) => {
+        row.forEach((value, columnIndex) => {
+          if(value !== 0 && value !== sudokuState.solution[boxIndex][rowIndex][columnIndex]) {
+            progressBoolean = false;
+          }
+        });
+      });
+      setIsGoingWell(progressBoolean);
+    });
   }
+  
   const restartBoard = () => {
-    console.log("resetting board")
+    sudokuDispatch({ type: 'SET_PUZZLE', payload: sudokuState.prefilled });
   }
-  const openSettings = () => {
-    console.log("opening settings")
-  }
+
 
 
 
@@ -31,7 +44,7 @@ const Options = () => {
         <Button btnName={"Choose Difficulty"} onClickFunction={toggleButton} />
         <Button btnName={"Check Progress"} onClickFunction={checkProgress} />
         <Button btnName={"Restart"} onClickFunction={restartBoard} />
-        <Button btnName={"Settings"} onClickFunction={openSettings} />
+        <Button btnName={"Settings"} onClickFunction={() => setOpenSettings(true)} />
       </div>
       <div className={`buttons flex flex-row ${toggleDifficultyVisibility ? "visible" : "invisible"}`}>
         {difficulties.map((level, index) => (
@@ -42,6 +55,13 @@ const Options = () => {
           />
         ))}
       </div>
+
+      <SettingsModal
+        open={openSettings}
+        onClose={() => setOpenSettings(false)}
+      >
+        Hello I am modal
+      </SettingsModal>
     </div>
   );
 };

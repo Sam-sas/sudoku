@@ -16,18 +16,22 @@ const DesktopNumPad = () => {
   }
 
   const undoLastNumber = () => {
-    const row = sudokuState.selectedCell.outerBoxLocation.row;
-    const column = sudokuState.selectedCell.outerBoxLocation.column;
-    const inputIndex = sudokuState.selectedCell.inputIndex;
-    sudokuDispatch({
-      type: "UPDATE_CELL",
-      payload: {
-        row,
-        column,
-        inputIndex,
-        value: 0,
-      },
-    });
+    if (
+      sudokuState.selectedCell.outerBoxLocation && sudokuState.selectedCell.outerBoxLocation.row && sudokuState.selectedCell.inputIndex
+    ) {
+      const row = sudokuState.selectedCell.outerBoxLocation.row;
+      const column = sudokuState.selectedCell.outerBoxLocation.column;
+      const inputIndex = sudokuState.selectedCell.inputIndex;
+      sudokuDispatch({
+        type: "UPDATE_CELL",
+        payload: {
+          row,
+          column,
+          inputIndex,
+          value: 0,
+        },
+      });
+    }
   }
 
   return (
