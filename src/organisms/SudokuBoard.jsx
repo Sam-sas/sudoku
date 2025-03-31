@@ -69,7 +69,7 @@ const SudokuBoard = () => {
     } else if (sudokuState.difficulty) {
       title = sudokuState.difficulty + " Mode";
     } else {
-      title = "New Mode";
+      title = "Empty Mode";
     }
     return title;
   };
