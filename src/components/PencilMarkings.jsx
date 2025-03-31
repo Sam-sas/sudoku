@@ -5,7 +5,9 @@ const PencilMarkings = ({ classes, prefilled, markedNumbers, onUpdate }) => {
   const [numberMarked, setNumberMarked] = useState(markedNumbers);
 
   useEffect(() => {
-    setNumberMarked(markedNumbers); 
+    if (markedNumbers) {
+      setNumberMarked(markedNumbers);
+    }
   }, [markedNumbers]);
 
   const handleKeyDown = (event) => {

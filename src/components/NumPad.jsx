@@ -9,13 +9,12 @@ const NumPad = () => {
   const updateSelectedCell = (chosenNumber) => {
     if (
       sudokuState.selectedCell.outerBoxLocation &&
-      sudokuState.selectedCell.outerBoxLocation.row &&
-      sudokuState.selectedCell.inputIndex
+      (sudokuState.selectedCell.inputIndex || sudokuState.selectedCell.inputIndex === 0)
     ) {
+
       const row = sudokuState.selectedCell.outerBoxLocation.row;
       const column = sudokuState.selectedCell.outerBoxLocation.column;
       const inputIndex = sudokuState.selectedCell.inputIndex;
-      console.log(inputIndex);
       sudokuDispatch({
         type: "UPDATE_CELL",
         payload: {

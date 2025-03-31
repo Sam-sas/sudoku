@@ -18,7 +18,7 @@ const SudokuBoard = () => {
   }, []);
 
   const selectCell = (boxIndex, innerBoxIndex, inputIndex) => {
-    if (boxIndex && innerBoxIndex && inputIndex) {
+    if (boxIndex && innerBoxIndex && (inputIndex || inputIndex === 0)) {
       let selectedCell = {
         outerBoxLocation: {
           row: boxIndex.row,

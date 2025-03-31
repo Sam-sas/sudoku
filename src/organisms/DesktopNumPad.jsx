@@ -17,7 +17,7 @@ const DesktopNumPad = () => {
 
   const undoLastNumber = () => {
     if (
-      sudokuState.selectedCell.outerBoxLocation && sudokuState.selectedCell.outerBoxLocation.row && sudokuState.selectedCell.inputIndex
+      sudokuState.selectedCell.outerBoxLocation && (sudokuState.selectedCell.inputIndex || sudokuState.selectedCell.inputIndex === 0)
     ) {
       const row = sudokuState.selectedCell.outerBoxLocation.row;
       const column = sudokuState.selectedCell.outerBoxLocation.column;
