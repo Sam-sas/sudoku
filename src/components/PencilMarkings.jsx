@@ -17,7 +17,7 @@ const PencilMarkings = ({ classes, prefilled, markedNumbers, onUpdate }) => {
       setNumberMarked((prevNumbers) => {
         const updatedNumbers = prevNumbers.includes(number)
           ? prevNumbers.filter((num) => num !== number)
-          : [...prevNumbers, number]; 
+          : [...prevNumbers, number];
 
         onUpdate(updatedNumbers);
         return updatedNumbers;
@@ -26,7 +26,7 @@ const PencilMarkings = ({ classes, prefilled, markedNumbers, onUpdate }) => {
   };
 
   if (prefilled) {
-    return (<div className={classes}>{prefilled}</div>);
+    return <div className={classes}>{prefilled}</div>;
   }
 
   return (

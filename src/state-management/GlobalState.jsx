@@ -136,10 +136,13 @@ export const SudokuProvider = ({ children }) => {
       type: "SET_PREFILLED",
       payload: defaultSudokuState.prefilled,
     });
-    sudokuDispatch({ type: "SET_DIFFICULTY", payload: defaultSudokuState.difficulty });
+    sudokuDispatch({
+      type: "SET_DIFFICULTY",
+      payload: defaultSudokuState.difficulty,
+    });
     sudokuDispatch({ type: "SET_LOADING", payload: false });
     pencilDispatch({ type: "SET_USE_PENCIL", payload: false });
-  }
+  };
 
   const startNewGame = async (difficulty) => {
     if (!difficulty) {

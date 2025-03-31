@@ -9,9 +9,9 @@ const NumPad = () => {
   const updateSelectedCell = (chosenNumber) => {
     if (
       sudokuState.selectedCell.outerBoxLocation &&
-      (sudokuState.selectedCell.inputIndex || sudokuState.selectedCell.inputIndex === 0)
+      (sudokuState.selectedCell.inputIndex ||
+        sudokuState.selectedCell.inputIndex === 0)
     ) {
-
       const row = sudokuState.selectedCell.outerBoxLocation.row;
       const column = sudokuState.selectedCell.outerBoxLocation.column;
       const inputIndex = sudokuState.selectedCell.inputIndex;

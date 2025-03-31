@@ -76,7 +76,10 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
             const inputIndex = rowArrayIndex * 3 + columnIndex;
             let classes = addHighlights(innerBoxIndex);
 
-            if (pencilState.usePencil || (pencilMarkings && pencilMarkings[inputIndex]?.length > 0))  {
+            if (
+              pencilState.usePencil ||
+              (pencilMarkings && pencilMarkings[inputIndex]?.length > 0)
+            ) {
               return (
                 <PencilMarkings
                   key={columnIndex}

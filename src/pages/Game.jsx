@@ -5,9 +5,7 @@ import SudokuBoard from "../organisms/SudokuBoard";
 import useWindowDimensions from "../utils/Hooks";
 
 const Game = () => {
-   const { height, width } = useWindowDimensions();
-
-   
+  const { height, width } = useWindowDimensions();
 
   return (
     <div className="sudoku-game-area flex flex-row h-screen">

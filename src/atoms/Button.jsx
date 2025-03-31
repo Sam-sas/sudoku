@@ -8,7 +8,6 @@ const Button = ({
   textColor,
   borderColor,
 }) => {
-
   return (
     <motion.button
       whileHover={{ scale: 1.1 }}
