@@ -1,14 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Heading from "../atoms/Headings";
-import { getRandomGame } from "../calls/getGames";
-import { turn2DArray } from "../utils/Common";
 import RippleLoader from "../atoms/RippleLoader";
-import Box from "../components/Box";
 import { useSudoku } from "../state-management/GlobalState";
 import Sandbox from "../components/Sandbox";
 
 const SudokuBoard = () => {
-  const { state, dispatch } = useSudoku();
+  const { state, dispatch, startNewGame } = useSudoku();
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    dispatch({ type: 'SET_LOADING', payload: true });
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      startNewGame();
+    }
+  }, []);
 
   const selectCell = (boxIndex, innerBoxIndex, inputIndex) => {
     if (boxIndex && innerBoxIndex && inputIndex) {
@@ -45,34 +51,35 @@ const SudokuBoard = () => {
             row,
             column,
             inputIndex,
-            value: value,
+            value: Number(value),
           },
         });
       }
   };
 
+  if (state.isLoading) {
+    return (
+      <RippleLoader />
+    )
+  }
+
   return (
     <div className="sudoku-game text-center m-6">
       <Heading
         size="h2"
-        title={state.difficulty + " Mode"}
+        title={(state.difficulty ? state.difficulty : "here") + " Mode"}
         fontSize="text-4xl"
       />
       <div className="sudokuGrid">
-        {state.board.map((row, outerBoxRow) => {
+        loaded
+        {state && state.board && state.board.map((row, outerBoxRow) => {
           return (
             <div key={outerBoxRow} className="flex">
               {row.map((innerBoxArray, innerBoxColumn) => {
                 let boxIndex = { row: outerBoxRow, column: innerBoxColumn };
                 return (
-                  // <Box
-                  //   boxNumbers={innerBoxArray}
-                  //   boxIndex={boxIndex}
-                  //   prefilled={state.prefilled}
-                  //   onFocus={selectCell}
-                  //   onInputChange={updateNumber}
-                  // />
                   <Sandbox
+                    key={`${outerBoxRow}-${innerBoxColumn}`}
                     boxIndex={boxIndex}
                     innerBoxArray={innerBoxArray}
                     onFocus={selectCell}

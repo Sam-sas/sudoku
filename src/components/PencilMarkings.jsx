@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 
 const PencilMarkings = ({ classes, prefilled, markedNumbers, onUpdate }) => {
   const possibleNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const [numberMarked, setNumberMarked] = useState(markedNumbers); // Initialize from parent
+  const [numberMarked, setNumberMarked] = useState(markedNumbers);
 
-  // Sync state with parent when it changes
   useEffect(() => {
-    setNumberMarked(markedNumbers); // Ensure it's updated when markedNumbers change
+    setNumberMarked(markedNumbers); 
   }, [markedNumbers]);
 
   const handleKeyDown = (event) => {
@@ -15,10 +14,10 @@ const PencilMarkings = ({ classes, prefilled, markedNumbers, onUpdate }) => {
 
       setNumberMarked((prevNumbers) => {
         const updatedNumbers = prevNumbers.includes(number)
-          ? prevNumbers.filter((num) => num !== number) // Remove if exists
-          : [...prevNumbers, number]; // Add if not exists
+          ? prevNumbers.filter((num) => num !== number)
+          : [...prevNumbers, number]; 
 
-        onUpdate(updatedNumbers); // Update parent with new markings
+        onUpdate(updatedNumbers);
         return updatedNumbers;
       });
     }

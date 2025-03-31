@@ -85,7 +85,7 @@ const Box = ({
                 onChange={(e) => runme(e.target.value)}
                 onFocus={() => onFocus(boxIndex, innerBoxIndex, inputIndex)}
                 className={classes}
-                readOnly={
+                disabled={
                   prefilled[boxIndex.row][boxIndex.column][inputIndex] !== 0
                 }
               />
