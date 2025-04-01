@@ -19,14 +19,82 @@ input:focus-visible {
   max-width: 90rem;
 }
 
-/* Hide the number input arrows in modern browsers */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* For Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
+html {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Light Mode (default) */
+:root {
+  --bg-color: theme('colors.white');
+  --text-color: theme('colors.gray.900');
+  --input-bg: #ffffff;
+  --input-text: #111827;
+  --input-border: #e5e7eb;
+  --highlight-color: #f3f4f6;
+}
+
+/* Dark Mode */
+.dark {
+  --bg-color: theme('colors.gray.900');
+  --text-color: theme('colors.white');
+  --input-bg: #1f2937; /* Tailwind gray-800 */
+  --input-text: #f9fafb;
+  --input-border: #374151;
+  --highlight-color: #374151;
+}
+
+.dark * {
+  border-color: theme("colors.white");
+}
+
+/* Parchment Theme */
+.parchment {
+  --bg-color: theme('colors.parchment.50');
+  --text-color: theme('colors.parchment.900');
+  --input-bg: #faf7f0;
+  --input-text: #5d382a;
+  --input-border: #c49f5b;
+  --highlight-color: #e0cfa7;
+}
+
+.parchment * {
+  border-color: theme("colors.parchment.500");
+}
+
+/* Coriander Theme */
+.coriander {
+  --bg-color: theme('colors.coriander.50');
+  --text-color: theme('colors.coriander.900');
+  --input-bg: #f5f6ef;
+  --input-text: #373c2b;
+  --input-border: #7d8959;
+  --highlight-color: #bec5a4;
+}
+
+.coriander * {
+  border-color: theme("colors.coriander.500");
+}
+
+/* Apply the variables */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+input {
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  border-color: var(--input-border);
+}
+
+/* Ensure placeholders also adjust */
+input::placeholder,
+textarea::placeholder {
+  color: var(--input-border);
 }

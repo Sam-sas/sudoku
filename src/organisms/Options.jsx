@@ -69,6 +69,10 @@ const Options = () => {
 
       <SettingsModal open={openSettings} onClose={() => setOpenSettings(false)}>
         Hello I am modal
+        <Button
+          btnName={"Dark Mode"}
+          onClickFunction={document.body.classList.toggle('darkModeEnabled')}
+        />
       </SettingsModal>
     </div>
   );

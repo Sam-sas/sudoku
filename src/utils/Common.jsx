@@ -14,10 +14,6 @@ export const turn2DArray = (boxes) => {
 };
 
 export const addHighlights = (innerBoxIndex, sudokuState, boxIndex) => {
-  const highlightClasses = "bg-coriander-300";
-  const defaultClasses = "";
-  let classes = defaultClasses;
-
   if (
     sudokuState.selectedCell.innerBoxLocation &&
     sudokuState.selectedCell.outerBoxLocation &&
@@ -45,11 +41,11 @@ export const addHighlights = (innerBoxIndex, sudokuState, boxIndex) => {
     );
 
     if (sameOuterBox || sameColumn || sameRow || isMatchingValue) {
-      classes = highlightClasses;
+      return "bg-[var(--highlight-color)]";
     }
   }
 
-  return classes;
+  return "";
 };
 
 const getMatchingCells = (sudokuState) => {
