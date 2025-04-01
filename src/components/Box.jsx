@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePencil, useSudoku } from "../state-management/GlobalState";
 import PencilMarkings from "./PencilMarkings";
+import { addHighlights } from "../utils/Common";
 
 const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
   const { sudokuState } = useSudoku();
@@ -17,8 +18,6 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
     }
   }, [pencilState.undoAllMarkings]);
 
-  const highlightClasses = "bg-coriander-400";
-  const defaultClasses = "";
   const size = 3;
   const threeByThreeBox = Array.from({ length: size }, (_, row) =>
     innerBoxArray.slice(row * size, row * size + size)
@@ -32,32 +31,6 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
     } else {
       onValueChange(value.charAt(value.length - 1));
     }
-  };
-
-  const addHighlights = (innerBoxIndex) => {
-    let classes = defaultClasses;
-
-    if (
-      sudokuState.selectedCell.innerBoxLocation &&
-      sudokuState.selectedCell.outerBoxLocation
-    ) {
-      const { outerBoxLocation, innerBoxLocation } = sudokuState.selectedCell;
-      const sameOuterBox =
-        outerBoxLocation.column === boxIndex.column &&
-        outerBoxLocation.row === boxIndex.row;
-      const sameColumn =
-        outerBoxLocation.column === boxIndex.column &&
-        innerBoxLocation.column === innerBoxIndex.column;
-      const sameRow =
-        outerBoxLocation.row === boxIndex.row &&
-        innerBoxLocation.row === innerBoxIndex.row;
-
-      if (sameOuterBox || sameColumn || sameRow) {
-        classes = highlightClasses;
-      }
-    }
-
-    return classes;
   };
 
   const pencilMarkUpdate = (inputIndex, numbers) => {
@@ -74,9 +47,12 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
           {rowArray.map((inputNumber, columnIndex) => {
             let innerBoxIndex = { row: rowArrayIndex, column: columnIndex };
             const inputIndex = rowArrayIndex * 3 + columnIndex;
-            let classes = addHighlights(innerBoxIndex);
+            let classes = addHighlights(innerBoxIndex, sudokuState, boxIndex);
 
-            if (pencilState.usePencil || (pencilMarkings && pencilMarkings[inputIndex]?.length > 0))  {
+            if (
+              pencilState.usePencil ||
+              (pencilMarkings && pencilMarkings[inputIndex]?.length > 0)
+            ) {
               return (
                 <PencilMarkings
                   key={columnIndex}
@@ -88,6 +64,9 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
                   }
                   markedNumbers={pencilMarkings[inputIndex] || []}
                   onUpdate={(numbers) => pencilMarkUpdate(inputIndex, numbers)}
+                  innerBoxIndex={innerBoxIndex}
+                  boxIndex={boxIndex}
+                  inputIndex={inputIndex}
                 />
               );
             }

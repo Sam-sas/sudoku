@@ -123,44 +123,69 @@ export const SudokuProvider = ({ children }) => {
     defaultPencilState
   );
 
+  const setDefault = () => {
+    sudokuDispatch({
+      type: "SET_PUZZLE",
+      payload: defaultSudokuState.board,
+    });
+    sudokuDispatch({
+      type: "SET_SOLUTION",
+      payload: defaultSudokuState.solution,
+    });
+    sudokuDispatch({
+      type: "SET_PREFILLED",
+      payload: defaultSudokuState.prefilled,
+    });
+    sudokuDispatch({
+      type: "SET_DIFFICULTY",
+      payload: defaultSudokuState.difficulty,
+    });
+    sudokuDispatch({ type: "SET_LOADING", payload: false });
+    pencilDispatch({ type: "SET_USE_PENCIL", payload: false });
+  };
+
   const startNewGame = async (difficulty) => {
     if (!difficulty) {
       const data = await getRandomGame();
       if (data) {
         sudokuDispatch({
           type: "SET_PUZZLE",
-          payload: turn2DArray(data.puzzle),
+          payload: data.puzzle,
         });
         sudokuDispatch({
           type: "SET_SOLUTION",
-          payload: turn2DArray(data.solution),
+          payload: data.solution,
         });
         sudokuDispatch({
           type: "SET_PREFILLED",
-          payload: turn2DArray(data.puzzle),
+          payload: data.puzzle,
         });
         sudokuDispatch({ type: "SET_DIFFICULTY", payload: data.difficulty });
         sudokuDispatch({ type: "SET_LOADING", payload: false });
         pencilDispatch({ type: "SET_USE_PENCIL", payload: false });
+      } else {
+        setDefault();
       }
     } else {
       const data = await getGameDifficulty(difficulty);
       if (data) {
         sudokuDispatch({
           type: "SET_PUZZLE",
-          payload: turn2DArray(data.puzzle),
+          payload: data.puzzle,
         });
         sudokuDispatch({
           type: "SET_SOLUTION",
-          payload: turn2DArray(data.solution),
+          payload: data.solution,
         });
         sudokuDispatch({
           type: "SET_PREFILLED",
-          payload: turn2DArray(data.puzzle),
+          payload: data.puzzle,
         });
         sudokuDispatch({ type: "SET_DIFFICULTY", payload: data.difficulty });
         sudokuDispatch({ type: "SET_LOADING", payload: false });
         pencilDispatch({ type: "SET_USE_PENCIL", payload: false });
+      } else {
+        setDefault();
       }
     }
   };

@@ -18,7 +18,7 @@ const SudokuBoard = () => {
   }, []);
 
   const selectCell = (boxIndex, innerBoxIndex, inputIndex) => {
-    if (boxIndex && innerBoxIndex && inputIndex) {
+    if (boxIndex && innerBoxIndex && (inputIndex || inputIndex === 0)) {
       let selectedCell = {
         outerBoxLocation: {
           row: boxIndex.row,
@@ -69,7 +69,7 @@ const SudokuBoard = () => {
     } else if (sudokuState.difficulty) {
       title = sudokuState.difficulty + " Mode";
     } else {
-      title = "New Mode";
+      title = "Empty Mode";
     }
     return title;
   };
