@@ -30,7 +30,7 @@ export function useTheme() {
 
   useEffect(() => {
     // Update the theme class on the <html> element
-    document.documentElement.classList.remove("light", "dark", "parchment", "coriander");
+    document.documentElement.classList.remove("light", "dark", "parchment", "cyberwave", "coriander", "full-sun", "candy-apple");
     document.documentElement.classList.add(theme);
     localStorage.setItem("theme", theme);
   }, [theme]);

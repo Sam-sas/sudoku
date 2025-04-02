@@ -43,6 +43,36 @@ function ThemeSwitch() {
       >
         Coriander
       </button>
+      <button
+        onClick={() => setTheme("cyberwave")}
+        className={`p-2 rounded ${
+          theme === "cyberwave"
+            ? "bg-blue-500 text-white"
+            : "bg-gray-200 text-black"
+        }`}
+      >
+        Cyberwave
+      </button>
+      <button
+        onClick={() => setTheme("full-sun")}
+        className={`p-2 rounded ${
+          theme === "full-sun"
+            ? "bg-blue-500 text-white"
+            : "bg-gray-200 text-black"
+        }`}
+      >
+        Full Sun
+      </button>
+      <button
+        onClick={() => setTheme("candy-apple")}
+        className={`p-2 rounded ${
+          theme === "candy-apple"
+            ? "bg-blue-500 text-white"
+            : "bg-gray-200 text-black"
+        }`}
+      >
+        Candy Apple
+      </button>
     </div>
   );
 }

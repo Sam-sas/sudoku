@@ -1,9 +1,7 @@
 const Heading = ({ size = "h1", title = "Heading", fontSize = "text-6xl" }) => {
-  //default options
-  //animations
   const Tag = size;
   return (
-    <Tag className={"capitalize font-pencil m-6 " + fontSize}>{title}</Tag>
+    <Tag className={"capitalize font-pencil m-4 " + fontSize}>{title}</Tag>
   );
 };
 

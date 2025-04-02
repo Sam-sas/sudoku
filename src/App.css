@@ -30,55 +30,201 @@ html {
 }
 
 /* Light Mode (default) */
-:root {
-  --bg-color: theme('colors.white');
-  --text-color: theme('colors.gray.900');
-  --input-bg: #ffffff;
-  --input-text: #111827;
-  --input-border: #e5e7eb;
-  --highlight-color: #f3f4f6;
+.light {
+  --bg-color: theme("colors.white");
+  --text-color: theme("colors.black");
+  --input-bg: theme("colors.white");
+  --input-text: theme("colors.black");
+  --input-border: theme("colors.slate.400");
+  --highlight-color: theme("colors.slate.200");
+}
+
+.light * {
+  border-color: theme("colors.slate.400");
+}
+
+.light .button {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 3px solid var(--input-border);
+  transition: background-color 0.3s ease;
+}
+
+.light.button:hover,
+.light .numpad.button:hover {
+  background-color: var(--highlight-color);
 }
 
 /* Dark Mode */
 .dark {
-  --bg-color: theme('colors.gray.900');
-  --text-color: theme('colors.white');
-  --input-bg: #1f2937; /* Tailwind gray-800 */
-  --input-text: #f9fafb;
-  --input-border: #374151;
-  --highlight-color: #374151;
+  --bg-color: theme("colors.gray.900");
+  --text-color: theme("colors.gray.200");
+  --input-bg: theme("colors.gray.900");
+  --input-text: theme("colors.gray.200");
+  --input-border: theme("colors.gray.500");
+  --highlight-color: theme("colors.sky.900");
 }
 
 .dark * {
-  border-color: theme("colors.white");
+  border-color: theme("colors.gray.500");
+}
+
+.dark .button {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 3px solid var(--input-border);
+  transition: background-color 0.3s ease;
+}
+
+.dark .button:hover,
+.dark .numpad.button:hover {
+  background-color: var(--highlight-color);
 }
 
 /* Parchment Theme */
 .parchment {
-  --bg-color: theme('colors.parchment.50');
-  --text-color: theme('colors.parchment.900');
-  --input-bg: #faf7f0;
-  --input-text: #5d382a;
-  --input-border: #c49f5b;
-  --highlight-color: #e0cfa7;
+  --bg-color: #faf3e0;
+  --text-color: #333333;
+  --input-bg: #faf3e0;
+  --input-text: #333333;
+  --input-border: #333333;
+  --highlight-color: #ffc300;
 }
 
 .parchment * {
-  border-color: theme("colors.parchment.500");
+  border-color: #333333;
 }
 
-/* Coriander Theme */
-.coriander {
-  --bg-color: theme('colors.coriander.50');
-  --text-color: theme('colors.coriander.900');
-  --input-bg: #f5f6ef;
+.parchment .button {
+  background-color: #333333;
+  color: #faf3e0;
+  border: 3px solid #faf3e0;
+  transition: background-color 0.3s ease;
+}
+
+.parchment .button:hover {
+  background-color: var(--highlight-color);
+  border-color: #333333;
+}
+
+/* Spring Cream Theme */
+.cyberwave {
+  /* background: linear-gradient(180deg, #39023C, #8C108C); */
+  background: linear-gradient(
+    170deg,
+    rgba(57, 2, 60, 1) 10%,
+    rgba(82, 6, 84, 1) 43%,
+    rgba(207, 10, 162, 1) 87%,
+    rgba(242, 82, 130, 1) 100%
+  );
+  --text-color: #fff8e6;
+  --input-bg: #05051d;
+  --input-text: #fff8e6;
+  --input-border: #046aac;
+  --highlight-color: #152559;
+}
+
+.cyberwave * {
+  border-color: #046aac;
+}
+
+.cyberwave .button {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: 3px solid var(--input-border);
+  transition: background-color 0.3s ease;
+}
+
+.cyberwave .button:hover {
+  background: #046aac;
+  border-color: #046aac;
+}
+
+/* Coriander Theme
+
+  --input-bg: #f5f6ef; 
   --input-text: #373c2b;
   --input-border: #7d8959;
   --highlight-color: #bec5a4;
+*/
+.coriander {
+  --bg-color: theme("colors.coriander.200");
+  --text-color: theme("colors.coriander.800");
+  --input-bg: theme("colors.coriander.100");
+  --input-text: theme("colors.coriander.800");
+  --input-border: theme("colors.coriander.500");
+  --highlight-color: theme("colors.coriander.300");
 }
 
 .coriander * {
   border-color: theme("colors.coriander.500");
+}
+
+.coriander .button {
+  background-color: theme("colors.coriander.50");
+  color: var(--text-color);
+  border: 3px solid var(--input-border);
+  transition: background-color 0.3s ease;
+}
+
+.coriander .button:hover {
+  background: theme("colors.coriander.900");
+  border-color: theme("colors.coriander.900");
+  color: theme("colors.coriander.100");
+}
+
+/* full-sun Theme */
+.full-sun {
+  --bg-color: #f9a021;
+  --text-color: #2d2717;
+  --input-bg: #df6d11;
+  --input-text: #2d2717;
+  --input-border: #2d2717;
+  --highlight-color: #b93b13;
+}
+
+.full-sun * {
+  border-color: #2d2717;
+}
+
+.full-sun .button {
+  background-color: #df6d11;
+  color: var(--text-color);
+  border: 3px solid var(--input-border);
+  transition: background-color 0.3s ease;
+}
+
+.full-sun .button:hover {
+  background-color: #2b2517;
+  color: #dc913a;
+}
+
+/* candy apple theme */
+
+/* full-sun Theme */
+.candy-apple {
+  background: linear-gradient( 135deg, rgba(155, 0, 0, 1), rgba(255, 26, 26, 0.4) ), url('http://localhost:3000/static/media/photo-1560806887-1e4cd0b6cbd6.f358313506adaefb54d0.avif') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.candy-apple::before {
+  
+}
+
+.candy-apple * {
+  border-color: #2d2717;
+}
+
+.candy-apple .button {
+  background-color: #df6d11;
+  color: var(--text-color);
+  border: 3px solid var(--input-border);
+  transition: background-color 0.3s ease;
+}
+
+.candy-apple .button:hover {
+  background-color: #2b2517;
+  color: #dc913a;
 }
 
 /* Apply the variables */
@@ -97,4 +243,8 @@ input {
 input::placeholder,
 textarea::placeholder {
   color: var(--input-border);
+}
+
+.h-80v {
+  height: 80vh;
 }

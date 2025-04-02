@@ -74,6 +74,8 @@ const Options = () => {
           onClickFunction={document.body.classList.toggle('darkModeEnabled')}
         />
       </SettingsModal>
+      {isGoingWell ? <p>going well</p> : <p>No booboo ouchies
+        </p>}
     </div>
   );
 };

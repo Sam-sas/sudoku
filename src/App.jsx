@@ -9,7 +9,7 @@ function App() {
   //needs separation soon
   return (
     <SudokuProvider>
-      <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)]">
+      <div className="h-screen bg-[var(--bg-color)] text-[var(--text-color)]">
         <header className="p-4 flex justify-between items-center">
           <h1 className="text-xl font-bold">Sudoku Game</h1>
           <ThemeSwitch />
