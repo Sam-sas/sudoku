@@ -38,7 +38,7 @@ const Options = () => {
   };
 
   return (
-    <div className="options ml-6 text-center">
+    <div className="options ml-6 text-center motion-preset-slide-right">
       <Heading size="h2" title="Options" />
       <div className="buttons flex flex-col">
         <Button

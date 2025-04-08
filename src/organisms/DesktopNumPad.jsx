@@ -40,7 +40,7 @@ const DesktopNumPad = () => {
   };
 
   return (
-    <div className="numpad-portion flex flex-col items-center m-6">
+    <div className="numpad-portion flex flex-col items-center m-6 motion-preset-slide-left ">
       <Heading title="Numpad" />
       <NumPad />
       <div className="buttons flex flex-row">

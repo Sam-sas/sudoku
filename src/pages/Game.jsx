@@ -8,7 +8,7 @@ const Game = () => {
   const { height, width } = useWindowDimensions();
 
   return (
-    <div className="sudoku-game-area flex flex-row h-screen">
+    <div className="sudoku-game-area flex flex-row h-screen w-screen justify-center my-8">
       <Options />
       <div className="sudoku-game-itself flex flex-row justify-center">
         <SudokuBoard />
