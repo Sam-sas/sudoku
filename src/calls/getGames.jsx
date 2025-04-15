@@ -15,7 +15,6 @@ const stringToGrid = (string) => {
       .map((num) => (num === "-" ? 0 : parseInt(num, 10)))
   );
 
-  // Step 2: Extract 3x3 boxes
   let boxes = Array.from({ length: 9 }, () => []);
 
   board.forEach((row, rowIndex) => {

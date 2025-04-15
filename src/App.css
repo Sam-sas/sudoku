@@ -1,3 +1,6 @@
+@import "./design/options.scss";
+@import "./design/buttons.scss";
+
 .App {
   text-align: center;
 }
@@ -248,3 +251,5 @@ textarea::placeholder {
 .h-80v {
   height: 80vh;
 }
+
+

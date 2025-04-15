@@ -1,10 +1,10 @@
-import Button from "../atoms/Button";
+import Button from "../../atoms/Button";
 
-const SettingsModal = ({ open, onClose, children }) => {
+const Modal = ({ open, onClose, children }) => {
   return (
     <div
       onClick={onClose}
-      className={` fixed inset-0 flex justify-center items-center transition-colors ${
+      className={` fixed inset-0 flex justify-center items-center transition-colors z-50 ${
         open ? "visible bg-black/20" : "invisible"
       }`}
     >
@@ -26,4 +26,4 @@ const SettingsModal = ({ open, onClose, children }) => {
   );
 };
 
-export default SettingsModal;
+export default Modal;

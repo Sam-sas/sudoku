@@ -26,7 +26,6 @@ const PencilMarkings = ({
       inputIndex,
     };
   
-    // Directly compare instead of JSON.stringify
     const isSameCell =
       sudokuState.selectedCell.outerBoxLocation?.row === selectedCell.outerBoxLocation.row &&
       sudokuState.selectedCell.outerBoxLocation?.column === selectedCell.outerBoxLocation.column &&

@@ -1,6 +1,5 @@
-import Heading from "../atoms/Headings";
 import DesktopNumPad from "../organisms/DesktopNumPad";
-import Options from "../organisms/Options";
+import Options from "../organisms/Options/Options";
 import SudokuBoard from "../organisms/SudokuBoard";
 import useWindowDimensions from "../utils/Hooks";
 
@@ -8,9 +7,9 @@ const Game = () => {
   const { height, width } = useWindowDimensions();
 
   return (
-    <div className="sudoku-game-area flex flex-row h-screen w-screen justify-center my-8">
+    <div className="container flex flex-row h-screen w-screen my-8">
       <Options />
-      <div className="sudoku-game-itself flex flex-row justify-center">
+      <div className="flex flex-row justify-center">
         <SudokuBoard />
         <DesktopNumPad />
       </div>

@@ -210,7 +210,6 @@ export const SudokuProvider = ({ children }) => {
   );
 };
 
-// Custom hook for easy access
 export const useSudoku = () => {
   return useContext(SudokuContext);
 };

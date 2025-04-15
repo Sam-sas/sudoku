@@ -4,7 +4,6 @@ import axios from "axios";
 const API_URL = "http://localhost:9000";
 
 const stringToGrid = (string) => {
-  //Switch string into something readable for me
  let newString = string.replace(/-/g, "0");
 
  let board = Array.from({ length: 9 }, (_, i) =>
@@ -14,7 +13,6 @@ const stringToGrid = (string) => {
     .map(num => (num === "-" ? 0 : parseInt(num, 10)))
 );
 
-// Step 2: Extract 3x3 boxes
 let boxes = Array.from({ length: 9 }, () => []);
 
 board.forEach((row, rowIndex) => {
