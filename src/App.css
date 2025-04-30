@@ -1,5 +1,6 @@
 @import "./design/options.scss";
 @import "./design/buttons.scss";
+@import "./design/sudokuGame.scss";
 
 .App {
   text-align: center;

@@ -1,0 +1,19 @@
+@media only screen and (min-width: 750px) and (max-width: 910px) {
+  .Box {
+    input {
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.875rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 749px) {
+    .Box {
+      input {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1rem;
+      }
+    }
+  }

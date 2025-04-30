@@ -36,6 +36,10 @@ const Options = () => {
       width: "350px",
       transition: { type: 'spring', visualDuration: 0.5, bounce: 0.3 },
     },
+    openXLarge: {
+      width: "475px",
+      transition: { type: 'spring', visualDuration: 0.5, bounce: 0.3 },
+    },
     closed: {
       width: "100px",
       transition: { type: 'spring', visualDuration: 0.5, bounce: 0.3 },
@@ -89,14 +93,16 @@ const Options = () => {
       return "openSmall";
     } else if (width <= 1050) {
       return "openMedium";
-    } else {
+    } else if (width <= 1200) {
       return "openLarge";
+    } else {
+      return "openXLarge";
     }
   };
 
   return (
     <motion.div
-      className={`options ml-6 mr-6 pr-6 text-center ${
+      className={`container options ml-6  mr-4 md:mr-6 pr-6 text-center ${
         isSidebarOpen ? "open" : "closed"
       }`}
       initial="open"
@@ -112,7 +118,7 @@ const Options = () => {
           {isSidebarOpen && (
             <motion.h2
               key="options-title"
-              className="capitalize font-pencil m-4 lg:text-5xl xs:text-4xl"
+              className="capitalize font-pencil m-4 md:m-2 max-sm:m-[25px] text-3xl sm:text-3xl lg:text-4xl"
               variants={titleVariants}
               initial="initial"
               animate={isSidebarOpen ? "animate" : "initial"}

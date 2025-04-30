@@ -57,7 +57,7 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
                 <PencilMarkings
                   key={columnIndex}
                   classes={
-                    "flex justify-center items-center w-16 h-16 text-center text-4xl border-2 font-newspaper "
+                    "flex justify-center items-center lg:size-16 size-12 text-center text-4xl border-2 font-newspaper "
                   }
                   prefilled={
                     sudokuState.board[boxIndex.row][boxIndex.column][inputIndex]
@@ -78,7 +78,7 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
                 value={inputNumber || ""}
                 onChange={(e) => singleInput(e.target.value, inputIndex)}
                 onFocus={() => onFocus(boxIndex, innerBoxIndex, inputIndex)}
-                className={`w-16 h-16 text-center text-4xl border-2 font-newspaper ${classes}`}
+                className={`md:size-16 sm:size-12 size-10 text-center md:text-4xl sm:text-3xl border-2 font-newspaper ${classes}`}
                 readOnly={
                   sudokuState.prefilled[boxIndex.row][boxIndex.column][
                     inputIndex
