@@ -1,6 +1,7 @@
 @import "./design/options.scss";
 @import "./design/buttons.scss";
 @import "./design/sudokuGame.scss";
+@import "./design/winState.scss";
 
 .App {
   text-align: center;
@@ -36,9 +37,9 @@ html {
 /* Light Mode (default) */
 .light {
   --bg-color: theme("colors.white");
-  --text-color: theme("colors.black");
+  --text-color: theme("colors.slate.800");
   --input-bg: theme("colors.white");
-  --input-text: theme("colors.black");
+  --input-text: theme("colors.slate.800");
   --input-border: theme("colors.slate.400");
   --highlight-color: theme("colors.slate.200");
 }
@@ -111,7 +112,7 @@ html {
   border-color: #333333;
 }
 
-/* Spring Cream Theme */
+/* Cyberwave Theme */
 .cyberwave {
   /* background: linear-gradient(180deg, #39023C, #8C108C); */
   background: linear-gradient(

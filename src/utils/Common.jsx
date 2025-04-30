@@ -1,6 +1,3 @@
-import { m } from "motion/react";
-
-//remove this and move to getGames
 export const turn2DArray = (boxes) => {
   const size = 3;
   const values = Object.values(boxes);

@@ -1,10 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Heading from "../atoms/Headings";
 import RippleLoader from "../atoms/RippleLoader";
 import { usePencil, useSudoku } from "../state-management/GlobalState";
 import Box from "../components/Box";
+import Button from "../atoms/Button";
+import Winner from "./Winner";
 
 const SudokuBoard = () => {
+  const [isWinState, setIsWinState] = useState(false);
   const { sudokuState, sudokuDispatch, startNewGame } = useSudoku();
   const { pencilState } = usePencil();
   const isFirstRender = useRef(true);
@@ -13,6 +16,7 @@ const SudokuBoard = () => {
     sudokuDispatch({ type: "SET_LOADING", payload: true });
     if (isFirstRender.current) {
       isFirstRender.current = false;
+      setIsWinState(false);
       startNewGame();
     }
   }, []);
@@ -74,12 +78,46 @@ const SudokuBoard = () => {
     return title;
   };
 
+  
+  const winConditionMet = () => {
+    const board = sudokuState.board;
+    const solution = sudokuState.solution;
+    let checkMatch = [];
+
+    let checkForEmpty = board.some(row => {
+      if (row.some(innerRow => innerRow.includes(0))) {
+        return true;
+      }
+    });
+
+    if (checkForEmpty) {
+      setIsWinState(false);
+      return false;
+    }
+
+    board.map((row, index) => {
+      let flatBoard = row.flat();
+      let flatSolution = solution[index].flat();
+      checkMatch.push(flatBoard.every((val, i) => val === flatSolution[i]));
+    });
+
+    if (checkMatch.filter(value => value === true).length === 3) {
+      console.log("is a match");
+      setIsWinState(true);
+      return true;
+    } else {
+      console.log("not a match");
+      setIsWinState(false);
+      return false;
+    }
+  };
+
   if (sudokuState.isLoading) {
     return <RippleLoader />;
   }
 
   return (
-    <div className="sudoku-game text-center m-6 motion-preset-slide-up">
+    <div className="relative sudoku-game text-center m-6 motion-preset-slide-up">
       <Heading size="h2" title={setTitle()} fontSize="text-4xl" />
       <div className="sudokuGrid">
         {sudokuState &&
@@ -103,6 +141,8 @@ const SudokuBoard = () => {
             );
           })}
       </div>
+      <Button btnName={"Check Progress"} onClickFunction={winConditionMet} />
+      {isWinState && <Winner />}
     </div>
   );
 };

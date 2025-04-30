@@ -2,12 +2,17 @@ import Button from "../atoms/Button";
 import Heading from "../atoms/Headings";
 import NumPad from "../components/NumPad";
 import { usePencil, useSudoku } from "../state-management/GlobalState";
+import { TbPencilOff } from "react-icons/tb";
+import { TbPencil } from "react-icons/tb";
+import { TbPencilDown } from "react-icons/tb";
+import { TbPencilCancel } from "react-icons/tb";
 
 const DesktopNumPad = () => {
   const { sudokuState, sudokuDispatch } = useSudoku();
   const { pencilState, pencilDispatch } = usePencil();
 
   const showPencilMarkings = () => {
+    console.log("previous marking: " + pencilState.usePencil);
     pencilDispatch({ type: "SET_USE_PENCIL", payload: !pencilState.usePencil });
   };
 
@@ -40,16 +45,22 @@ const DesktopNumPad = () => {
   };
 
   return (
-    <div className="numpad-portion flex flex-col items-center m-6 motion-preset-slide-left ">
+    <div className="numpad-portion flex flex-col items-center m-6 motion-preset-slide-left">
       <Heading title="Numpad" />
       <NumPad />
-      <div className="buttons flex flex-row">
-        <Button btnName={"Undo Last"} onClickFunction={undoLastNumber} />
+      <div className="buttons flex flex-row pencil-markings">
+        <Button icon={<TbPencilDown />} onClickFunction={undoLastNumber} />
         <Button
-          btnName={"Undo All Pencil Markings"}
+          icon={<TbPencilCancel />}
           onClickFunction={undoMarkings}
         />
-        <Button btnName={"Pencil"} onClickFunction={showPencilMarkings} />
+        {pencilState.usePencil ?  <Button
+            onClickFunction={showPencilMarkings}
+            icon={<TbPencilOff />}
+          /> :  <Button
+          onClickFunction={showPencilMarkings}
+          icon={<TbPencil />}
+        />}
       </div>
     </div>
   );
