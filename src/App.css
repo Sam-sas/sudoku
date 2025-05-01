@@ -48,7 +48,7 @@ html {
   border-color: theme("colors.slate.400");
 }
 
-.light .button {
+.light .button, .light .tooltiptext {
   background-color: var(--bg-color);
   color: var(--text-color);
   border: 3px solid var(--input-border);
@@ -74,7 +74,7 @@ html {
   border-color: theme("colors.gray.500");
 }
 
-.dark .button {
+.dark .button, .dark .tooltiptext {
   background-color: var(--bg-color);
   color: var(--text-color);
   border: 3px solid var(--input-border);
@@ -100,7 +100,7 @@ html {
   border-color: #333333;
 }
 
-.parchment .button {
+.parchment .button, .parchment .tooltiptext {
   background-color: #333333;
   color: #faf3e0;
   border: 3px solid #faf3e0;
@@ -133,7 +133,7 @@ html {
   border-color: #046aac;
 }
 
-.cyberwave .button {
+.cyberwave .button, .cyberwave .tooltiptext {
   background-color: var(--input-bg);
   color: var(--text-color);
   border: 3px solid var(--input-border);
@@ -165,7 +165,7 @@ html {
   border-color: theme("colors.coriander.500");
 }
 
-.coriander .button {
+.coriander .button, .coriander .tooltiptext {
   background-color: theme("colors.coriander.50");
   color: var(--text-color);
   border: 3px solid var(--input-border);
@@ -192,7 +192,7 @@ html {
   border-color: #2d2717;
 }
 
-.full-sun .button {
+.full-sun .button, .full-sun .tooltiptext {
   background-color: #df6d11;
   color: var(--text-color);
   border: 3px solid var(--input-border);
@@ -220,7 +220,7 @@ html {
   border-color: #2d2717;
 }
 
-.candy-apple .button {
+.candy-apple .button, .candy-apple .tooltiptext {
   background-color: #df6d11;
   color: var(--text-color);
   border: 3px solid var(--input-border);

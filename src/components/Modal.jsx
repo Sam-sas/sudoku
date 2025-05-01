@@ -1,4 +1,4 @@
-import Button from "../../atoms/Button";
+import Button from "../atoms/Button";
 
 const Modal = ({ open, onClose, children }) => {
   return (
@@ -17,8 +17,6 @@ const Modal = ({ open, onClose, children }) => {
         <Button
           btnName={"close"}
           onClickFunction={onClose}
-          bgColor={"bg-red-500"}
-          textColor={"text-white-500"}
         />
         {children}
       </div>

@@ -1,6 +1,5 @@
-import Heading from "../../atoms/Headings";
 import Button from "../../atoms/Button";
-import Modal from "./Modal";
+import Modal from "../../components/Modal";
 import { useState } from "react";
 import { useSudoku } from "../../state-management/GlobalState";
 import { IoOptionsOutline } from "react-icons/io5";

@@ -31,12 +31,7 @@ const Button = ({
         transition: { duration: 0.2, ease: "easeInOut" },
       }}
       className={
-        "button font-newspaper text-xl rounded-full p-4 m-2 border-4 flex items-center " +
-        bgColor +
-        " " +
-        textColor +
-        " " +
-        borderColor
+        "button font-newspaper text-xl rounded-full p-4 m-2 border-4 flex items-center "
       }
       onClick={onClickFunction}
     >
@@ -77,7 +72,7 @@ const Button = ({
               y: -10,
               transition: { duration: 0.15 },
             }}
-            className="tooltiptext motion-preset-expand motion-duration-500 absolute font-newspaper rounded-full p-4 m-2 border-4 flex items-center"
+            className="tooltiptext motion-preset-expand motion-duration-500 absolute font-newspaper text-l rounded-full p-4 m-2 border-4 flex items-center"
           >
             {tooltip}
           </motion.span>
