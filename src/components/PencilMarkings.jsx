@@ -18,21 +18,28 @@ const PencilMarkings = ({
 
   //move to global state?
   const setCell = () => {
-    if (!boxIndex || !innerBoxIndex || (inputIndex === undefined)) return;
-  
+    if (!boxIndex || !innerBoxIndex || inputIndex === undefined) return;
+
     const selectedCell = {
       outerBoxLocation: { row: boxIndex.row, column: boxIndex.column },
-      innerBoxLocation: { row: innerBoxIndex.row, column: innerBoxIndex.column },
+      innerBoxLocation: {
+        row: innerBoxIndex.row,
+        column: innerBoxIndex.column,
+      },
       inputIndex,
     };
-  
+
     const isSameCell =
-      sudokuState.selectedCell.outerBoxLocation?.row === selectedCell.outerBoxLocation.row &&
-      sudokuState.selectedCell.outerBoxLocation?.column === selectedCell.outerBoxLocation.column &&
-      sudokuState.selectedCell.innerBoxLocation?.row === selectedCell.innerBoxLocation.row &&
-      sudokuState.selectedCell.innerBoxLocation?.column === selectedCell.innerBoxLocation.column &&
+      sudokuState.selectedCell.outerBoxLocation?.row ===
+        selectedCell.outerBoxLocation.row &&
+      sudokuState.selectedCell.outerBoxLocation?.column ===
+        selectedCell.outerBoxLocation.column &&
+      sudokuState.selectedCell.innerBoxLocation?.row ===
+        selectedCell.innerBoxLocation.row &&
+      sudokuState.selectedCell.innerBoxLocation?.column ===
+        selectedCell.innerBoxLocation.column &&
       sudokuState.selectedCell.inputIndex === selectedCell.inputIndex;
-  
+
     if (!isSameCell) {
       sudokuDispatch({ type: "SELECT_CELL", payload: selectedCell });
     }
@@ -66,11 +73,15 @@ const PencilMarkings = ({
   };
 
   if (prefilled) {
-    return (
-      <div onClick={() => setCell()} className={classes + " " + highlighting}>
-        {prefilled}
-      </div>
-    );
+    const isBigNumber = typeof prefilled === "number" && prefilled > 0;
+
+    if (isBigNumber) {
+      return (
+        <div onClick={() => setCell()} className={classes + " " + highlighting}>
+          {prefilled}
+        </div>
+      );
+    }
   }
 
   return (
