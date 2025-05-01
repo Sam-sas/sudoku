@@ -49,18 +49,29 @@ const DesktopNumPad = () => {
       <Heading title="Numpad" />
       <NumPad />
       <div className="buttons flex flex-row pencil-markings">
-        <Button icon={<TbPencilDown />} onClickFunction={undoLastNumber} />
+        <Button
+          icon={<TbPencilDown />}
+          onClickFunction={undoLastNumber}
+          tooltip={"Undo last number"}
+        />
         <Button
           icon={<TbPencilCancel />}
           onClickFunction={undoMarkings}
+          tooltip={"Undo all pencil markings"}
         />
-        {pencilState.usePencil ?  <Button
+        {pencilState.usePencil ? (
+          <Button
             onClickFunction={showPencilMarkings}
             icon={<TbPencilOff />}
-          /> :  <Button
-          onClickFunction={showPencilMarkings}
-          icon={<TbPencil />}
-        />}
+            tooltip={"Turn off pencil"}
+          />
+        ) : (
+          <Button
+            onClickFunction={showPencilMarkings}
+            icon={<TbPencil />}
+            tooltip={"Turn on pencil"}
+          />
+        )}
       </div>
     </div>
   );

@@ -14,3 +14,18 @@
     }
   }
 }
+
+
+.button .tooltiptext {
+  width: 10rem;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.button:hover .tooltiptext {
+  visibility: visible;
+}
