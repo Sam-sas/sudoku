@@ -63,16 +63,6 @@ function ThemeSwitch() {
       >
         Full Sun
       </button>
-      <button
-        onClick={() => setTheme("candy-apple")}
-        className={`p-2 rounded ${
-          theme === "candy-apple"
-            ? "bg-blue-500 text-white"
-            : "bg-gray-200 text-black"
-        }`}
-      >
-        Candy Apple
-      </button>
     </div>
   );
 }

@@ -1,0 +1,117 @@
+.modal {
+  position: absolute;
+  top: 20rem;
+  width: 30rem;
+  text-align: left;
+
+  .button {
+    width: 65%;
+  }
+
+  .close-modal {
+    margin-right: 0;
+    width: fit-content;
+    padding: 0.2rem 0.5rem;
+    margin-left: auto;
+    svg {
+      margin-right: 0;
+    }
+  }
+
+  .theme-pick {
+    .button {
+      text-align: center;
+      width: 40%;
+      svg {
+        align-items: flex-start;
+      }
+    }
+
+    .button.light {
+      background-color: theme("colors.white");
+      color: theme("colors.slate.800");
+      border-color: theme("colors.slate.300");
+      
+    }
+
+    .button.light:hover {
+      background-color: theme("colors.sky.100");
+      border-color: theme("colors.slate.400");
+
+      svg {
+        color: theme("colors.sky.500");
+      }
+    }
+
+    .button.dark {
+      background-color: theme("colors.black");
+      color: theme("colors.gray.200");
+      border-color: theme("colors.gray.500");
+      
+    }
+
+    .button.dark:hover {
+      border-color: theme("colors.violet.400");
+
+      svg {
+        color: theme("colors.violet.400");
+      }
+    }
+
+    .button.parchment {
+      background-color: #faf3e0;
+      color: #333;
+      border-color: #333;
+    }
+
+    .button.parchment:hover {
+      background-color: #ffc300;
+      color: #333333;
+      border-color: #333333;
+
+      svg {
+        color: #333333;
+      }
+    }
+
+    .button.coriander {
+      background-color: theme("colors.coriander.200");
+      color: theme("colors.coriander.800");
+      border-color: theme("colors.coriander.700");
+    }
+
+    .button.coriander:hover {
+      background-color: theme("colors.coriander.900");
+      border-color: theme("colors.coriander.700");
+      color: theme("colors.coriander.100");
+
+      svg {
+        color: theme("colors.coriander.500");
+      }
+    }
+
+    .button.cyberwave {
+      background: #152559;
+      color: #fff8e6;
+      border-color: #046aac;
+    }
+
+    .button.cyberwave:hover {
+      background-color: rgba(57, 2, 60, 1);
+      color: rgba(207, 10, 162, 1);
+      border-color: rgba(57, 2, 60, 1);
+    }
+
+    .button.full-sun {
+      background-color: #df6d11;
+      color: #2d2717;
+      border-color: #2d2717;
+    }
+
+    .button.full-sun:hover {
+        border-color:#df6d11 ;
+        background: #b93b13;
+        color: #f9a021;
+    }
+  }
+}

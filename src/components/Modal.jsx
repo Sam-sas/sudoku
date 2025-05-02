@@ -1,4 +1,5 @@
 import Button from "../atoms/Button";
+import { IoCloseOutline } from "react-icons/io5";
 
 const Modal = ({ open, onClose, children }) => {
   return (
@@ -10,15 +11,18 @@ const Modal = ({ open, onClose, children }) => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`bg-white rounded-xl shadow p-6 transition-all ${
+        className={`flex flex-col modal rounded-xl shadow p-4 transition-all border-4 shadow-lg/70 ${
           open ? "scale-100 opacity-100" : "scale-125 opacity-0"
         }`}
       >
         <Button
-          btnName={"close"}
+          icon={<IoCloseOutline />}
           onClickFunction={onClose}
+          additonalClasses={"close-modal"}
         />
-        {children}
+        <div className="flex flex-col">
+          {children}
+        </div>
       </div>
     </div>
   );

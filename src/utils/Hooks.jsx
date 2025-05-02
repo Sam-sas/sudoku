@@ -29,7 +29,7 @@ export function useTheme() {
   });
 
   useEffect(() => {
-    document.documentElement.classList.remove("light", "dark", "parchment", "cyberwave", "coriander", "full-sun", "candy-apple");
+    document.documentElement.classList.remove("light", "dark", "parchment", "cyberwave", "coriander", "full-sun");
     document.documentElement.classList.add(theme);
     localStorage.setItem("theme", theme);
   }, [theme]);

@@ -10,6 +10,7 @@ import { MdRestartAlt } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AnimatePresence, motion } from "motion/react";
 import useWindowDimensions from "../../utils/Hooks";
+import Settings from "./Settings";
 
 
 const Options = () => {
@@ -206,13 +207,7 @@ const Options = () => {
       </Modal>
 
       {/* Settings modal */}
-      <Modal open={openSettings} onClose={() => setOpenSettings(false)}>
-        Hello I am modal
-        <Button
-          btnName={"Dark Mode"}
-          onClickFunction={document.body.classList.toggle("darkModeEnabled")}
-        />
-      </Modal>
+      <Settings open={openSettings} onCloseFunction={() => setOpenSettings(false)} />
 
       {isGoingWell ? <p>going well</p> : <p>No booboo ouchies</p>}
     </motion.div>
