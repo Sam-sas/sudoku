@@ -100,6 +100,10 @@
       background-color: rgba(57, 2, 60, 1);
       color: rgba(207, 10, 162, 1);
       border-color: rgba(57, 2, 60, 1);
+
+      svg {
+        color: #046aac;
+      }
     }
 
     .button.full-sun {
@@ -112,6 +116,10 @@
         border-color:#df6d11 ;
         background: #b93b13;
         color: #f9a021;
+
+        svg {
+          color: #f9a021;
+        }
     }
   }
 }
