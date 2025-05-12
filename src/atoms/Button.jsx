@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import ToolTip from "./Tooltip";
 
 const Button = ({
   btnName,
@@ -29,7 +30,7 @@ const Button = ({
         transition: { duration: 0.2, ease: "easeInOut" },
       }}
       className={
-       `button font-newspaper text-xl rounded-full p-4 m-2 border-4 flex items-center ${additonalClasses}`
+       `button font-newspaper text-2xl rounded-full p-4 m-2 border-4 flex items-center ${additonalClasses}`
       }
       onClick={onClickFunction}
     >
@@ -54,28 +55,7 @@ const Button = ({
           </motion.span>
         )}
       </AnimatePresence>
-      <AnimatePresence>
-        {tooltip && buttonHover && (
-          <motion.span
-            initial={{ opacity: 0, scale: 0.9, y: -10 }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              y: 0,
-              transition: { duration: 0.2 },
-            }}
-            exit={{
-              opacity: 0,
-              scale: 0.9,
-              y: -10,
-              transition: { duration: 0.15 },
-            }}
-            className="tooltiptext motion-preset-expand motion-duration-500 absolute font-newspaper text-l rounded-full p-4 m-2 border-4 flex items-center"
-          >
-            {tooltip}
-          </motion.span>
-        )}
-      </AnimatePresence>
+      {tooltip && <ToolTip tooltip={tooltip} buttonHover={buttonHover} />}
     </motion.button>
   );
 };

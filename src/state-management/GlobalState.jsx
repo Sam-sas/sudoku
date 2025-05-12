@@ -1,5 +1,9 @@
 import React, { useReducer, createContext, useContext } from "react";
-import { turn2DArray } from "../utils/Common";
+import {
+  checkLocationExistence,
+  isSameLocation,
+  turn2DArray,
+} from "../utils/Common";
 import { getGameDifficulty, getRandomGame } from "../calls/getGames";
 
 //if there isn't a board available, use this default board/state
@@ -12,6 +16,9 @@ const defaultBoard = turn2DArray(
 const defaultDifficulty = "";
 const defaultLoad = false;
 const defaultUsePencil = false;
+const defaultGameVersion = "manual";
+const defaultWinState = false;
+const defaultPencilBoxes = new Map();
 
 const defaultSudokuState = {
   board: defaultBoard,
@@ -31,6 +38,12 @@ const defaultSudokuState = {
 const defaultPencilState = {
   usePencil: defaultUsePencil,
   undoAllMarkings: false,
+  pencilBoxes: defaultPencilBoxes,
+};
+
+const defaultGameVersionState = {
+  version: defaultGameVersion,
+  hasWon: defaultWinState,
 };
 
 const ACTIONS = {
@@ -43,9 +56,11 @@ const ACTIONS = {
   UPDATE_CELL: "UPDATE_CELL",
   RESET_BOARD: "RESET_BOARD",
   SET_USE_PENCIL: "SET_USE_PENCIL",
+  SET_PENCIL_BOXES: "SET_PENCIL_BOXES",
+  CLEAR_PENCIL_BOXES: "CLEAR_PENCIL_BOXES",
   SET_UNDO_MARKINGS: "SET_UNDO_MARKINGS",
-  SET_MANUAL_VERSION: "SET_MANUAL_VERSION",
-  SET_AUTOMATIC_VERSION: "SET_AUTOMATIC_VERSION",
+  SET_GAME_VERSION: "SET_GAME_VERSION",
+  SET_HAS_WON: "SET_HAS_WON",
 };
 
 const sudokuReducer = (state, action) => {
@@ -107,6 +122,59 @@ const pencilReducer = (state, action) => {
         ...state,
         undoAllMarkings: action.payload ?? defaultPencilState.undoAllMarkings,
       };
+    case ACTIONS.CLEAR_PENCIL_BOXES:
+      return {
+        ...state,
+        pencilBoxes: new Map(),
+      };
+    case ACTIONS.SET_PENCIL_BOXES:
+      const { location, etching } = action.payload;
+
+      if (checkLocationExistence(location) && etching) {
+        //temp hold for pencil boxes
+        const updatedPencilBoxes = new Map(state.pencilBoxes);
+
+        if (state.pencilBoxes.has(location)) {
+          //immutable run
+          let existingArray = [...updatedPencilBoxes.get(location)];
+          const etchingArray = [...existingArray];
+          const etchingIndex = etchingArray.indexOf(etching);
+
+          if (etchingIndex > -1) {
+            etchingArray.splice(etchingIndex, 1);
+          } else {
+            etchingArray.push(etching);
+          }
+          updatedPencilBoxes.set(location, etchingArray);
+        } else {
+          updatedPencilBoxes.set(location, [etching]);
+        }
+
+        return {
+          ...state,
+          pencilBoxes: updatedPencilBoxes,
+        };
+      }
+
+      return {
+        ...state,
+        pencilBoxes: action.payload,
+      };
+  }
+};
+
+const gameVersionReducer = (state, action) => {
+  switch (action.type) {
+    case ACTIONS.SET_GAME_VERSION:
+      return {
+        ...state,
+        version: action.payload ?? defaultGameVersion.version,
+      };
+    case ACTIONS.SET_HAS_WON:
+      return {
+        ...state,
+        hasWon: action.payload ?? defaultGameVersion.hasWon,
+      };
     default:
       return state;
   }
@@ -114,6 +182,7 @@ const pencilReducer = (state, action) => {
 
 const SudokuContext = createContext();
 const PencilContext = createContext();
+const gameVersionContext = createContext();
 
 export const SudokuProvider = ({ children }) => {
   const [sudokuState, sudokuDispatch] = useReducer(
@@ -123,6 +192,11 @@ export const SudokuProvider = ({ children }) => {
   const [pencilState, pencilDispatch] = useReducer(
     pencilReducer,
     defaultPencilState
+  );
+
+  const [gameVersionState, gameVersionDispatch] = useReducer(
+    gameVersionReducer,
+    defaultGameVersionState
   );
 
   const setDefault = () => {
@@ -147,6 +221,15 @@ export const SudokuProvider = ({ children }) => {
   };
 
   const startNewGame = async (difficulty) => {
+    pencilDispatch({
+      type: "SET_UNDO_MARKINGS",
+      payload: true,
+    });
+
+    pencilDispatch({
+      type: "CLEAR_PENCIL_BOXES",
+    });
+
     if (!difficulty) {
       const data = await getRandomGame();
       if (data) {
@@ -165,6 +248,8 @@ export const SudokuProvider = ({ children }) => {
         sudokuDispatch({ type: "SET_DIFFICULTY", payload: data.difficulty });
         sudokuDispatch({ type: "SET_LOADING", payload: false });
         pencilDispatch({ type: "SET_USE_PENCIL", payload: false });
+        gameVersionDispatch({ type: "SET_GAME_VERSION", payload: "manual" });
+        gameVersionDispatch({ type: "SET_HAS_WON", payload: false });
       } else {
         setDefault();
       }
@@ -206,7 +291,14 @@ export const SudokuProvider = ({ children }) => {
           pencilDispatch,
         }}
       >
-        {children}
+        <gameVersionContext.Provider
+          value={{
+            gameVersionState,
+            gameVersionDispatch,
+          }}
+        >
+          {children}
+        </gameVersionContext.Provider>
       </PencilContext.Provider>
     </SudokuContext.Provider>
   );
@@ -218,4 +310,8 @@ export const useSudoku = () => {
 
 export const usePencil = () => {
   return useContext(PencilContext);
+};
+
+export const useGameVersion = () => {
+  return useContext(gameVersionContext);
 };

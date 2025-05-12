@@ -12,7 +12,6 @@ const DesktopNumPad = () => {
   const { pencilState, pencilDispatch } = usePencil();
 
   const showPencilMarkings = () => {
-    console.log("previous marking: " + pencilState.usePencil);
     pencilDispatch({ type: "SET_USE_PENCIL", payload: !pencilState.usePencil });
   };
 
@@ -57,7 +56,7 @@ const DesktopNumPad = () => {
         <Button
           icon={<TbPencilCancel />}
           onClickFunction={undoMarkings}
-          tooltip={"Undo all pencil markings"}
+          tooltip={"Remove pencil markings"}
         />
         {pencilState.usePencil ? (
           <Button

@@ -1,22 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { usePencil, useSudoku } from "../state-management/GlobalState";
-import PencilMarkings from "./PencilMarkings";
 import { addHighlights } from "../utils/Common";
+import PencilBox from "./PencilBox";
 
 const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
   const { sudokuState } = useSudoku();
   const { pencilState, pencilDispatch } = usePencil();
-  const [pencilMarkings, setPencilMarkings] = useState({});
+  // const [pencilMarkings, setPencilMarkings] = useState({});
 
   useEffect(() => {
     if (pencilState.undoAllMarkings) {
-      setPencilMarkings({});
+      pencilDispatch({
+        type: "CLEAR_PENCIL_BOXES",
+      });
       pencilDispatch({
         type: "SET_UNDO_MARKINGS",
         payload: !pencilState.undoAllMarkings,
       });
     }
-  }, [pencilState.undoAllMarkings]);
+  }, [pencilState.undoAllMarkings, pencilState.pencilBoxes]);
 
   const size = 3;
   const threeByThreeBox = Array.from({ length: size }, (_, row) =>
@@ -33,13 +35,6 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
     }
   };
 
-  const pencilMarkUpdate = (inputIndex, numbers) => {
-    setPencilMarkings((prev) => ({
-      ...prev,
-      [inputIndex]: numbers,
-    }));
-  };
-
   return (
     <div className="Box grid border-4 border-solid rounded-md">
       {threeByThreeBox.map((rowArray, rowArrayIndex) => (
@@ -49,21 +44,14 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
             const inputIndex = rowArrayIndex * 3 + columnIndex;
             let classes = addHighlights(innerBoxIndex, sudokuState, boxIndex);
 
-            if (
-              pencilState.usePencil ||
-              (pencilMarkings && pencilMarkings[inputIndex]?.length > 0)
-            ) {
+            if (pencilState.usePencil) {
+
               return (
-                <PencilMarkings
+                <PencilBox
                   key={columnIndex}
                   classes={
                     "flex justify-center items-center lg:size-16 size-12 text-center text-4xl border-2 font-newspaper "
                   }
-                  prefilled={
-                    sudokuState.board[boxIndex.row][boxIndex.column][inputIndex]
-                  }
-                  markedNumbers={pencilMarkings[inputIndex] || []}
-                  onUpdate={(numbers) => pencilMarkUpdate(inputIndex, numbers)}
                   innerBoxIndex={innerBoxIndex}
                   boxIndex={boxIndex}
                   inputIndex={inputIndex}

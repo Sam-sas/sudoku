@@ -71,3 +71,27 @@ const getMatchingCells = (sudokuState) => {
 
   return matchingCells;
 }
+
+export const isSameLocation = (location, incomingLocation) => {
+  if (!location || !incomingLocation || !location.outerBoxLocation || !incomingLocation.outerBoxLocation)  return false;
+  return (
+    location.outerBoxLocation.row === incomingLocation.outerBoxLocation.row &&
+    location.outerBoxLocation.column === incomingLocation.outerBoxLocation.column &&
+    location.innerBoxLocation.row === incomingLocation.innerBoxLocation.row &&
+    location.innerBoxLocation.column === incomingLocation.innerBoxLocation.column &&
+    location.inputIndex === incomingLocation.inputIndex
+  );
+};
+
+export const checkLocationExistence = (location) => {
+  if (
+    !location ||
+    !location.outerBoxLocation ||
+    !location.innerBoxLocation ||
+    location.inputIndex === undefined
+  ) {
+    return false;
+  }
+
+  return true;
+}

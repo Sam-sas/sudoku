@@ -1,0 +1,124 @@
+import React, { useEffect, useState } from "react";
+import { usePencil, useSudoku } from "../state-management/GlobalState";
+import { addHighlights, isSameLocation } from "../utils/Common";
+
+const PencilBox = ({ innerBoxIndex, boxIndex, inputIndex }) => {
+  const [highlighting, setHighlighting] = useState(" ");
+  const { sudokuState, sudokuDispatch } = useSudoku();
+  const { pencilState, pencilDispatch } = usePencil();
+  const possibleNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  // useEffect(() => {
+  //   if (sudokuState && sudokuState.selectedCell) {
+  //       console.log("am i coming here?");
+  //     // pencilDispatch({
+  //     //   type: "SET_PENCIL_BOXES",
+  //     //   payload: {
+  //     //     location: sudokuState.selectedCell,
+  //     //     etchingArray,
+  //     //   },
+  //     // });
+  //   }
+  // }, [sudokuState.selectedCell]);
+
+  useEffect(() => {
+    if (sudokuState.selectedCell) {
+      setHighlighting(addHighlights(innerBoxIndex, sudokuState, boxIndex));
+    }
+  }, [sudokuState.selectedCell, innerBoxIndex, boxIndex]);
+
+  // selecting cell
+  const setCell = () => {
+    if (
+      !boxIndex ||
+      !innerBoxIndex ||
+      inputIndex === undefined ||
+      !sudokuState.selectedCell
+    )
+      return;
+
+    const selectedCell = {
+      outerBoxLocation: { row: boxIndex.row, column: boxIndex.column },
+      innerBoxLocation: {
+        row: innerBoxIndex.row,
+        column: innerBoxIndex.column,
+      },
+      inputIndex,
+    };
+
+    const isSameCell = isSameLocation(sudokuState.selectedCell, selectedCell);
+
+    if (!isSameCell) {
+      sudokuDispatch({ type: "SELECT_CELL", payload: selectedCell });
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (/^[1-9]$/.test(event.key)) {
+      const number = parseInt(event.key, 10);
+      if (
+        sudokuState.selectedCell &&
+        sudokuState.selectedCell.outerBoxLocation
+      ) {
+        pencilDispatch({
+          type: "SET_PENCIL_BOXES",
+          payload: {
+            location: sudokuState.selectedCell,
+            etching: number,
+          },
+        });
+      }
+    }
+  };
+
+  const checkBoxValues = () => {
+   
+    return false;
+  };
+
+  //set up prefilled boxes
+  if (sudokuState.board[boxIndex.row][boxIndex.column][inputIndex]) {
+    let prefilled =
+      sudokuState.board[boxIndex.row][boxIndex.column][inputIndex];
+    const isBigNumber = typeof prefilled === "number" && prefilled > 0;
+    if (isBigNumber) {
+      return (
+        <div
+          onClick={() => setCell()}
+          className={
+            "flex justify-center items-center lg:size-16 size-12 text-center text-4xl border-2 font-newspaper " +
+            highlighting
+          }
+        >
+          {prefilled}
+        </div>
+      );
+    }
+  }
+
+  //set up pencil boxes
+  return (
+    <div
+      className={`grid grid-cols-3 grid-rows-3 w-16 h-16
+      text-center text-4xl border-2 font-newspaper text-sm ${highlighting}`}
+      onClick={() => setCell()}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+    >
+      {possibleNumbers.map((etching, index) => {
+        return (
+          <span
+            key={index}
+            className={`pencilMarking ${
+              checkBoxValues() ? "visible" : "invisible"
+            }`}
+          >
+            {etching}
+          </span>
+        );
+      })}
+    </div>
+  );
+};
+
+export default PencilBox;

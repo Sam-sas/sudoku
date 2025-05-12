@@ -9,14 +9,22 @@ import { HiOutlineNewspaper } from "react-icons/hi2";
 import { LuLeafyGreen } from "react-icons/lu";
 import { LuWaves } from "react-icons/lu";
 import { TbSunHigh } from "react-icons/tb";
+import { useGameVersion } from "../../state-management/GlobalState";
 
 
 const Settings = ({ open, onCloseFunction }) => {
+  const { gameVersionState, gameVersionDispatch } = useGameVersion();
+
+  const gameVersionSwitch = (version) => {
+    gameVersionDispatch({ type: "SET_GAME_VERSION", payload: version });
+  };
+
   return (
     <Modal open={open} onClose={onCloseFunction}>
       <div>
         <Heading size="h4" title="Settings" fontSize="text-4xl" />
         <div className="version-pick">
+          <Heading size="h5" fontSize="text-2xl" title={`Current Play: ${gameVersionState.version}`}  />
           <div>
             <Heading size="h5" title="Manual Mode: " fontSize="text-2xl" />
             <p>
@@ -40,11 +48,13 @@ const Settings = ({ open, onCloseFunction }) => {
               btnName={"Manual Mode"}
               icon={<TbManualGearbox />}
               additonalClasses={"my-4"}
+              onClickFunction={() => gameVersionSwitch("manual")}
             />
             <Button
               btnName={"Automatic Mode"}
               icon={<TbAutomaticGearbox />}
               additonalClasses={"my-4"}
+              onClickFunction={ () => gameVersionSwitch("automatic")}
             />
           </div>
         </div>

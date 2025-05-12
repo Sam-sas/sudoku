@@ -1,17 +1,17 @@
 import Button from "../../atoms/Button";
 import Modal from "../../components/Modal";
 import { useState } from "react";
-import { useSudoku } from "../../state-management/GlobalState";
+import { useGameVersion, useSudoku } from "../../state-management/GlobalState";
 import { IoOptionsOutline } from "react-icons/io5";
 import { MdFiberNew } from "react-icons/md";
 import { GiDiamondHard } from "react-icons/gi";
 import { TbProgressCheck } from "react-icons/tb";
 import { MdRestartAlt } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
+import { TbCarambola } from "react-icons/tb";
 import { AnimatePresence, motion } from "motion/react";
 import useWindowDimensions from "../../utils/Hooks";
 import Settings from "./Settings";
-
 
 const Options = () => {
   const [isSidebarOpen, setIsSideBarOpen] = useState(true);
@@ -21,28 +21,29 @@ const Options = () => {
   const { width } = useWindowDimensions();
 
   const { sudokuState, sudokuDispatch, startNewGame } = useSudoku();
+  const { gameVersionState, gameVersionDispatch } = useGameVersion();
   const difficulties = ["easy", "medium", "hard", "expert"];
 
   const variants = {
     openSmall: {
       width: "250px",
-      transition: { type: 'spring', visualDuration: 0.5, bounce: 0.3 },
+      transition: { type: "spring", visualDuration: 0.5, bounce: 0.3 },
     },
     openMedium: {
       width: "300px",
-      transition: { type: 'spring', visualDuration: 0.5, bounce: 0.3 },
+      transition: { type: "spring", visualDuration: 0.5, bounce: 0.3 },
     },
     openLarge: {
       width: "350px",
-      transition: { type: 'spring', visualDuration: 0.5, bounce: 0.3 },
+      transition: { type: "spring", visualDuration: 0.5, bounce: 0.3 },
     },
     openXLarge: {
       width: "475px",
-      transition: { type: 'spring', visualDuration: 0.5, bounce: 0.3 },
+      transition: { type: "spring", visualDuration: 0.5, bounce: 0.3 },
     },
     closed: {
       width: "100px",
-      transition: { type: 'spring', visualDuration: 0.5, bounce: 0.3 },
+      transition: { type: "spring", visualDuration: 0.5, bounce: 0.3 },
     },
   };
 
@@ -62,7 +63,6 @@ const Options = () => {
 
   const toggleSidebar = () => {
     setIsSideBarOpen(!isSidebarOpen);
-    console.log(isSidebarOpen);
   };
 
   const checkProgress = () => {
@@ -97,6 +97,46 @@ const Options = () => {
       return "openLarge";
     } else {
       return "openXLarge";
+    }
+  };
+
+  const winConditionMet = () => {
+    const board = sudokuState.board;
+    const solution = sudokuState.solution;
+    let checkMatch = [];
+
+    let checkForEmpty = board.some((row) => {
+      if (row.some((innerRow) => innerRow.includes(0))) {
+        return true;
+      }
+    });
+
+    if (checkForEmpty) {
+      gameVersionDispatch({
+        type: "SET_HAS_WON",
+        payload: false,
+      });
+      return false;
+    }
+
+    board.map((row, index) => {
+      let flatBoard = row.flat();
+      let flatSolution = solution[index].flat();
+      checkMatch.push(flatBoard.every((val, i) => val === flatSolution[i]));
+    });
+
+    if (checkMatch.filter((value) => value === true).length === 3) {
+      gameVersionDispatch({
+        type: "SET_HAS_WON",
+        payload: true,
+      });
+      return true;
+    } else {
+      gameVersionDispatch({
+        type: "SET_HAS_WON",
+        payload: false,
+      });
+      return false;
     }
   };
 
@@ -154,18 +194,34 @@ const Options = () => {
             <GiDiamondHard />
           </span>
         )}
-        {isSidebarOpen ? (
+        {isSidebarOpen && gameVersionState.version === "manual" && (
           <Button
             btnName={"Check Progress"}
             onClickFunction={checkProgress}
             icon={<TbProgressCheck />}
-            isVisible={isSidebarOpen}
+            isVisible={isSidebarOpen && gameVersionState.version === "manual"}
           />
-        ) : (
+        )}
+        {!isSidebarOpen && gameVersionState.version === "manual" && (
           <span onClick={checkProgress}>
             <TbProgressCheck />
           </span>
         )}
+
+        {isSidebarOpen && gameVersionState.version === "manual" && (
+          <Button
+            btnName={"Did I Win?"}
+            onClickFunction={winConditionMet}
+            icon={<TbCarambola />}
+            isVisible={isSidebarOpen && gameVersionState.version === "manual"}
+          />
+        )}
+        {!isSidebarOpen && (
+          <span onClick={winConditionMet}>
+            <TbCarambola />
+          </span>
+        )}
+
         {isSidebarOpen ? (
           <Button
             btnName={"Restart"}
@@ -207,9 +263,13 @@ const Options = () => {
       </Modal>
 
       {/* Settings modal */}
-      <Settings open={openSettings} onCloseFunction={() => setOpenSettings(false)} />
+      <Settings
+        open={openSettings}
+        onCloseFunction={() => setOpenSettings(false)}
+      />
 
       {isGoingWell ? <p>going well</p> : <p>No booboo ouchies</p>}
+      {gameVersionState.hasWon ? "yes you won" : "no you didn't win"}
     </motion.div>
   );
 };

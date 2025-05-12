@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { addHighlights } from "../utils/Common";
-import { useSudoku } from "../state-management/GlobalState";
+import { usePencil, useSudoku } from "../state-management/GlobalState";
 
 const PencilMarkings = ({
   classes,
@@ -14,6 +14,7 @@ const PencilMarkings = ({
   const possibleNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const [numberMarked, setNumberMarked] = useState(markedNumbers);
   const { sudokuState, sudokuDispatch } = useSudoku();
+  const { pencilState } = usePencil();
   const [highlighting, setHighlighting] = useState(" ");
 
   //move to global state?

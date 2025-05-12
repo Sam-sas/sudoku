@@ -1,10 +1,11 @@
 import React from "react";
 import { motion } from "motion/react";
-import { useSudoku } from "../state-management/GlobalState";
+import { usePencil, useSudoku } from "../state-management/GlobalState";
 
 const NumPad = () => {
   const possibleNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const { sudokuState, sudokuDispatch } = useSudoku();
+  const { pencilState } = usePencil();
 
   const updateSelectedCell = (chosenNumber) => {
     if (

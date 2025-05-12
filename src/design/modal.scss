@@ -1,9 +1,6 @@
 .modal {
-  position: absolute;
-  top: 20rem;
   width: 30rem;
-  text-align: left;
-
+  
   .button {
     width: 65%;
   }
@@ -52,6 +49,7 @@
 
     .button.dark:hover {
       border-color: theme("colors.violet.400");
+      background-color: theme("colors.black");
 
       svg {
         color: theme("colors.violet.400");

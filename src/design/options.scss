@@ -5,6 +5,7 @@
     svg {
       width: 3.75rem;
       height: 3.75rem;
+      cursor: pointer;
     }
     h2 {
      position: absolute;
@@ -14,24 +15,20 @@
 }
 
 .options.closed {
-  h2 {
-    display: none;
-  }
   .buttons {
     svg {
       width: 2.75rem;
       height: 2.75rem;
       margin: 1.55rem 0;
     }
-  }
-  .button {
-    padding-left: 0;
-    padding-right: 0;
-    border: none;
-    width: fit-content;
-    
-    span {
-      display: none;
+    .button {
+      padding-left: 0;
+      padding-right: 0;
+      border: none;
+      width: fit-content;
+    }
+    svg {
+      cursor: pointer;
     }
   }
 }
