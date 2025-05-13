@@ -2,24 +2,11 @@ import React, { useEffect, useState } from "react";
 import { usePencil, useSudoku } from "../state-management/GlobalState";
 import { addHighlights, isSameLocation } from "../utils/Common";
 
-const PencilBox = ({ innerBoxIndex, boxIndex, inputIndex }) => {
+const PencilBox = ({ innerBoxIndex, boxIndex, inputIndex, pencilValues }) => {
   const [highlighting, setHighlighting] = useState(" ");
   const { sudokuState, sudokuDispatch } = useSudoku();
-  const { pencilState, pencilDispatch } = usePencil();
+  const { pencilDispatch } = usePencil();
   const possibleNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-  // useEffect(() => {
-  //   if (sudokuState && sudokuState.selectedCell) {
-  //       console.log("am i coming here?");
-  //     // pencilDispatch({
-  //     //   type: "SET_PENCIL_BOXES",
-  //     //   payload: {
-  //     //     location: sudokuState.selectedCell,
-  //     //     etchingArray,
-  //     //   },
-  //     // });
-  //   }
-  // }, [sudokuState.selectedCell]);
 
   useEffect(() => {
     if (sudokuState.selectedCell) {
@@ -71,9 +58,11 @@ const PencilBox = ({ innerBoxIndex, boxIndex, inputIndex }) => {
     }
   };
 
-  const checkBoxValues = () => {
-   
-    return false;
+  const checkBoxValues = (number) => {
+    if(pencilValues && pencilValues.includes(number)) {
+      return "visible";
+    }
+    return "invisible";
   };
 
   //set up prefilled boxes
@@ -110,7 +99,7 @@ const PencilBox = ({ innerBoxIndex, boxIndex, inputIndex }) => {
           <span
             key={index}
             className={`pencilMarking ${
-              checkBoxValues() ? "visible" : "invisible"
+              checkBoxValues(etching)
             }`}
           >
             {etching}

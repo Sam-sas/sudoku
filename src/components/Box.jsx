@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { usePencil, useSudoku } from "../state-management/GlobalState";
-import { addHighlights } from "../utils/Common";
+import { addHighlights, isSameLocation } from "../utils/Common";
 import PencilBox from "./PencilBox";
 
 const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
@@ -45,6 +45,14 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
             let classes = addHighlights(innerBoxIndex, sudokuState, boxIndex);
 
             if (pencilState.usePencil) {
+              const currentLocation = {
+                outerBoxLocation: boxIndex,
+                innerBoxLocation: innerBoxIndex,
+                inputIndex: inputIndex,
+              };
+              const stringifiedLocation = JSON.stringify(currentLocation);
+              const pencilValues =
+                pencilState.pencilBoxes.get(stringifiedLocation);
 
               return (
                 <PencilBox
@@ -55,6 +63,7 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
                   innerBoxIndex={innerBoxIndex}
                   boxIndex={boxIndex}
                   inputIndex={inputIndex}
+                  pencilValues={pencilValues}
                 />
               );
             }

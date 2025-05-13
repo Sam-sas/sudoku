@@ -28,7 +28,6 @@ const defaultSudokuState = {
     innerBoxLocation: null,
     inputIndex: null,
     value: 0,
-    updateOrderNumber: 0,
   },
   difficulty: defaultDifficulty,
   isLoading: defaultLoad,
@@ -133,10 +132,11 @@ const pencilReducer = (state, action) => {
       if (checkLocationExistence(location) && etching) {
         //temp hold for pencil boxes
         const updatedPencilBoxes = new Map(state.pencilBoxes);
+        const locationKey = JSON.stringify(location);
 
-        if (state.pencilBoxes.has(location)) {
+        if (state.pencilBoxes.has(locationKey)) {
           //immutable run
-          let existingArray = [...updatedPencilBoxes.get(location)];
+          let existingArray = [...updatedPencilBoxes.get(locationKey)];
           const etchingArray = [...existingArray];
           const etchingIndex = etchingArray.indexOf(etching);
 
@@ -145,9 +145,9 @@ const pencilReducer = (state, action) => {
           } else {
             etchingArray.push(etching);
           }
-          updatedPencilBoxes.set(location, etchingArray);
+          updatedPencilBoxes.set(locationKey, etchingArray);
         } else {
-          updatedPencilBoxes.set(location, [etching]);
+          updatedPencilBoxes.set(locationKey, [etching]);
         }
 
         return {
