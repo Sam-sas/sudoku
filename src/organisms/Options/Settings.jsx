@@ -10,10 +10,19 @@ import { LuLeafyGreen } from "react-icons/lu";
 import { LuWaves } from "react-icons/lu";
 import { TbSunHigh } from "react-icons/tb";
 import { useGameVersion } from "../../state-management/GlobalState";
-
+import { useTheme } from "../../utils/Hooks";
 
 const Settings = ({ open, onCloseFunction }) => {
+  const [theme, setTheme] = useTheme();
   const { gameVersionState, gameVersionDispatch } = useGameVersion();
+  const themeOptions = [
+    { theme: "light", icon: <HiOutlineLightBulb /> },
+    { theme: "dark", icon: <MdOutlineDarkMode /> },
+    { theme: "parchment", icon: <HiOutlineNewspaper /> },
+    { theme: "coriander", icon: <LuLeafyGreen /> },
+    { theme: "cyberwave", icon: <LuWaves /> },
+    { theme: "full-sun", icon: <TbSunHigh /> },
+  ];
 
   const gameVersionSwitch = (version) => {
     gameVersionDispatch({ type: "SET_GAME_VERSION", payload: version });
@@ -24,7 +33,16 @@ const Settings = ({ open, onCloseFunction }) => {
       <div>
         <Heading size="h4" title="Settings" fontSize="text-4xl" />
         <div className="version-pick">
-          <Heading size="h5" fontSize="text-2xl" title={`Current Play: ${gameVersionState.version}`}  />
+          <Heading
+            size="h5"
+            fontSize="text-2xl"
+            title={`Current Play: ${gameVersionState.version}`}
+          />
+          <Heading
+            size="h5"
+            fontSize="text-2xl"
+            title={`Current Theme: ${theme}`}
+          />
           <div>
             <Heading size="h5" title="Manual Mode: " fontSize="text-2xl" />
             <p>
@@ -54,19 +72,22 @@ const Settings = ({ open, onCloseFunction }) => {
               btnName={"Automatic Mode"}
               icon={<TbAutomaticGearbox />}
               additonalClasses={"my-4"}
-              onClickFunction={ () => gameVersionSwitch("automatic")}
+              onClickFunction={() => gameVersionSwitch("automatic")}
             />
           </div>
         </div>
         <div className="theme-pick">
-        <Heading size="h5" title="Themes" fontSize="text-2xl" />
+          <Heading size="h5" title="Themes" fontSize="text-2xl" />
           <div className="settings-buttons flex flex-row flex-wrap justify-center">
-            <Button btnName={"Light"} icon={<HiOutlineLightBulb />} additonalClasses={"justify-start light"} />
-            <Button btnName={"Dark"} icon={<MdOutlineDarkMode />} additonalClasses={"justify-start dark"} />
-            <Button btnName={"Parchment"} icon={<HiOutlineNewspaper />} additonalClasses={"justify-start parchment"} />
-            <Button btnName={"Coriander"} icon={<LuLeafyGreen />} additonalClasses={"justify-start coriander"} />
-            <Button btnName={"Cyberwave"} icon={<LuWaves />} additonalClasses={"justify-start cyberwave"} />
-            <Button btnName={"Full Sun"} icon={<TbSunHigh />} additonalClasses={"justify-start full-sun"} />
+            {themeOptions.map((theme, index) => (
+              <Button
+                key={index}
+                btnName={theme.theme}
+                icon={theme.icon}
+                additonalClasses={`justify-start ${theme.theme}`}
+                onClickFunction={() => setTheme(theme.theme)}
+              />
+            ))}
           </div>
         </div>
       </div>

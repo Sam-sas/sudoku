@@ -1,5 +1,4 @@
 import Button from "../../atoms/Button";
-import Modal from "../../components/Modal";
 import { useState } from "react";
 import { useGameVersion, useSudoku } from "../../state-management/GlobalState";
 import { IoOptionsOutline } from "react-icons/io5";
@@ -12,6 +11,7 @@ import { TbCarambola } from "react-icons/tb";
 import { AnimatePresence, motion } from "motion/react";
 import useWindowDimensions from "../../utils/Hooks";
 import Settings from "./Settings";
+import ChooseDifficulty from "./ChooseDifficulty";
 
 const Options = () => {
   const [isSidebarOpen, setIsSideBarOpen] = useState(true);
@@ -19,10 +19,8 @@ const Options = () => {
   const [openDifficulties, setOpenDifficulties] = useState(false);
   const [isGoingWell, setIsGoingWell] = useState(true);
   const { width } = useWindowDimensions();
-
   const { sudokuState, sudokuDispatch, startNewGame } = useSudoku();
   const { gameVersionState, gameVersionDispatch } = useGameVersion();
-  const difficulties = ["easy", "medium", "hard", "expert"];
 
   const variants = {
     openSmall: {
@@ -249,24 +247,18 @@ const Options = () => {
       </motion.div>
 
       {/* Difficulties modal */}
-      <Modal open={openDifficulties} onClose={() => setOpenDifficulties(false)}>
-        Difficulties modal here
-        <motion.div className={`buttons flex flex-row`}>
-          {difficulties.map((level, index) => (
-            <Button
-              key={index}
-              btnName={level}
-              onClickFunction={() => startNewGame(level)}
-            />
-          ))}
-        </motion.div>
-      </Modal>
+      <ChooseDifficulty
+        open={openDifficulties}
+        onCloseFunction={() => setOpenDifficulties(false)}
+      />
 
       {/* Settings modal */}
       <Settings
         open={openSettings}
         onCloseFunction={() => setOpenSettings(false)}
       />
+
+
 
       {isGoingWell ? <p>going well</p> : <p>No booboo ouchies</p>}
       {gameVersionState.hasWon ? "yes you won" : "no you didn't win"}
