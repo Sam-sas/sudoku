@@ -1,30 +1,38 @@
 import React from "react";
 import { motion } from "motion/react";
 import { usePencil, useSudoku } from "../state-management/GlobalState";
+import { checkLocationExistence } from "../utils/Common";
 
 const NumPad = () => {
   const possibleNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const { sudokuState, sudokuDispatch } = useSudoku();
-  const { pencilState } = usePencil();
+  const { pencilState, pencilDispatch } = usePencil();
 
   const updateSelectedCell = (chosenNumber) => {
-    if (
-      sudokuState.selectedCell.outerBoxLocation &&
-      (sudokuState.selectedCell.inputIndex ||
-        sudokuState.selectedCell.inputIndex === 0)
-    ) {
+    if (checkLocationExistence(sudokuState.selectedCell)) {
       const row = sudokuState.selectedCell.outerBoxLocation.row;
       const column = sudokuState.selectedCell.outerBoxLocation.column;
       const inputIndex = sudokuState.selectedCell.inputIndex;
-      sudokuDispatch({
-        type: "UPDATE_CELL",
-        payload: {
-          row,
-          column,
-          inputIndex,
-          value: chosenNumber,
-        },
-      });
+
+      if (pencilState.usePencil) {
+        pencilDispatch({
+          type: "SET_PENCIL_BOXES",
+          payload: {
+            location: sudokuState.selectedCell,
+            etching: chosenNumber,
+          },
+        });
+      } else {
+        sudokuDispatch({
+          type: "UPDATE_CELL",
+          payload: {
+            row,
+            column,
+            inputIndex,
+            value: chosenNumber,
+          },
+        });
+      }
     }
   };
 
