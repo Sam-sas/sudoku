@@ -35,6 +35,34 @@ html {
   transition: background-color 0.3s, color 0.3s;
 }
 
+.hover-underline-animation {
+  display: inline-block;
+  position: relative;
+}
+
+.hover-underline-animation::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 4px;
+  bottom: -5px;
+  left: 0;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover::after {
+  transform: scaleX(1);
+}
+
+.hover-underline-animation.left::after {
+  transform-origin: bottom right;
+}
+
+.hover-underline-animation.left:hover::after {
+  transform-origin: bottom left;
+}
+
 /* Light Mode (default) */
 .light {
   --bg-color: theme("colors.white");
@@ -42,11 +70,15 @@ html {
   --input-bg: theme("colors.slate.50");
   --input-text: theme("colors.slate.800");
   --input-border: theme("colors.slate.300");
-  --highlight-color: theme("colors.sky.100");
+  --highlight-color: theme("colors.sky.200");
 }
 
 .light * {
   border-color: theme("colors.slate.400");
+}
+
+.light .hover-underline-animation::after {
+  background-color: theme("colors.sky.500");
 }
 
 .light .button,
@@ -94,6 +126,11 @@ html {
   border-color: theme("colors.gray.500");
 }
 
+.dark .hover-underline-animation::after {
+  background-color: theme("colors.violet.400");
+}
+
+
 .dark .button,
 .dark .tooltiptext {
   background-color: var(--input-bg);
@@ -134,6 +171,11 @@ html {
   border-color: #333333;
 }
 
+.parchment .hover-underline-animation::after {
+  background-color:  var(--text-color);
+}
+
+
 .parchment .button,
 .parchment .tooltiptext {
   background-color: #333333;
@@ -171,6 +213,10 @@ html {
 
 .cyberwave * {
   border-color: #046aac;
+}
+
+.cyberwave .hover-underline-animation::after {
+  background-color:  #046aac;
 }
 
 .cyberwave .button,
@@ -211,6 +257,11 @@ html {
   border-color: theme("colors.coriander.700");
 }
 
+.coriander .hover-underline-animation::after {
+  background-color: var(--input-text);
+}
+
+
 .coriander .button,
 .coriander .tooltiptext {
   background-color: theme("colors.coriander.700");
@@ -249,6 +300,10 @@ html {
 
 .full-sun * {
   border-color: #2d2717;
+}
+
+.full-sun .hover-underline-animation::after {
+  background-color: var(--highlight-color);
 }
 
 .full-sun .button,
