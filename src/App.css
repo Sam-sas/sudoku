@@ -81,6 +81,10 @@ html {
   background-color: theme("colors.sky.500");
 }
 
+.light .rules-card {
+  box-shadow: -1px 15px 43px -7px var(--highlight-color);
+}
+
 .light .button,
 .light .tooltiptext {
   background-color: var(--input-bg);
@@ -130,6 +134,9 @@ html {
   background-color: theme("colors.violet.400");
 }
 
+.dark .rules-card {
+  box-shadow: -1px 15px 43px -7px var(--highlight-color);
+}
 
 .dark .button,
 .dark .tooltiptext {
@@ -175,6 +182,9 @@ html {
   background-color:  var(--text-color);
 }
 
+.parchment .rules-card {
+  box-shadow: -1px 15px 43px -7px var(--highlight-color);
+}
 
 .parchment .button,
 .parchment .tooltiptext {
@@ -219,6 +229,10 @@ html {
   background-color:  #046aac;
 }
 
+.cyberwave .rules-card {
+  box-shadow: -1px 15px 43px -7px var(--highlight-color);
+}
+
 .cyberwave .button,
 .cyberwave .tooltiptext {
   background-color: var(--input-bg);
@@ -261,6 +275,9 @@ html {
   background-color: var(--input-text);
 }
 
+.coriander .rules-card {
+  box-shadow: -1px 15px 43px -7px var(--input-border);
+}
 
 .coriander .button,
 .coriander .tooltiptext {
@@ -304,6 +321,10 @@ html {
 
 .full-sun .hover-underline-animation::after {
   background-color: var(--highlight-color);
+}
+
+.full-sun .rules-card {
+  box-shadow: -1px 15px 43px -7px var(--highlight-color);
 }
 
 .full-sun .button,
