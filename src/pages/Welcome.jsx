@@ -1,31 +1,37 @@
 import { Link } from "react-router";
 import Heading from "../atoms/Headings";
+import heroImage from "../design/images/hero-image.jpg";
 
 const Welcome = () => {
   return (
     <div
-      className="h-screen flex justify-center items-center flex-col motion-opacity-in-0 motion-translate-y-in-100 motion-blur-in-md"
+      className="bg-cover bg-center h-screen flex items-center flex-col m-4 md:m-auto motion-opacity-in-0 motion-translate-y-in-100 motion-blur-in-md"
       id="welcome-page"
+      style={{ backgroundImage: `url(${heroImage})` }}
     >
-      <header>
+      <div
+        className="h-96 w-full mb-8"
+        
+      ></div>
+      <header className="flex justify-center">
         <Heading title="Let's Play Sudoku!" />
       </header>
       <div className="flex justify-betweeen">
         <Link
           to={{
-            pathname: "/rules",
+            pathname: "/game",
           }}
-          className="text-2xl m-4 hover-underline-animation left"
+          className="text-xl md:text-2xl m-4 hover-underline-animation left"
         >
-          How do I play?
+          Start game
         </Link>
         <Link
           to={{
-            pathname: "/game",
+            pathname: "/rules",
           }}
-          className="text-2xl m-4 hover-underline-animation left"
+          className="text-xl md:text-2xl m-4 hover-underline-animation left"
         >
-          Start game
+          How do I play?
         </Link>
       </div>
     </div>

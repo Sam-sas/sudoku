@@ -77,6 +77,11 @@ html {
   border-color: theme("colors.slate.400");
 }
 
+.light #welcome-page {
+  background-color: rgba(255,255,255,0.6);
+  background-blend-mode: color;
+}
+
 .light .hover-underline-animation::after {
   background-color: theme("colors.sky.500");
 }
@@ -130,6 +135,12 @@ html {
   border-color: theme("colors.gray.500");
 }
 
+.dark #welcome-page {
+  background-color: rgba(0,0,0,0.6);
+  background-blend-mode: color;
+}
+
+
 .dark .hover-underline-animation::after {
   background-color: theme("colors.violet.400");
 }
@@ -178,6 +189,12 @@ html {
   border-color: #333333;
 }
 
+.parchment #welcome-page {
+  background-color: rgb(250, 243, 224, 0.6);
+  background-blend-mode: lighten;
+}
+
+
 .parchment .hover-underline-animation::after {
   background-color:  var(--text-color);
 }
@@ -223,6 +240,11 @@ html {
 
 .cyberwave * {
   border-color: #046aac;
+}
+
+.cyberwave #welcome-page {
+  background-color: rgba(57, 2, 60, 0.7);
+  background-blend-mode:color-burn;
 }
 
 .cyberwave .hover-underline-animation::after {
@@ -271,6 +293,11 @@ html {
   border-color: theme("colors.coriander.700");
 }
 
+.coriander #welcome-page {
+  background-color: rgba(207, 232, 174,0.7);
+  background-blend-mode: lighten;
+}
+
 .coriander .hover-underline-animation::after {
   background-color: var(--input-text);
 }
@@ -317,6 +344,11 @@ html {
 
 .full-sun * {
   border-color: #2d2717;
+}
+
+.full-sun #welcome-page {
+  background-color: rgba(185, 59, 19, 0.8);
+  background-blend-mode:lighten;
 }
 
 .full-sun .hover-underline-animation::after {
