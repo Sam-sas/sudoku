@@ -12,12 +12,12 @@ const ChooseDifficulty = ({ open, onCloseFunction }) => {
    <Modal open={open} onClose={onCloseFunction}>
         <Heading
             size="h4"
-            fontSize="text-4xl"
-            title={`Choose your Level`}
+            fontSize="text-2xl sm:text-4xl"
+            title={`Choose A Level`}
           />
            <Heading
             size="h5"
-            fontSize="text-2xl"
+            fontSize="text-xl sm:text-2xl"
             title={`Current Level: ${sudokuState.difficulty}`}
           />
         <motion.div className={`settings-buttons flex flex-row flex-wrap justify-center`}>

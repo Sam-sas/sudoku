@@ -1,5 +1,4 @@
 import DesktopNumPad from "../organisms/DesktopNumPad";
-import MobileOptions from "../organisms/Options/MobileOptions";
 import Options from "../organisms/Options/Options";
 import SudokuBoard from "../organisms/SudokuBoard";
 import useWindowDimensions from "../utils/Hooks";
@@ -8,8 +7,10 @@ const Game = () => {
   const { height, width } = useWindowDimensions();
 
   return (
-    <div className="flex sm:flex-col-reverse md:flex-row h-screen w-screen my-8">
-      {width > 780 ? <Options /> : <MobileOptions />}
+    <div className="w-screen set-height flex flex-col-reverse justify-end sm:justify-start sm:items-start sm:flex-row sm:my-8">
+      <div className="flex width-full  mx-4 sm:mx-6">
+        <Options />
+      </div>
       <div className="flex flex-col xl:flex-row justify-start lg:justify-center">
         <SudokuBoard />
         {width > 780 && <DesktopNumPad />}

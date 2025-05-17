@@ -31,20 +31,20 @@ const Settings = ({ open, onCloseFunction }) => {
   return (
     <Modal open={open} onClose={onCloseFunction}>
       <div>
-        <Heading size="h4" title="Settings" fontSize="text-4xl" />
+        <Heading size="h4" title="Settings" fontSize="text-2xl sm:text-4xl" />
         <div className="version-pick">
           <Heading
             size="h5"
-            fontSize="text-2xl"
+            fontSize="text-xl sm:text-2xl"
             title={`Current Play: ${gameVersionState.version}`}
           />
           <Heading
             size="h5"
-            fontSize="text-2xl"
+            fontSize="text-xl sm:text-2xl"
             title={`Current Theme: ${theme}`}
           />
           <div>
-            <Heading size="h5" title="Manual Mode: " fontSize="text-2xl" />
+            <Heading size="h5" title="Manual Mode: " fontSize="text-xl sm:text-2xl" />
             <p>
               Manual mode means you will not have visual queues on your
               progress. You will be able to use the check progress button to see
@@ -53,7 +53,7 @@ const Settings = ({ open, onCloseFunction }) => {
             </p>
           </div>
           <div>
-            <Heading size="h5" title="Automatic Mode: " fontSize="text-2xl" />
+            <Heading size="h5" title="Automatic Mode: " fontSize="text-xl sm:text-2xl" />
             <p>
               Automatic mode means you will have visual queues on your progress.
               While the Check Progress button and win state are gone, the game
@@ -78,7 +78,7 @@ const Settings = ({ open, onCloseFunction }) => {
         </div>
         <div className="theme-pick">
           <Heading size="h5" title="Themes" fontSize="text-2xl" />
-          <div className="settings-buttons flex flex-row flex-wrap justify-center">
+          <div className="settings-buttons flex  flex-col sm:flex-row flex-wrap justify-center">
             {themeOptions.map((theme, index) => (
               <Button
                 key={index}

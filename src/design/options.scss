@@ -8,8 +8,15 @@
       cursor: pointer;
     }
     h2 {
-     position: absolute;
-     left: 5rem;
+      position: absolute;
+      left: 5rem;
+    }
+    .button.sidebar-title {
+      border: none;
+      span {
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+      }
     }
   }
 }
@@ -25,11 +32,16 @@
       padding-left: 0;
       padding-right: 0;
       border: none;
-      width: fit-content;
     }
     svg {
       cursor: pointer;
     }
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .options {
+    border: none;
   }
 }
 
@@ -43,7 +55,7 @@
       h2 {
         position: absolute;
         left: 4rem;
-       }
+      }
     }
   }
 }

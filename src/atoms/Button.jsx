@@ -30,7 +30,7 @@ const Button = ({
         transition: { duration: 0.2, ease: "easeInOut" },
       }}
       className={
-       `button font-newspaper text-2xl rounded-full p-4 m-2 border-4 flex items-center ${additonalClasses}`
+       `button font-newspaper text-xl lg:text-2xl rounded-full p-4 m-2 border-4 flex items-center ${additonalClasses}`
       }
       onClick={onClickFunction}
     >

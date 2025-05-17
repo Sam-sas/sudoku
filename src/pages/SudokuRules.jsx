@@ -7,7 +7,7 @@ import basicPencil from "../design/images/basic-pencil-example.png";
 
 const SudokuRules = () => {
   return (
-    <div className="flex flex-col items-center h-screen w-screen">
+    <div className="flex flex-col items-center set-height w-screen">
       <header className="mb-8 motion-preset-slide-right">
         <Heading tag={"h2"} title="Basic Rules" />
       </header>

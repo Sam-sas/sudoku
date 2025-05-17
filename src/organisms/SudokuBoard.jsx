@@ -86,7 +86,7 @@ const SudokuBoard = () => {
   }
 
   return (
-    <div className="relative sudoku-game text-center m-6 motion-preset-slide-up">
+    <div className="relative sudoku-game text-center mx-6 motion-preset-slide-up">
       <Heading size="h2" title={setTitle()} fontSize="text-4xl" />
       <div className="sudokuGrid">
         {sudokuState &&

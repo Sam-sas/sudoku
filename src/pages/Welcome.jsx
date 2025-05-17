@@ -5,14 +5,11 @@ import heroImage from "../design/images/hero-image.jpg";
 const Welcome = () => {
   return (
     <div
-      className="bg-cover bg-center h-screen flex items-center flex-col m-4 md:m-auto motion-opacity-in-0 motion-translate-y-in-100 motion-blur-in-md"
+      className="no-scroll bg-cover bg-center set-height flex items-center justify-center flex-col m-4 md:m-auto motion-opacity-in-0 motion-translate-y-in-100 motion-blur-in-md"
       id="welcome-page"
       style={{ backgroundImage: `url(${heroImage})` }}
     >
-      <div
-        className="h-96 w-full mb-8"
-        
-      ></div>
+
       <header className="flex justify-center">
         <Heading title="Let's Play Sudoku!" />
       </header>

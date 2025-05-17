@@ -8,6 +8,10 @@
   text-align: center;
 }
 
+.body {
+  overflow: hidden;
+}
+
 .sudokuGrid {
   max-width: 600px;
 }
@@ -35,13 +39,17 @@ html {
   transition: background-color 0.3s, color 0.3s;
 }
 
+.set-height {
+  height: calc(100vh - 5.8rem);
+}
+
 .hover-underline-animation {
   display: inline-block;
   position: relative;
 }
 
 .hover-underline-animation::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   transform: scaleX(0);
@@ -78,7 +86,7 @@ html {
 }
 
 .light #welcome-page {
-  background-color: rgba(255,255,255,0.6);
+  background-color: rgba(255, 255, 255, 0.6);
   background-blend-mode: color;
 }
 
@@ -86,7 +94,8 @@ html {
   background-color: theme("colors.sky.500");
 }
 
-.light .rules-card {
+.light .rules-card,
+.light .modal {
   box-shadow: -1px 15px 43px -7px var(--highlight-color);
 }
 
@@ -100,7 +109,8 @@ html {
 
 .light .button:hover,
 .light .numpad.button:hover,
-.light .modal .button:hover, .light button:hover .tooltiptext  {
+.light .modal .button:hover,
+.light button:hover .tooltiptext {
   background-color: var(--highlight-color);
   border-color: theme("colors.slate.400");
 }
@@ -136,16 +146,16 @@ html {
 }
 
 .dark #welcome-page {
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0, 0, 0, 0.6);
   background-blend-mode: color;
 }
-
 
 .dark .hover-underline-animation::after {
   background-color: theme("colors.violet.400");
 }
 
-.dark .rules-card {
+.dark .rules-card,
+.dark .modal {
   box-shadow: -1px 15px 43px -7px var(--highlight-color);
 }
 
@@ -170,7 +180,6 @@ html {
   color: theme("colors.violet.400");
 }
 
-
 .dark .modal {
   background-color: var(--bg-color);
 }
@@ -194,12 +203,12 @@ html {
   background-blend-mode: lighten;
 }
 
-
 .parchment .hover-underline-animation::after {
-  background-color:  var(--text-color);
+  background-color: var(--text-color);
 }
 
-.parchment .rules-card {
+.parchment .rules-card,
+.parchment .modal {
   box-shadow: -1px 15px 43px -7px var(--highlight-color);
 }
 
@@ -244,14 +253,15 @@ html {
 
 .cyberwave #welcome-page {
   background-color: rgba(57, 2, 60, 0.7);
-  background-blend-mode:color-burn;
+  background-blend-mode: color-burn;
 }
 
 .cyberwave .hover-underline-animation::after {
-  background-color:  #046aac;
+  background-color: #046aac;
 }
 
-.cyberwave .rules-card {
+.cyberwave .rules-card,
+.cyberwave .modal {
   box-shadow: -1px 15px 43px -7px var(--highlight-color);
 }
 
@@ -273,7 +283,6 @@ html {
   color: var(--input-border);
 }
 
-
 .cyberwave .modal {
   background: #05051d;
 }
@@ -294,7 +303,7 @@ html {
 }
 
 .coriander #welcome-page {
-  background-color: rgba(207, 232, 174,0.7);
+  background-color: rgba(207, 232, 174, 0.7);
   background-blend-mode: lighten;
 }
 
@@ -302,7 +311,8 @@ html {
   background-color: var(--input-text);
 }
 
-.coriander .rules-card {
+.coriander .rules-card,
+.coriander .modal {
   box-shadow: -1px 15px 43px -7px var(--input-border);
 }
 
@@ -348,14 +358,15 @@ html {
 
 .full-sun #welcome-page {
   background-color: rgba(185, 59, 19, 0.8);
-  background-blend-mode:lighten;
+  background-blend-mode: lighten;
 }
 
 .full-sun .hover-underline-animation::after {
   background-color: var(--highlight-color);
 }
 
-.full-sun .rules-card {
+.full-sun .rules-card,
+.full-sun .modal {
   box-shadow: -1px 15px 43px -7px var(--highlight-color);
 }
 
@@ -367,9 +378,10 @@ html {
   transition: background-color 0.3s ease;
 }
 
-.full-sun .button:hover, .full-sun:hover .tooltiptext {
-  background-color: #464D35;
-  border-color: #2A2517;
+.full-sun .button:hover,
+.full-sun:hover .tooltiptext {
+  background-color: #464d35;
+  border-color: #2a2517;
   color: #f9a021;
 }
 
