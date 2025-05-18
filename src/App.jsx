@@ -10,7 +10,7 @@ function App() {
   return (
     <SudokuProvider>
       <div className="h-screen bg-[var(--bg-color)] text-[var(--text-color)]">
-        <nav className="p-4 flex items-center">
+        <nav className="p-4 flex items-center justify-center sm:justify-start">
           <Link
             to={{
             pathname: "/",

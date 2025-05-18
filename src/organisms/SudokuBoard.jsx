@@ -87,13 +87,13 @@ const SudokuBoard = () => {
 
   return (
     <div className="relative sudoku-game text-center mx-6 motion-preset-slide-up">
-      <Heading size="h2" title={setTitle()} fontSize="text-4xl" />
+      <Heading size="h2" title={setTitle()} fontSize="text-2xl sm:text-4xl" />
       <div className="sudokuGrid">
         {sudokuState &&
           sudokuState.board &&
           sudokuState.board.map((row, outerBoxRow) => {
             return (
-              <div key={outerBoxRow} className="flex">
+              <div key={outerBoxRow} className="flex container">
                 {row.map((innerBoxArray, innerBoxColumn) => {
                   let boxIndex = { row: outerBoxRow, column: innerBoxColumn };
                   return (

@@ -2,6 +2,9 @@
   border-right: 2px solid black;
   .options-title {
     height: 4rem;
+    .button {
+      background-color: transparent;
+    }
     svg {
       width: 3.75rem;
       height: 3.75rem;
@@ -27,34 +30,49 @@
       width: 2.75rem;
       height: 2.75rem;
       margin: 1.55rem 0;
+       cursor: pointer;
     }
     .button {
       padding-left: 0;
       padding-right: 0;
       border: none;
     }
-    svg {
-      cursor: pointer;
+    span {
+      width: 60px;
     }
   }
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 639px) {
   .options {
     border: none;
   }
+
+  .options.closed {
+    .buttons {
+      svg {
+        width: 2.25rem;
+        height: 2.25rem;
+        margin: 0.75rem 0;
+      }
+      .button {
+        padding-left: 0;
+        padding-right: 0;
+        border: none;
+      }
+      svg {
+        cursor: pointer;
+      }
+    }
+  }
 }
 
-@media only screen and (max-width: 640px) {
-  .options {
-    .options-title {
+@media only screen and (min-width: 640px) and (max-width: 1024px) {
+  .options.closed {
+     width: 5rem;
+    .buttons, .options-title {
       svg {
-        width: 3rem;
-        height: 3rem;
-      }
-      h2 {
-        position: absolute;
-        left: 4rem;
+        margin-right: 1rem;
       }
     }
   }

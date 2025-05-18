@@ -75,7 +75,7 @@ const PencilBox = ({ innerBoxIndex, boxIndex, inputIndex, pencilValues }) => {
         <div
           onClick={() => setCell()}
           className={
-            "flex justify-center items-center lg:size-16 size-12 text-center text-4xl border-2 font-newspaper " +
+            "text-center md:text-4xl sm:text-3xl text-2xl border sm:border-2 font-newspaper" +
             highlighting
           }
         >
@@ -88,8 +88,7 @@ const PencilBox = ({ innerBoxIndex, boxIndex, inputIndex, pencilValues }) => {
   //set up pencil boxes
   return (
     <div
-      className={`grid grid-cols-3 grid-rows-3 w-16 h-16
-      text-center text-4xl border-2 font-newspaper text-sm ${highlighting}`}
+      className={`text-center md:text-4xl sm:text-3xl text-2xl border sm:border-2 font-newspaper ${highlighting}`}
       onClick={() => setCell()}
       tabIndex={0}
       onKeyDown={handleKeyDown}

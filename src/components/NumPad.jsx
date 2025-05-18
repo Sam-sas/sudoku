@@ -37,14 +37,14 @@ const NumPad = () => {
   };
 
   return (
-    <div className="numpad grid grid-cols-3 grid-rows-3 border-4 border-solid rounded-md">
+    <div className="numpad flex flex-row xl:flex-wrap justify-center border xl:border-4 border-solid rounded-md xl:size-64 mt-4 xl:mb-4">
       {possibleNumbers.map((numpad, index) => {
         return (
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             key={index}
-            className="button flex justify-center items-center text-center text-7xl border-2 font-newspaper"
+            className="button flex justify-center items-center text-center text-4xl xl:text-6xl border-2 font-newspaper numpad-row"
             value={numpad}
             onClick={() => updateSelectedCell(numpad)}
           >

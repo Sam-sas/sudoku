@@ -36,7 +36,7 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
   };
 
   return (
-    <div className="Box grid border-4 border-solid rounded-md">
+    <div className="Box max-w-[9rem] h-[9rem] sm:max-w-[12rem] sm:h-[14rem] md:max-w-[14rem] md:h-[12rem] 2xl:max-w-[15rem] md:h-[15rem]  flex flex-row flex-wrap border sm:border-2 lg:border-4 border-solid rounded-md">
       {threeByThreeBox.map((rowArray, rowArrayIndex) => (
         <div key={rowArrayIndex} className="flex">
           {rowArray.map((inputNumber, columnIndex) => {
@@ -58,7 +58,7 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
                 <PencilBox
                   key={columnIndex}
                   classes={
-                    "flex justify-center items-center lg:size-16 size-12 text-center text-4xl border-2 font-newspaper "
+                    "123"
                   }
                   innerBoxIndex={innerBoxIndex}
                   boxIndex={boxIndex}
@@ -75,7 +75,7 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
                 value={inputNumber || ""}
                 onChange={(e) => singleInput(e.target.value, inputIndex)}
                 onFocus={() => onFocus(boxIndex, innerBoxIndex, inputIndex)}
-                className={`md:size-16 sm:size-12 size-10 text-center md:text-4xl sm:text-3xl border-2 font-newspaper ${classes}`}
+                className={`flex justify-center width-33 text-center md:text-4xl sm:text-3xl text-2xl border sm:border-2 font-newspaper ${classes}`}
                 readOnly={
                   sudokuState.prefilled[boxIndex.row][boxIndex.column][
                     inputIndex

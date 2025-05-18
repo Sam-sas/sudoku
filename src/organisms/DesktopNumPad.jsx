@@ -6,10 +6,12 @@ import { TbPencilOff } from "react-icons/tb";
 import { TbPencil } from "react-icons/tb";
 import { TbPencilDown } from "react-icons/tb";
 import { TbPencilCancel } from "react-icons/tb";
+import useWindowDimensions from "../utils/Hooks";
 
 const DesktopNumPad = () => {
   const { sudokuState, sudokuDispatch } = useSudoku();
   const { pencilState, pencilDispatch } = usePencil();
+  const { width } = useWindowDimensions();
 
   const showPencilMarkings = () => {
     pencilDispatch({ type: "SET_USE_PENCIL", payload: !pencilState.usePencil });
@@ -45,8 +47,8 @@ const DesktopNumPad = () => {
 
   return (
     <div className="numpad-portion flex flex-col items-center mx-6 motion-preset-slide-left">
-      <Heading title="Numpad" />
-      <NumPad />
+      { width > 1280 && <Heading title="Numpad" />}
+      {width > 640 && <NumPad />}
       <div className="buttons flex flex-row pencil-markings">
         <Button
           icon={<TbPencilDown />}

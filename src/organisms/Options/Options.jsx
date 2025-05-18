@@ -25,8 +25,6 @@ const Options = () => {
   useEffect(() => {
     if (width && width < 640) {
       setIsSideBarOpen(false);
-    } else {
-      setIsSideBarOpen(true);
     }
   }, [width, setIsSideBarOpen]);
 
@@ -109,7 +107,7 @@ const Options = () => {
         onCloseFunction={() => setOpenSettings(false)}
       />
       <motion.div
-        className={`container max-w-[425px] flex flex-row flex-wrap options mr-4 md:ml-6 md:mr-6 ${
+        className={`container sm:max-w-[425px]  flex flex-row flex-wrap options mr-4 sm:m-px md:ml-6 md:mr-6 ${
           isSidebarOpen && "sm:pr-6"
         } text-center ${!isSidebarOpen && "motion-preset-rebound-left"} ${
           isSidebarOpen ? "open" : "closed"
