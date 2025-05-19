@@ -4,35 +4,13 @@ import Game from "./pages/Game";
 import Welcome from "./pages/Welcome";
 import { SudokuProvider } from "./state-management/GlobalState";
 import SudokuRules from "./pages/SudokuRules";
+import Navigation from "./organisms/Navigation";
 
 function App() {
-  //needs separation soon
   return (
     <SudokuProvider>
       <div className="h-screen bg-[var(--bg-color)] text-[var(--text-color)]">
-        <nav className="p-4 flex items-center justify-center sm:justify-start">
-          <Link
-            to={{
-            pathname: "/",
-          }}
-          className="text-xl font-bold m-2 hover-underline-animation left">
-            Home
-          </Link>
-          <Link
-            to={{
-            pathname: "/game",
-          }}
-          className="text-xl font-bold m-2 hover-underline-animation left">
-            Play Game
-          </Link>
-          <Link
-            to={{
-            pathname: "/rules",
-          }}
-          className="text-xl font-bold m-2 hover-underline-animation left">
-            Rules
-          </Link>
-        </nav>
+        <Navigation />
         <main>
           <Routes>
             <Route path="/" element={<Welcome />} />
