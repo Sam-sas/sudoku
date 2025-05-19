@@ -1,6 +1,21 @@
-.winState {
-  left: 25%;
-  top: 15%;
+.game-progress-checker {
+  .button.close-modal {
+    display: none;
+  }
+
+  .modal {
+    height: 30rem !important;
+    overflow: hidden;
+  }
+
+   .modal .flex.flex-col {
+    height: 100%;
+  }
+
+  svg {
+    width: 10rem;
+    height: 10rem;
+  }
 }
 
 .tada {

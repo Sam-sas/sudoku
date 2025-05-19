@@ -1,14 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Heading from "../atoms/Headings";
 import RippleLoader from "../atoms/RippleLoader";
-import { useGameVersion, usePencil, useSudoku } from "../state-management/GlobalState";
+import {
+  useGameVersion,
+  usePencil,
+  useSudoku,
+} from "../state-management/GlobalState";
 import Box from "../components/Box";
-import Button from "../atoms/Button";
-import Winner from "./Winner";
 
 const SudokuBoard = () => {
   const { sudokuState, sudokuDispatch, startNewGame } = useSudoku();
-  const { gameVersionState, gameVersionDispatch } = useGameVersion(); 
+  const { gameVersionDispatch } = useGameVersion();
   const { pencilState } = usePencil();
   const isFirstRender = useRef(true);
 
@@ -86,32 +88,33 @@ const SudokuBoard = () => {
   }
 
   return (
-    <div className="relative sudoku-game text-center mx-6 motion-preset-slide-up">
-      <Heading size="h2" title={setTitle()} fontSize="text-2xl sm:text-4xl" />
-      <div className="sudokuGrid">
-        {sudokuState &&
-          sudokuState.board &&
-          sudokuState.board.map((row, outerBoxRow) => {
-            return (
-              <div key={outerBoxRow} className="flex container">
-                {row.map((innerBoxArray, innerBoxColumn) => {
-                  let boxIndex = { row: outerBoxRow, column: innerBoxColumn };
-                  return (
-                    <Box
-                      key={`${outerBoxRow}-${innerBoxColumn}`}
-                      boxIndex={boxIndex}
-                      innerBoxArray={innerBoxArray}
-                      onFocus={selectCell}
-                      onValueChange={updateNumber}
-                    />
-                  );
-                })}
-              </div>
-            );
-          })}
+    <>
+      <div className="relative sudoku-game text-center mx-6 motion-preset-slide-up">
+        <Heading size="h2" title={setTitle()} fontSize="text-2xl sm:text-4xl" />
+        <div className="sudokuGrid">
+          {sudokuState &&
+            sudokuState.board &&
+            sudokuState.board.map((row, outerBoxRow) => {
+              return (
+                <div key={outerBoxRow} className="flex container">
+                  {row.map((innerBoxArray, innerBoxColumn) => {
+                    let boxIndex = { row: outerBoxRow, column: innerBoxColumn };
+                    return (
+                      <Box
+                        key={`${outerBoxRow}-${innerBoxColumn}`}
+                        boxIndex={boxIndex}
+                        innerBoxArray={innerBoxArray}
+                        onFocus={selectCell}
+                        onValueChange={updateNumber}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
+        </div>
       </div>
-      {gameVersionState.hasWon && <Winner />}
-    </div>
+    </>
   );
 };
 

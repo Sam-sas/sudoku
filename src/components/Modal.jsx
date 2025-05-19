@@ -2,9 +2,14 @@ import Button from "../atoms/Button";
 import { IoCloseOutline } from "react-icons/io5";
 
 const Modal = ({ open, onClose, children }) => {
+
+  const checkClose = () => {
+    onClose();
+  }
+
   return (
     <div
-      onClick={onClose}
+      onClick={checkClose}
       className={` w-screen fixed inset-0 flex justify-center transition-colors z-50 ${
         open ? "visible bg-black/20" : "invisible"
       }`}

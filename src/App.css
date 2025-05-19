@@ -1,7 +1,7 @@
 @import "./design/options.scss";
 @import "./design/buttons.scss";
 @import "./design/sudokuGame.scss";
-@import "./design/winState.scss";
+@import "./design/GameProgressChecker.scss";
 @import "./design/modal.scss";
 
 .App {

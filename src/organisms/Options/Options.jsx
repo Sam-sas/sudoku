@@ -12,15 +12,18 @@ import { motion } from "motion/react";
 import useWindowDimensions from "../../utils/Hooks";
 import Settings from "./Settings";
 import ChooseDifficulty from "./ChooseDifficulty";
+import GameProgressChecker from "../GameProgressChecker";
 
 const Options = () => {
   const [isSidebarOpen, setIsSideBarOpen] = useState(true);
   const [openSettings, setOpenSettings] = useState(false);
   const [openDifficulties, setOpenDifficulties] = useState(false);
-  const [isGoingWell, setIsGoingWell] = useState(true);
+  const [openGameStatus, setOpenGameStatus] = useState(false);
+  const [statusCheck, setStatusCheck] = useState(null);
   const { width } = useWindowDimensions();
   const { sudokuState, sudokuDispatch, startNewGame } = useSudoku();
   const { gameVersionState, gameVersionDispatch } = useGameVersion();
+
 
   useEffect(() => {
     if (width && width < 640) {
@@ -32,66 +35,14 @@ const Options = () => {
     setIsSideBarOpen(!isSidebarOpen);
   };
 
-  const checkProgress = () => {
-    let progressBoolean = true;
-    sudokuState.board.forEach((box, boxIndex) => {
-      box.forEach((row, rowIndex) => {
-        row.forEach((value, columnIndex) => {
-          if (
-            value !== 0 &&
-            value !== sudokuState.solution[boxIndex][rowIndex][columnIndex]
-          ) {
-            progressBoolean = false;
-          }
-        });
-      });
-      setIsGoingWell(progressBoolean);
-    });
-  };
-
   const restartBoard = () => {
     sudokuDispatch({ type: "SET_PUZZLE", payload: sudokuState.prefilled });
   };
 
-  const winConditionMet = () => {
-    const board = sudokuState.board;
-    const solution = sudokuState.solution;
-    let checkMatch = [];
-
-    let checkForEmpty = board.some((row) => {
-      if (row.some((innerRow) => innerRow.includes(0))) {
-        return true;
-      }
-    });
-
-    if (checkForEmpty) {
-      gameVersionDispatch({
-        type: "SET_HAS_WON",
-        payload: false,
-      });
-      return false;
-    }
-
-    board.map((row, index) => {
-      let flatBoard = row.flat();
-      let flatSolution = solution[index].flat();
-      checkMatch.push(flatBoard.every((val, i) => val === flatSolution[i]));
-    });
-
-    if (checkMatch.filter((value) => value === true).length === 3) {
-      gameVersionDispatch({
-        type: "SET_HAS_WON",
-        payload: true,
-      });
-      return true;
-    } else {
-      gameVersionDispatch({
-        type: "SET_HAS_WON",
-        payload: false,
-      });
-      return false;
-    }
-  };
+  const openGameStatusPopup = (status) => {
+    setStatusCheck(status);
+    setOpenGameStatus(true);
+  }
 
   return (
     <>
@@ -105,6 +56,15 @@ const Options = () => {
       <Settings
         open={openSettings}
         onCloseFunction={() => setOpenSettings(false)}
+      />
+
+      {/* game status checker */}
+      <GameProgressChecker
+        open={openGameStatus}
+        onClose={() => {
+          setOpenGameStatus(false);
+        }}
+        statusCheck={statusCheck}
       />
       <motion.div
         className={`container sm:max-w-[425px]  flex flex-row flex-wrap options mr-4 sm:m-px md:ml-6 md:mr-6 ${
@@ -160,13 +120,13 @@ const Options = () => {
           {isSidebarOpen && gameVersionState.version === "manual" && (
             <Button
               btnName={"Check Progress"}
-              onClickFunction={checkProgress}
+              onClickFunction={() => openGameStatusPopup("Progress")}
               icon={<TbProgressCheck />}
               isVisible={isSidebarOpen && gameVersionState.version === "manual"}
             />
           )}
           {!isSidebarOpen && gameVersionState.version === "manual" && (
-            <span onClick={checkProgress}>
+            <span onClick={() => openGameStatusPopup("Progress")}>
               <TbProgressCheck />
             </span>
           )}
@@ -174,13 +134,13 @@ const Options = () => {
           {isSidebarOpen && gameVersionState.version === "manual" && (
             <Button
               btnName={"Did I Win?"}
-              onClickFunction={winConditionMet}
+              onClickFunction={() => openGameStatusPopup("Win Status")}
               icon={<TbCarambola />}
               isVisible={isSidebarOpen && gameVersionState.version === "manual"}
             />
           )}
           {!isSidebarOpen && (
-            <span onClick={winConditionMet}>
+            <span onClick={() => openGameStatusPopup("Win Status")}>
               <TbCarambola />
             </span>
           )}
