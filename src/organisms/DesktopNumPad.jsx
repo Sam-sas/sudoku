@@ -49,7 +49,7 @@ const DesktopNumPad = () => {
     <div className="numpad-portion flex flex-col items-center mx-6 motion-preset-slide-left">
       { width > 1280 && <Heading title="Numpad" />}
       {width > 640 && <NumPad />}
-      <div className="buttons flex flex-row pencil-markings">
+      <div className="buttons flex flex-row pencil-markings mt-4 md:mt-2">
         <Button
           icon={<TbPencilDown />}
           onClickFunction={undoLastNumber}

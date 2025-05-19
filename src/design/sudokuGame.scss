@@ -1,3 +1,11 @@
+.three-container {
+  width: 100%;
+}
+
+input, .pencil-box {
+  padding: 1px;
+  margin: 0;
+}
 @media only screen and (min-width: 640px) and (max-width: 750px) {
   .numpad {
     .button.numpad-row {
@@ -32,3 +40,4 @@
     }
   }
 }
+

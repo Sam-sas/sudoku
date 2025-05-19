@@ -6,7 +6,8 @@ import PencilBox from "./PencilBox";
 const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
   const { sudokuState } = useSudoku();
   const { pencilState, pencilDispatch } = usePencil();
-  // const [pencilMarkings, setPencilMarkings] = useState({});
+
+  const innerBoxClasses = "border-box flex items-center justify-center p-0 m-0 leading-none h-full text-center text-2xl sm:text-3xl md:text-4xl border sm:border-2 font-newspaper"
 
   useEffect(() => {
     if (pencilState.undoAllMarkings) {
@@ -36,9 +37,9 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
   };
 
   return (
-    <div className="Box max-w-[9rem] h-[9rem] sm:max-w-[12rem] sm:h-[14rem] md:max-w-[14rem] md:h-[12rem] 2xl:max-w-[15rem] md:h-[15rem]  flex flex-row flex-wrap border sm:border-2 lg:border-4 border-solid rounded-md">
+    <div className="Box max-w-[9rem] h-[9rem] sm:max-w-[12rem] sm:h-[14rem] md:max-w-[12rem] md:h-[12rem] 2xl:max-w-[15rem] 2xl:h-[15rem] flex flex-row flex-wrap border sm:border-2 lg:border-4 border-solid rounded-md">
       {threeByThreeBox.map((rowArray, rowArrayIndex) => (
-        <div key={rowArrayIndex} className="flex">
+        <div key={rowArrayIndex} className="flex three-container">
           {rowArray.map((inputNumber, columnIndex) => {
             let innerBoxIndex = { row: rowArrayIndex, column: columnIndex };
             const inputIndex = rowArrayIndex * 3 + columnIndex;
@@ -57,9 +58,6 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
               return (
                 <PencilBox
                   key={columnIndex}
-                  classes={
-                    "123"
-                  }
                   innerBoxIndex={innerBoxIndex}
                   boxIndex={boxIndex}
                   inputIndex={inputIndex}
@@ -75,7 +73,7 @@ const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
                 value={inputNumber || ""}
                 onChange={(e) => singleInput(e.target.value, inputIndex)}
                 onFocus={() => onFocus(boxIndex, innerBoxIndex, inputIndex)}
-                className={`flex justify-center width-33 text-center md:text-4xl sm:text-3xl text-2xl border sm:border-2 font-newspaper ${classes}`}
+                className={`flex justify-center items-center width-33 text-center md:text-4xl sm:text-3xl text-2xl border font-newspaper ${classes}`}
                 readOnly={
                   sudokuState.prefilled[boxIndex.row][boxIndex.column][
                     inputIndex

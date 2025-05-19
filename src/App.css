@@ -150,6 +150,10 @@ html {
   box-shadow: -1px 15px 43px -7px var(--highlight-color);
 }
 
+.dark .pencil-box {
+  background-color: var(--input-bg);
+}
+
 .dark .button,
 .dark .tooltiptext {
   background-color: var(--input-bg);

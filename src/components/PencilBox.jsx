@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePencil, useSudoku } from "../state-management/GlobalState";
 import { addHighlights, isSameLocation } from "../utils/Common";
 
@@ -72,15 +72,15 @@ const PencilBox = ({ innerBoxIndex, boxIndex, inputIndex, pencilValues }) => {
     const isBigNumber = typeof prefilled === "number" && prefilled > 0;
     if (isBigNumber) {
       return (
-        <div
+        <span
           onClick={() => setCell()}
           className={
-            "text-center md:text-4xl sm:text-3xl text-2xl border sm:border-2 font-newspaper" +
+            "pencil-box width-33 flex items-center justify-center text-center md:text-4xl sm:text-3xl text-2xl border font-newspaper " +
             highlighting
           }
         >
           {prefilled}
-        </div>
+        </span>
       );
     }
   }
@@ -88,7 +88,7 @@ const PencilBox = ({ innerBoxIndex, boxIndex, inputIndex, pencilValues }) => {
   //set up pencil boxes
   return (
     <div
-      className={`text-center md:text-4xl sm:text-3xl text-2xl border sm:border-2 font-newspaper ${highlighting}`}
+      className={`pencil-box width-33 flex items-center justify-center flex-row flex-wrap text-center md:text-4xl sm:text-3xl text-2xl border  font-newspaper  ${highlighting}`}
       onClick={() => setCell()}
       tabIndex={0}
       onKeyDown={handleKeyDown}
@@ -97,7 +97,7 @@ const PencilBox = ({ innerBoxIndex, boxIndex, inputIndex, pencilValues }) => {
         return (
           <span
             key={index}
-            className={`pencilMarking ${
+            className={`width-33 pencilMarking text-xs ${
               checkBoxValues(etching)
             }`}
           >
