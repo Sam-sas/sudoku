@@ -1,13 +1,11 @@
-import { useEffect } from "react";
-import { usePencil, useSudoku } from "../state-management/GlobalState";
+import { useEffect, useState } from "react";
+import { useGameVersion, usePencil, useSudoku } from "../state-management/GlobalState";
 import { addHighlights, isSameLocation } from "../utils/Common";
 import PencilBox from "./PencilBox";
 
 const Box = ({ innerBoxArray, boxIndex, onFocus, onValueChange }) => {
   const { sudokuState } = useSudoku();
   const { pencilState, pencilDispatch } = usePencil();
-
-  const innerBoxClasses = "border-box flex items-center justify-center p-0 m-0 leading-none h-full text-center text-2xl sm:text-3xl md:text-4xl border sm:border-2 font-newspaper"
 
   useEffect(() => {
     if (pencilState.undoAllMarkings) {

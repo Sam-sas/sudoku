@@ -37,7 +37,7 @@ const Navigation = () => {
           Rules
         </Link>
         <span
-          className="text-xl font-bold m-2 hover-underline-animation left"
+          className="cursor text-xl font-bold m-2 hover-underline-animation left"
           onClick={() => setOpenThemes(true)}
         >
           Themes
